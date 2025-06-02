@@ -1,0 +1,69 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container">
+            <div class="cardComp item" *ngFor="let tempProduct of products">
+
+                <div class="product-box">
+
+                    <div routerLink="/products/{{tempProduct.id}}">
+                        <img src="{{ tempProduct.imageUrl }}" class="img-responsive">
+                    </div>
+
+                    <a routerLink="/products/{{tempProduct.id}}">
+                        <h1> {{ tempProduct.name }}</h1>
+                    </a>
+
+
+                    <div class="price">{{ tempProduct.unitPrice | currency:'USD' }}</div>
+                    <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
+
+
+                </div>
+            </div>
+
+            <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                No products found.
+            </div>
+            <hr>
+            <!-- begin footer -->
+            <div class="footer">
+            
+                <div class="row">
+                    <div class="col-md-6"></div>
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-9" style="padding-right: 80%;">
+<!-- begin footer -->
+                                <ngb-pagination [(page)]="thePageNumber" 
+                                                [pageSize]="thePageSize"
+                                                [collectionSize]="theTotalElements" 
+                                                [maxSize]="5"
+                                                (pageChange)="listProducts()">
+
+                                </ngb-pagination>
+<!--begin footer -->
+
+
+                            </div>
+                            <div class="col-md-3 mt-2" style="text-align: left;">
+                                <span class="mr-2">Page Size</span>
+
+                                <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
+                                    <option selected="true">5</option>
+                                    <option>10</option>
+                                    <option>20</option>
+                                    <option>50</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- end footer  -->
+        </div>
+    </div>
+</div>
