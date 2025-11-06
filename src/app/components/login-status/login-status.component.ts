@@ -1,17 +1,20 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { faL } from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
+import { CommonModule } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-login-status',
-  standalone: false,
   templateUrl: './login-status.component.html',
-  styleUrl: './login-status.component.css'
+  styleUrls: ['./login-status.component.css'],
+  imports: [CommonModule],
+  standalone: true
 })
-export class LoginStatusComponent implements OnInit {
+export class LoginStatusComponent {
 
- isAuthenticated: boolean = false;
+  isAuthenticated: boolean = false;
   profileJson: string | undefined;
   userEmail: string | undefined;
   storage: Storage = sessionStorage;
@@ -19,16 +22,20 @@ export class LoginStatusComponent implements OnInit {
   constructor(private auth: AuthService, @Inject(DOCUMENT) private doc: Document) {}
 
   ngOnInit(): void {
-    this.auth.isAuthenticated$.subscribe((authenticated: boolean) => {
-      this.isAuthenticated = authenticated;
-      console.log('User is authenticated: ', this.isAuthenticated);
-    });
-
-    this.auth.user$.subscribe((user) => {
-      this.userEmail = user?.email;
-      this.storage.setItem('userEmail', JSON.stringify(this.userEmail));
-      console.log('User ID: ', this.userEmail);
-    });
+    this.auth.isAuthenticated$.subscribe(
+      (authenticated: boolean) => {
+        this.isAuthenticated = authenticated;
+        console.log('User is authenticated: ', this.isAuthenticated);
+      }
+    );
+    this.auth.user$.subscribe(
+      (user) => {
+        this.userEmail = user?.email;
+         // now store the email in browser storage
+         this.storage.setItem('userEmail', JSON.stringify(this.userEmail));
+        console.log('User ID: ', this.userEmail);
+      }
+    );
   }
 
   login() {
@@ -36,6 +43,12 @@ export class LoginStatusComponent implements OnInit {
   }
 
   logout(): void {
-    this.auth.logout({ logoutParams: { returnTo: this.doc.location.origin } });
-  } 
+    // this.auth.logout({ returnTo: this.doc.location.origin });
+    this.auth.logout({
+      logoutParams: {
+        returnTo: this.doc.location.origin
+      }
+    });
+  }
+
 }

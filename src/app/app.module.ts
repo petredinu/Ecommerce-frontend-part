@@ -17,7 +17,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './components/login/login.component';
 import { LoginStatusComponent } from './components/login-status/login-status.component';
 import { AuthGuard, AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import myAppConfig from './config/my-app-config';
@@ -46,9 +45,7 @@ const routes: Routes =[
     ProductDetailsComponent,
     CartStatusComponent,
     CartDetailsComponent,
-    CheckoutComponent,
-    LoginComponent,
-    LoginStatusComponent
+    CheckoutComponent // Ensure LoginComponent is declared correctly
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -59,6 +56,7 @@ const routes: Routes =[
     NgbModule,
     FontAwesomeModule,
     ReactiveFormsModule,
+    LoginStatusComponent,
     AuthModule.forRoot({
       ...myAppConfig.auth,
       httpInterceptor: {
