@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { CommonModule } from '@angular/common';
+import { AppRoutingModule } from "../../app-routing.module";
 
 
 
@@ -9,7 +10,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-login-status',
   templateUrl: './login-status.component.html',
   styleUrls: ['./login-status.component.css'],
-  imports: [CommonModule],
+  imports: [CommonModule, AppRoutingModule],
   standalone: true
 })
 export class LoginStatusComponent {
