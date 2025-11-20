@@ -3,7 +3,7 @@ export default {
     domain: "dev-li55ssrce5r8p0im.eu.auth0.com",
     clientId: "j6kUcSQidBs1diUiqgIwrzHc4cX8oasa",
     authorizationParams: {
-      redirect_uri: "http://localhost:4200/login/callback",
+      redirect_uri: "https://localhost:4200/login/callback",
       audience: "http://localhost:8080",
     },
     
