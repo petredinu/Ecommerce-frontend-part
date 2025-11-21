@@ -16,6 +16,24 @@ export class ProductService {
   private categoryUrl = environment.luv2shopApiUrl+'/product-category';
    
   constructor(private httpClient:HttpClient) {}
+
+  // Adaugă această metodă pentru a crea un produs nou
+  saveProduct(product: Product): Observable<Product> {
+    return this.httpClient.post<Product>(this.baseUrl, product);
+  }
+
+  // Adaugă această metodă pentru a actualiza un produs existent
+  updateProduct(product: Product): Observable<Product> {
+    // Presupunând că id-ul produsului este disponibil
+    const updateUrl = `${this.baseUrl}/${product.id}`;
+    return this.httpClient.put<Product>(updateUrl, product);
+  }
+  
+  // Adaugă metoda pentru a șterge un produs (opțional, dar util)
+  deleteProduct(productId: number): Observable<any> {
+      const deleteUrl = `${this.baseUrl}/${productId}`;
+      return this.httpClient.delete(deleteUrl);
+  }
  
   getProduct(theProductId: number): Observable<Product> {
 

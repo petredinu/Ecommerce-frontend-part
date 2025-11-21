@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,9 +24,14 @@ import myAppConfig from './config/my-app-config';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { MembersPageComponent } from './components/members-page/members-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
 
 
 const routes: Routes =[
+
+  // Rute noi pentru formular
+  {path: 'add-product', component: ProductFormComponent},
+  {path: 'edit-product/:id', component: ProductFormComponent},
 
   {path: 'order-history', component: OrderHistoryComponent, canActivate: [AuthGuard]},
   {path: 'members', component: MembersPageComponent,  canActivate: [AuthGuard] },
@@ -53,11 +59,13 @@ const routes: Routes =[
     CartDetailsComponent,
     CheckoutComponent,
     MembersPageComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    ProductFormComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     NgbPaginationModule,
