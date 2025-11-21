@@ -38,6 +38,42 @@ export class ProductFormComponent implements OnInit {
       );
     }
   }
+  // --- METODĂ NOUĂ: Caută produsul când se schimbă SKU-ul ---
+  onSkuChange() {
+    if (this.product.sku) {
+      this.productService.getProductBySku(this.product.sku).subscribe({
+        next: (data) => {
+          if (data) {
+            this.product = data;
+            this.isEditMode = true; // Trecem automat în mod editare dacă găsim produsul
+            
+            // Notă: Dacă Backend-ul nu trimite categoria populată complet, 
+            // s-ar putea să fie nevoie să setezi manual categoria în dropdown
+             alert(`Produsul "${data.name}" a fost găsit și încărcat!`);
+          }
+        },
+        error: (err) => {
+          // Dacă primim eroare (404), înseamnă că produsul nu există, deci e mod Adăugare
+          // Nu resetăm tot formularul, lăsăm utilizatorul să creeze unul nou cu acest SKU
+          this.isEditMode = false;
+          this.product.id = undefined!; // Resetăm ID-ul ca să fie considerat nou
+        }
+      });
+    }
+  }
+
+  // --- METODĂ NOUĂ: Ștergere produs ---
+  onDelete() {
+    if (confirm(`Ești sigur că vrei să ștergi produsul "${this.product.name}"?`)) {
+      this.productService.deleteProduct(this.product.id!).subscribe({
+        next: () => {
+          alert('Produs șters cu succes!');
+          this.router.navigate(['/products']);
+        },
+        error: err => alert(`Eroare la ștergere: ${err.message}`)
+      });
+    }
+  }
 
   onSubmit() {
     // Copiem produsul

@@ -43,6 +43,12 @@ export class ProductService {
     return this.httpClient.get<Product>(productUrl);
     
   }
+  // --- ADOUGĂ ACEASTĂ METODĂ ---
+  getProductBySku(sku: string): Observable<Product> {
+    // Construim URL-ul pentru endpoint-ul creat în Java
+    const searchUrl = `${this.baseUrl}/search/findBySku?sku=${sku}`;
+    return this.httpClient.get<Product>(searchUrl);
+  }
   getProductListPaginate(thePage:number,
     thePageSize: number,
     theCategoryId:number): Observable<GetResponseProducts>{
