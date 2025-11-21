@@ -3,6 +3,7 @@ import { ProductService } from '../../services/product.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Product } from '../../common/product';
 import { ProductCategory } from '../../common/product-category';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-product-form',
@@ -39,23 +40,36 @@ export class ProductFormComponent implements OnInit {
   }
 
   onSubmit() {
-    // Setăm categoria selectată (Spring Data REST așteaptă link-ul resursei pentru asocieri, 
-    // dar pentru simplificare trimitem obiectul. Asigură-te că backend-ul îl parsează corect sau trimite URI-ul categoriei)
+    // Spring Data REST așteaptă link-ul categoriei, ex: "https://.../product-category/1"
+    // Trebuie să construim acest obiect manual sau să ne asigurăm că trimitem ce trebuie.
     
+    // Clonăm produsul ca să nu modificăm direct obiectul din formular în timp ce prelucrăm datele
+    const productToSave: any = { ...this.product };
+
+    // Dacă avem o categorie selectată, Spring vrea URI-ul ei
+    const selectedCategory = (this.product as any).category;
+    if (selectedCategory) {
+       // Presupunem că ai id-ul categoriei. Construim link-ul specific pentru Spring Data REST
+       // Ajustează URL-ul dacă structura API-ului tău e diferită
+       productToSave.category = `${environment.luv2shopApiUrl}/product-category/${selectedCategory.id}`;
+    }
+
     if (this.isEditMode) {
-      this.productService.updateProduct(this.product).subscribe(
-        data => {
+      this.productService.updateProduct(productToSave).subscribe({
+        next: response => {
           alert('Produs actualizat cu succes!');
           this.router.navigate(['/products']);
-        }
-      );
+        },
+        error: err => alert(`Eroare la actualizare: ${err.message}`)
+      });
     } else {
-      this.productService.saveProduct(this.product).subscribe(
-        data => {
+      this.productService.saveProduct(productToSave).subscribe({
+        next: response => {
           alert('Produs adăugat cu succes!');
           this.router.navigate(['/products']);
-        }
-      );
+        },
+        error: err => alert(`Eroare la salvare: ${err.message}`)
+      });
     }
   }
 
