@@ -1,8 +1,13 @@
+import { OrderItem } from './order-item';
+
 export class OrderHistory {
 
-    constructor( public id: String,
-                 public orderTrackingNumber: String,
-                    public totalPrice: number,
-                    public totalQuantity: number,
-                    public dateCreated: Date){}
+    constructor( public id: string,
+                 public orderTrackingNumber: string,
+                 public totalPrice: number,
+                 public totalQuantity: number,
+                 public dateCreated: Date,
+                 public customer: { email: string },
+                 public orderItems: OrderItem[]) {
+    }
 }

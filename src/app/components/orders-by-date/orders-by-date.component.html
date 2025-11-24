@@ -4,33 +4,60 @@
       
       <div class="row mb-3">
         <div class="col-md-12">
-          <h3>Caută Comenzi după Dată</h3>
+          <h3>Raport Comenzi după Dată</h3>
           <div class="input-group">
             <input type="date" class="form-control" [(ngModel)]="selectedDate">
-            <button class="btn btn-primary" (click)="handleSearch()">Caută Comenzi</button>
+            <button class="btn btn-primary" (click)="handleSearch()">Caută</button>
           </div>
         </div>
       </div>
 
       <div *ngIf="orderHistoryList.length > 0">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th width="20%">Order Tracking Number</th>
-              <th width="10%">Total Price</th>
-              <th width="10%">Total Quantity</th>
-              <th width="10%">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let tempOrder of orderHistoryList">
-              <td>{{ tempOrder.orderTrackingNumber }}</td>
-              <td>{{ tempOrder.totalPrice | currency: 'USD' }}</td>
-              <td>{{ tempOrder.totalQuantity }}</td>
-              <td>{{ tempOrder.dateCreated | date: 'mediumDate' }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div *ngFor="let tempOrder of orderHistoryList" class="card mb-3">
+          <div class="card-header bg-info text-white">
+            <div class="row">
+              <div class="col-md-3">
+                <strong>Data:</strong> {{ tempOrder.dateCreated | date: 'medium' }}
+              </div>
+              <div class="col-md-4">
+                <strong>Tracking:</strong> {{ tempOrder.orderTrackingNumber }}
+              </div>
+              <div class="col-md-3">
+                 <strong>Client:</strong> {{ tempOrder.customer?.email }}
+              </div>
+              <div class="col-md-2 text-right">
+                <strong>Total:</strong> {{ tempOrder.totalPrice | currency: 'USD' }}
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-body">
+            <table class="table table-sm table-striped">
+              <thead class="thead-light">
+                <tr>
+                  <th>Imagine</th>
+                  <th>Produs</th>
+                  <th>Preț Unitar</th>
+                  <th>Cantitate</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of tempOrder.orderItems">
+                  <td>
+                    <img [src]="item.imageUrl" width="50px" class="img-thumbnail">
+                  </td>
+                  <td>
+                    {{ item.name }}
+                  </td>
+                  <td>{{ item.unitPrice | currency: 'USD' }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ (item.unitPrice * item.quantity) | currency: 'USD' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <div *ngIf="orderHistoryList.length == 0 && selectedDate" class="alert alert-warning" role="alert">

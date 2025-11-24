@@ -42,7 +42,7 @@ export class OrderHistoryService {
     const startString = startDate.toISOString().split('T')[0];
     const endString = endDate.toISOString().split('T')[0];
 
-    const searchUrl = `${this.orderUrl}/search/findByDateCreatedBetween?startDate=${startString}&endDate=${endString}`;
+    const searchUrl = `${this.orderUrl}/search/findByDateCreatedBetween?startDate=${startString}&endDate=${endString}&projection=orderWithDetails`;
 
     return this.httpClient.get<GetResponseOrderHistory>(searchUrl);
   }
