@@ -7,7 +7,7 @@ export class OrderHistory {
                  public totalPrice: number,
                  public totalQuantity: number,
                  public dateCreated: Date,
-                 public customer: { email: string },
-                 public orderItems: OrderItem[]) {
+                 public customer?: { email: string },
+                 public orderItems?: OrderItem[]) {
     }
 }
