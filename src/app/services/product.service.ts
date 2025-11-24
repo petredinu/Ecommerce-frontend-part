@@ -44,9 +44,9 @@ export class ProductService {
     
   }
   // --- ADOUGĂ ACEASTĂ METODĂ ---
-  getProductBySku(sku: string): Observable<Product> {
+  getProductByName(name: string): Observable<Product> {
     // Construim URL-ul pentru endpoint-ul creat în Java
-    const searchUrl = `${this.baseUrl}/search/findBySku?sku=${sku}`;
+    const searchUrl = `${this.baseUrl}/search/findByName?name=${name}`;
     return this.httpClient.get<Product>(searchUrl);
   }
   getProductListPaginate(thePage:number,

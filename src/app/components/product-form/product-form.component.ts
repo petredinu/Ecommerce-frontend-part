@@ -39,9 +39,9 @@ export class ProductFormComponent implements OnInit {
     }
   }
   // --- METODĂ NOUĂ: Caută produsul când se schimbă SKU-ul ---
-  onSkuChange() {
-    if (this.product.sku) {
-      this.productService.getProductBySku(this.product.sku).subscribe({
+  onNameChange() {
+    if (this.product.name) {
+      this.productService.getProductByName(this.product.name).subscribe({
         next: (data) => {
           if (data) {
             this.product = data;

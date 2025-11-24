@@ -9,16 +9,21 @@
           <label>SKU (Caută automat la introducere)</label>
           <input type="text" 
                  class="form-control" 
-                 [(ngModel)]="product.sku" 
-                 (change)="onSkuChange()" 
+                 [(ngModel)]="product.sku"  
                  name="sku" 
                  required 
-                 placeholder="Introdu SKU și apasă Enter pentru autocompletare">
+                 >
         </div>
 
         <div class="form-group">
           <label>Nume</label>
-          <input type="text" class="form-control" [(ngModel)]="product.name" name="name" required>
+          <input type="text" 
+          class="form-control" 
+          [(ngModel)]="product.name"
+          (change)="onNameChange()" 
+           name="name" 
+           required
+           placeholder="Introdu Nume și apasă Enter pentru autocompletare">
         </div>
 
         <div class="form-group">

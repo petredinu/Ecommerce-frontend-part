@@ -16,6 +16,8 @@ import { AppRoutingModule } from "../../app-routing.module";
 export class LoginStatusComponent {
 
   isAuthenticated: boolean = false;
+  isAdmin: boolean = false;
+  readonly adminEmail: string = 'dinu_petre26@yahoo.ro';
   profileJson: string | undefined;
   userEmail: string | undefined;
   storage: Storage = sessionStorage;
@@ -35,6 +37,17 @@ export class LoginStatusComponent {
          // now store the email in browser storage
          this.storage.setItem('userEmail', JSON.stringify(this.userEmail));
         console.log('User ID: ', this.userEmail);
+      }
+    );
+    this.auth.user$.subscribe(
+      (profile) => {
+        // Verificăm dacă există profil și dacă emailul este cel corect
+        if (profile && profile.email === this.adminEmail) {
+          this.isAdmin = true;
+          console.log("Admin logat: " + profile.email);
+        } else {
+          this.isAdmin = false;
+        }
       }
     );
   }
