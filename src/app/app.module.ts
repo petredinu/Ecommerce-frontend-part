@@ -25,10 +25,13 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { MembersPageComponent } from './components/members-page/members-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
+import { OrdersByDateComponent } from './components/orders-by-date/orders-by-date.component';
 
 
 const routes: Routes =[
 
+  // Rute noi pentru vizualizare comenzii după dată
+  { path: 'search-orders-by-date', component: OrdersByDateComponent, canActivate:[AuthGuard] }, // Poți adăuga canActivate: [AuthGuard] dacă e doar pentru admini/useri logați
   // Rute noi pentru formular
   {path: 'add-product', component: ProductFormComponent},
   {path: 'edit-product/:id', component: ProductFormComponent},
@@ -60,7 +63,8 @@ const routes: Routes =[
     CheckoutComponent,
     MembersPageComponent,
     OrderHistoryComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    OrdersByDateComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

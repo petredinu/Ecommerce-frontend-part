@@ -13,6 +13,9 @@
     <button *ngIf="isAuthenticated" routerLink="/order-history" class="security-btn ms-1">Orders</button>
     <button *ngIf="isAdmin"  routerLink="/edit-product/:id" class="security-btn ms-1">Modifica Produs</button>
     <button *ngIf="isAdmin"  routerLink="/add-product" class="security-btn ms-1">Adauga Produs</button>
+    <button *ngIf="isAdmin" routerLink="/search-orders-by-date" class="au-btn-submit">
+  Comenzi
+</button>
 
     
 </div>

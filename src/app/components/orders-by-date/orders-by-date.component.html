@@ -1,0 +1,42 @@
+<div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <h3>Caută Comenzi după Dată</h3>
+          <div class="input-group">
+            <input type="date" class="form-control" [(ngModel)]="selectedDate">
+            <button class="btn btn-primary" (click)="handleSearch()">Caută Comenzi</button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="orderHistoryList.length > 0">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th width="20%">Order Tracking Number</th>
+              <th width="10%">Total Price</th>
+              <th width="10%">Total Quantity</th>
+              <th width="10%">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tempOrder of orderHistoryList">
+              <td>{{ tempOrder.orderTrackingNumber }}</td>
+              <td>{{ tempOrder.totalPrice | currency: 'USD' }}</td>
+              <td>{{ tempOrder.totalQuantity }}</td>
+              <td>{{ tempOrder.dateCreated | date: 'mediumDate' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="orderHistoryList.length == 0 && selectedDate" class="alert alert-warning" role="alert">
+        Nu au fost găsite comenzi pentru data selectată.
+      </div>
+
+    </div>
+  </div>
+</div>
