@@ -79,6 +79,19 @@ export class CartService {
     this.storage.setItem('cartItems', JSON.stringify(this.cartItems));
   }
 
+  // ADAUGĂ ACEASTĂ METODĂ NOUĂ
+  removeCart() {
+    // get a handle to the cart items
+    this.cartItems = [];
+
+    // publish events for totalPrice and totalQuantity
+    this.totalPrice.next(0);
+    this.totalQuantity.next(0);
+
+    // remove cart items from storage (Golire localStorage)
+    this.storage.removeItem('cartItems'); 
+  }
+
   logCartData(totalPriceValue: number, totalQuantityValue: number){
 
     console.log('Contents of the cart');

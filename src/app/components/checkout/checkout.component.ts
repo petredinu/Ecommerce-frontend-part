@@ -253,6 +253,9 @@ export class CheckoutComponent implements OnInit {
     this.cartService.totalPrice.next(0);
     this.cartService.totalQuantity.next(0);
 
+    // MODIFICARE: Apelăm metoda din service care se ocupă și de localStorage
+    this.cartService.removeCart();
+
     // reset the form
     this.checkoutFormGroup.reset();
 
