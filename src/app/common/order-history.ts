@@ -8,26 +8,26 @@ export class OrderHistory {
         public dateCreated: Date,
         public status: string,
         // Proprietăți pentru relații
-        public customer: {
+        public customer?: {
             firstName: string;
             lastName: string;
             email: string;
         },
-        public shippingAddress: {
+        public shippingAddress?: {
             street: string;
             city: string;
             state: string;
             country: string;
             zipCode: string;
         },
-        public billingAddress: {
+        public billingAddress?: {
             street: string;
             city: string;
             state: string;
             country: string;
             zipCode: string;
         },
-        public orderItems: Array<{
+        public orderItems?: Array<{
             imageUrl: string;
             unitPrice: number;
             quantity: number;
