@@ -2,66 +2,116 @@
   <div class="section-content section-content-p30">
     <div class="container-fluid">
       
-      <div class="row mb-3">
+      <div class="row mb-4">
         <div class="col-md-12">
-          <h3>Raport Comenzi după Dată</h3>
-          <div class="input-group">
-            <input type="date" class="form-control" [(ngModel)]="selectedDate">
-            <button class="btn btn-primary" (click)="handleSearch()">Caută</button>
+          <h3 class="mb-3">Raport Comenzi după Dată</h3>
+          <div class="card p-3 bg-light">
+            <div class="input-group" style="max-width: 400px;">
+              <input type="date" class="form-control" [(ngModel)]="selectedDate">
+              <div class="input-group-append">
+                <button class="btn btn-primary" (click)="handleSearch()">
+                  <i class="fa fa-search"></i> Caută
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div *ngIf="orderHistoryList.length > 0">
-        <div *ngFor="let tempOrder of orderHistoryList" class="card mb-3">
-          <div class="card-header bg-info text-white">
-            <div class="row">
+        <div *ngFor="let tempOrder of orderHistoryList" class="card mb-5 shadow-sm">
+          
+          <div class="card-header bg-dark text-white">
+            <div class="row align-items-center">
               <div class="col-md-3">
-                <strong>Data:</strong> {{ tempOrder.dateCreated | date: 'medium' }}
-              </div>
-              <div class="col-md-4">
-                <strong>Tracking:</strong> {{ tempOrder.orderTrackingNumber }}
+                <small class="text-muted text-light">Data Comanda</small><br>
+                <strong>{{ tempOrder.dateCreated | date: 'medium' }}</strong>
               </div>
               <div class="col-md-3">
-                 <strong>Client:</strong> {{ tempOrder.customer?.email }}
+                <small class="text-muted text-light">Nr. Tracking</small><br>
+                <span>{{ tempOrder.orderTrackingNumber }}</span>
               </div>
-              <div class="col-md-2 text-right">
-                <strong>Total:</strong> {{ tempOrder.totalPrice | currency: 'USD' }}
+              <div class="col-md-3">
+                 <small class="text-muted text-light">Status</small><br>
+                 <span class="badge badge-success">{{ tempOrder.status || 'Finalizat' }}</span>
+              </div>
+              <div class="col-md-3 text-right">
+                <small class="text-muted text-light">Total Comandă</small><br>
+                <strong style="font-size: 1.2em;">{{ tempOrder.totalPrice | currency: 'USD' }}</strong>
               </div>
             </div>
           </div>
           
           <div class="card-body">
-            <table class="table table-sm table-striped">
-              <thead class="thead-light">
-                <tr>
-                  <th>Imagine</th>
-                  <th>Produs</th>
-                  <th>Preț Unitar</th>
-                  <th>Cantitate</th>
-                  <th>Subtotal</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of tempOrder.orderItems">
-                  <td>
-                    <img [src]="item.imageUrl" width="50px" class="img-thumbnail">
-                  </td>
-                  <td>
-                    {{ item.name }}
-                  </td>
-                  <td>{{ item.unitPrice | currency: 'USD' }}</td>
-                  <td>{{ item.quantity }}</td>
-                  <td>{{ (item.unitPrice * item.quantity) | currency: 'USD' }}</td>
-                </tr>
-              </tbody>
-            </table>
+            
+            <div class="row mb-4 border-bottom pb-3">
+              <div class="col-md-4">
+                <h5 class="text-primary mb-3">Detalii Client</h5>
+                <p class="mb-1">
+                  <i class="fa fa-user"></i> 
+                  <strong>Nume:</strong> {{ tempOrder.customer?.firstName }} {{ tempOrder.customer?.lastName }}
+                </p>
+                <p class="mb-1">
+                  <i class="fa fa-envelope"></i> 
+                  <strong>Email:</strong> {{ tempOrder.customer?.email }}
+                </p>
+              </div>
+
+              <div class="col-md-4">
+                <h5 class="text-info mb-3">Adresă Livrare</h5>
+                <address class="mb-0" *ngIf="tempOrder.shippingAddress">
+                  {{ tempOrder.shippingAddress.street }}<br>
+                  {{ tempOrder.shippingAddress.city }}, {{ tempOrder.shippingAddress.state }}<br>
+                  {{ tempOrder.shippingAddress.country }} - {{ tempOrder.shippingAddress.zipCode }}
+                </address>
+              </div>
+
+              <div class="col-md-4">
+                <h5 class="text-secondary mb-3">Adresă Facturare</h5>
+                <address class="mb-0" *ngIf="tempOrder.billingAddress">
+                  {{ tempOrder.billingAddress.street }}<br>
+                  {{ tempOrder.billingAddress.city }}, {{ tempOrder.billingAddress.state }}<br>
+                  {{ tempOrder.billingAddress.country }} - {{ tempOrder.billingAddress.zipCode }}
+                </address>
+              </div>
+            </div>
+
+            <h5 class="mb-3">Produse Comandate</h5>
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr>
+                    <th style="width: 100px;">Imagine</th>
+                    <th>Produs</th>
+                    <th class="text-right">Preț Unitar</th>
+                    <th class="text-center">Cantitate</th>
+                    <th class="text-right">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of tempOrder.orderItems">
+                    <td>
+                      <img [src]="item.imageUrl" width="60" class="img-thumbnail" alt="Produs">
+                    </td>
+                    <td class="align-middle">
+                      <strong>{{ item.name }}</strong>
+                    </td>
+                    <td class="align-middle text-right">{{ item.unitPrice | currency: 'USD' }}</td>
+                    <td class="align-middle text-center">{{ item.quantity }}</td>
+                    <td class="align-middle text-right font-weight-bold">
+                      {{ (item.unitPrice * item.quantity) | currency: 'USD' }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
           </div>
         </div>
       </div>
 
-      <div *ngIf="orderHistoryList.length == 0 && selectedDate" class="alert alert-warning" role="alert">
-        Nu au fost găsite comenzi pentru data selectată.
+      <div *ngIf="orderHistoryList.length == 0 && selectedDate" class="alert alert-warning mt-4 text-center" role="alert">
+        <i class="fa fa-exclamation-triangle"></i> Nu au fost găsite comenzi pentru data selectată: <strong>{{ selectedDate }}</strong>.
       </div>
 
     </div>
