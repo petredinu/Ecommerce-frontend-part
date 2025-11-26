@@ -31,6 +31,15 @@ export class ProductListComponent implements OnInit {
               private route:ActivatedRoute){}
 
   ngOnInit(): void {
+    // Restaurăm pagina salvată doar la încărcarea inițială a componentei
+    // Dacă categoria nu s-a schimbat, vom începe cu pagina salvată.
+    // Dacă utilizatorul a navigat între timp, subscription-ul de mai jos va reseta oricum pagina dacă se schimbă ID-ul categoriei.
+    if(this.route.snapshot.paramMap.has('id')) {
+         const routeId = +this.route.snapshot.paramMap.get('id')!;
+         if(routeId == this.productService.previousCategoryId) {
+             this.thePageNumber = this.productService.thePageNumber;
+         }
+    }
     this.route.paramMap.subscribe(()=>{
     this.listProducts();
   });
@@ -55,9 +64,7 @@ export class ProductListComponent implements OnInit {
     // Dacă e același ca în serviciu, păstrăm pagina salvată.
     if (this.productService.previousKeyword != theKeyword) {
        this.thePageNumber = 1;
-    } else {
-       this.thePageNumber = this.productService.thePageNumber;
-    }
+    } 
 
     this.productService.previousKeyword = theKeyword;
     // ------------------------------------------------------------------
@@ -83,9 +90,7 @@ export class ProductListComponent implements OnInit {
   // Verificăm dacă categoria curentă este diferită de cea stocată în serviciu
   if (this.productService.previousCategoryId != this.currentCategoryId) {
     this.thePageNumber = 1; // Resetăm dacă am schimbat categoria
-  } else {
-    this.thePageNumber = this.productService.thePageNumber; // Restaurăm pagina dacă e aceeași categorie
-  }
+  } 
 
   this.productService.previousCategoryId = this.currentCategoryId;
   // -----------------------------------------------
