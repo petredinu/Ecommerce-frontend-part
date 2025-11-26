@@ -214,7 +214,8 @@ section{
 }
 
 .au-input-xl{
-    min-width:300px
+    min-width:300px;
+    width: 100%;
 }
 
 input.au-input.au-input-xl{
@@ -522,14 +523,14 @@ input.au-input.au-input-xl{
  * Products List
  * ----------------------------
  */
-.container{
+/*.container{
     display:flex;
    flex-wrap: wrap;
    align-items:flex-end;
    column-gap: 100px;
    row-gap: 100px;
    
-}
+}*/
 .item{
     flex: 300px;
 }
@@ -802,9 +803,9 @@ footer ul li{
  * ----------------------------
  */
 
-@media (max-width:1600px){
+@media (max-width:576px){
     .au-input-xl{
-        min-width:290px
+        min-width:100%
     }
 }
 @media (max-width:1315px) and (min-width:992px){
@@ -947,16 +948,17 @@ footer ul li{
 }
 
 
-@media (max-width:767px){
+@media (max-width:991px){
       .au-input-xl{
-        min-width:150px
+        width: 70%; /* Inputul de căutare ocupă 70% */
+        min-width: unset;
     }
     .header-button-item{
         font-size:22px;
         margin-right:15px
     }
         .main-content.page-m{
-        padding:10% 0!important
+        padding: 20px 15px!important
     }
     .header-mobile .navbar-mobile{
         display:none;
@@ -965,6 +967,12 @@ footer ul li{
         top:66px;
         z-index:20
     }
+    /* Ajustare pentru Search Bar pe mobil */
+    .form-header {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
     .section-content.section-content-p30.e-spc{
         padding-top:100px
     }
@@ -972,10 +980,9 @@ footer ul li{
         top:64px!important
     }
     .header-desktop{
-        position:relative;
-        top:0;
-        left:0;
-        height:80px
+       position: relative; /* Schimbăm din fixed în relative pe mobil */
+        height: auto !important; /* Permite headerului să crească */
+        padding-bottom: 15px;
     }
     a.logo img{
         width:110px
@@ -1010,7 +1017,8 @@ footer ul li{
         -webkit-border-radius:3px;
         -moz-border-radius:3px;
         border-radius:0;
-        background:#205b8d
+        background:#205b8d;
+        font-size: 12px; /* Butonul de search mai mic */
     }
     input.au-input.au-input-xl{
         border-radius:0!important;
@@ -1053,5 +1061,10 @@ footer ul li{
         background:#fff;
         border:0;
         padding:8px 0
+    }
+    .header-wrap {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; /* Spațiu între Search, Butoane și Coș */
     }
 }

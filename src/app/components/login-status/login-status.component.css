@@ -1,51 +1,55 @@
-/*
-      Copy from styles.css -> .au-btn.submit
-      Rename as .security-btn
-      Change border to 10px
-*/
-
-.security-btn{
-    position:relative;
-    right:0;
-    min-width:95px;
-    color:#fff;
-    border: 10px solid #205b8d;
-    -webkit-border-radius:3px;
-    -moz-border-radius:3px;
-    border-radius:43px;
-    background:#205b8d
+/* Stilul de bază pentru Desktop */
+.security-btn {
+    position: relative;
+    right: 0;
+    min-width: 95px;
+    color: #fff;
+    border: 1px solid #205b8d; /* Am redus de la 10px la 1px */
+    border-radius: 43px;
+    background: #205b8d;
+    padding: 5px 15px; /* Adăugat padding pentru aspect plăcut */
+    margin: 0 2px; /* Spațiu mic între butoane */
+    transition: all 0.3s ease;
 }
 
-/*
-
-   Copy from styles.css -> .form-header
-   Rename as .login-status-header
-
-*/
-
-.login-status-header{
-    display:-webkit-box;
-    display:-webkit-flex;
-    display:-moz-box;
-    display:-ms-flexbox;
-    display:flex
+.security-btn:hover {
+    background: #0da8e4;
+    border-color: #0da8e4;
 }
 
-/*
-   Copy from styles.css -> .au-input
-   Rename as .login-status-user-info
-   - remove 'solid', 'font-size', 'color'
-*/
+.login-status-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Permite butoanelor să treacă pe rândul următor dacă nu au loc */
+}
 
 .login-status-user-info {
-    line-height:43px;
-    border:1px;
-    padding:0 17px;
-    -webkit-border-radius:3px;
-    -moz-border-radius:3px;
-    border-radius:3px;
-    -webkit-transition:all .5s ease;
-    -o-transition:all .5s ease;
-    -moz-transition:all .5s ease;
-    transition:all .5s ease
+    line-height: 43px;
+    padding: 0 10px;
+    border-radius: 3px;
+    white-space: nowrap; /* Previne ruperea numelui pe două rânduri */
+}
+
+/* --- OPTIMIZARE PENTRU MOBIL --- */
+@media (max-width: 768px) {
+    .security-btn {
+        min-width: auto; /* Elimină lățimea minimă fixă */
+        padding: 4px 8px; /* Butoane mai subțiri */
+        font-size: 11px; /* Text mai mic */
+        margin: 2px; /* Spațiere mică între ele */
+        border-radius: 5px; /* Mai puțin rotunjite pentru a economisi spațiu */
+    }
+
+    .login-status-header {
+        justify-content: center; /* Centrează butoanele pe mobil */
+        margin-top: 10px;
+    }
+
+    .login-status-user-info {
+        font-size: 12px;
+        line-height: normal;
+        margin-bottom: 5px;
+        width: 100%;
+        text-align: center;
+    }
 }
