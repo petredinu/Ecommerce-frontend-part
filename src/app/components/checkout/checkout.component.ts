@@ -42,11 +42,23 @@ export class CheckoutComponent implements OnInit {
               private checkoutService: CheckoutService,
               private router: Router) {}
 
-  ngOnInit(): void {
+ ngOnInit(): void {
 
     this.reviewCartDetails();
-      // read the user's email address from browser storage
-    const theEmail = JSON.parse(this.storage.getItem('userEmail')!);
+
+    // --- COD MODIFICAT PENTRU SIGURANȚĂ ---
+    let theEmail = '';
+    try {
+      const storedEmail = this.storage.getItem('userEmail');
+      if (storedEmail) {
+        theEmail = JSON.parse(storedEmail);
+      }
+    } catch (e) {
+      console.log('Eroare la citirea emailului (probabil format invalid):', e);
+      // Optional: ștergem data coruptă
+      this.storage.removeItem('userEmail');
+    }
+    // --------------------------------------
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -64,30 +76,30 @@ export class CheckoutComponent implements OnInit {
       }),
       shippingAddress: this.formBuilder.group({
         street: new FormControl('', [Validators.required, Validators.minLength(2),
-                                     Luv2ShopValidators.notOnlyWhitespace]),
+        Luv2ShopValidators.notOnlyWhitespace]),
         city: new FormControl('', [Validators.required, Validators.minLength(2),
-                                   Luv2ShopValidators.notOnlyWhitespace]),
+        Luv2ShopValidators.notOnlyWhitespace]),
         state: new FormControl('', [Validators.required]),
         country: new FormControl('', [Validators.required]),
         zipCode: new FormControl('', [Validators.required, Validators.minLength(2),
-                                      Luv2ShopValidators.notOnlyWhitespace]),
+        Luv2ShopValidators.notOnlyWhitespace]),
       }),
       billingAddress: this.formBuilder.group({
-       street: new FormControl('', [Validators.required, Validators.minLength(2),
-                                     Luv2ShopValidators.notOnlyWhitespace]),
+        street: new FormControl('', [Validators.required, Validators.minLength(2),
+        Luv2ShopValidators.notOnlyWhitespace]),
         city: new FormControl('', [Validators.required, Validators.minLength(2),
-                                   Luv2ShopValidators.notOnlyWhitespace]),
+        Luv2ShopValidators.notOnlyWhitespace]),
         state: new FormControl('', [Validators.required]),
         country: new FormControl('', [Validators.required]),
         zipCode: new FormControl('', [Validators.required, Validators.minLength(2),
-                                      Luv2ShopValidators.notOnlyWhitespace]),
+        Luv2ShopValidators.notOnlyWhitespace]),
       }),
       creditCard: this.formBuilder.group({
         cardType: new FormControl('', [Validators.required]),
         nameOnCard: new FormControl('', [Validators.required, Validators.minLength(2),
-                                     Luv2ShopValidators.notOnlyWhitespace]),
+        Luv2ShopValidators.notOnlyWhitespace]),
         cardNumber: new FormControl('', [Validators.required, Luv2ShopValidators.cardLuhnValidator, Validators.minLength(2), Luv2ShopValidators.notOnlyWhitespace]),
-        securityCode: new FormControl('', [Validators.required,Validators.pattern('[0-9]{3}')]),
+        securityCode: new FormControl('', [Validators.required, Validators.pattern('[0-9]{3}')]),
         expirationMonth: [''],
         expirationYear: ['']
       })
@@ -95,7 +107,6 @@ export class CheckoutComponent implements OnInit {
     });
 
     // populate credit card months
-
     const startMonth: number = new Date().getMonth() + 1;
     console.log("startMonth: " + startMonth);
 
@@ -107,7 +118,6 @@ export class CheckoutComponent implements OnInit {
     );
 
     // populate credit card years
-
     this.luv2ShopFormService.getCreditCardYears().subscribe(
       data => {
         console.log("Retrieved credit card years: " + JSON.stringify(data));
@@ -116,14 +126,12 @@ export class CheckoutComponent implements OnInit {
     );
 
     // populate countries
-
     this.luv2ShopFormService.getCountries().subscribe(
       data => {
         console.log("Retrieved countries: " + JSON.stringify(data));
         this.countries = data;
       }
     );
-
   }
   reviewCartDetails() {
     // subscribe to cartService.totalQuantity
