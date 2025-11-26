@@ -8,4 +8,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-ecommerce';
+  // Adaugă această variabilă pentru starea meniului mobil
+  isMobileMenuOpen: boolean = false;
+
+  // Funcție pentru a deschide/închide meniul
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  // Funcție pentru a închide meniul când se dă click pe un link (opțional)
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+  }
 }

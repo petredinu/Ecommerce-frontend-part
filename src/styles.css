@@ -941,3 +941,105 @@ footer ul li{
         width: 95%; /* Folosim aproape tot ecranul */
     }
 }
+/* --- CONFIGURĂRI GENERALE --- */
+body {
+    overflow-x: hidden; /* Previne scroll-ul orizontal nedorit */
+}
+
+.page-wrapper {
+    position: relative;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+/* --- SIDEBAR STYLING --- */
+.menu-sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: #ffffff;
+    border-right: 1px solid #e5e5e5;
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
+}
+
+/* Ajustare logo în sidebar */
+.menu-sidebar .logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+/* --- LOGICA PENTRU RESPONSIVE (MOBIL) --- */
+@media (max-width: 991.98px) { /* Sub 992px (Tablete și Mobile) */
+    
+    /* 1. Ascundem sidebar-ul implicit trăgându-l în stânga ecranului */
+    .menu-sidebar {
+        transform: translateX(-100%);
+        box-shadow: none;
+    }
+
+    /* 2. Când clasa .toggled este activă (meniu deschis) */
+    .page-wrapper.toggled .menu-sidebar {
+        transform: translateX(0); /* Aduce meniul înapoi pe ecran */
+        box-shadow: 5px 0 15px rgba(0,0,0,0.1); /* Umbră fină */
+    }
+
+    /* 3. Ajustăm containerul principal să ocupe tot ecranul pe mobil */
+    .page-container {
+        padding-left: 0 !important; /* Suprascrie stilul desktop */
+    }
+
+    /* 4. Butonul Close (X) din meniu */
+    .close-btn {
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #666;
+    }
+
+    /* 5. Butonul Hamburger din Header */
+    .hamburger-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #333;
+        padding: 0 10px;
+    }
+    
+    /* 6. Backdrop (Fundal întunecat) */
+    .backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.5);
+        z-index: 900; /* Sub sidebar (1000) dar peste conținut */
+        animation: fadeIn 0.3s;
+    }
+}
+
+/* --- DESKTOP ONLY --- */
+@media (min-width: 992px) {
+    /* Pe desktop, împingem conținutul la dreapta pentru a face loc meniului */
+    .page-container {
+        padding-left: 250px;
+    }
+    
+    /* Meniul este mereu vizibil */
+    .menu-sidebar {
+        transform: translateX(0);
+    }
+}
+
+/* Animație simplă pentru backdrop */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
