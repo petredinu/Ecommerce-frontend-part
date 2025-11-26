@@ -22,6 +22,7 @@ import { Customer } from '../../common/customer';
 export class CheckoutComponent implements OnInit {
   totalPrice: number = 0;
   totalQuantity: number = 0;
+  isCashOnDelivery: boolean = false;
 
   checkoutFormGroup!: FormGroup<any>;
 
@@ -176,6 +177,21 @@ export class CheckoutComponent implements OnInit {
 
   }
 
+  handlePaymentMethodChange(event: any) {
+    this.isCashOnDelivery = event.target.checked;
+
+    const creditCardGroup = this.checkoutFormGroup.get('creditCard');
+
+    if (this.isCashOnDelivery) {
+      // Daca e cash, dezactivam grupul de card (validarile sunt ignorate automat)
+      creditCardGroup?.disable();
+    } else {
+      // Daca debifeaza, reactivam grupul de card
+      creditCardGroup?.enable();
+    }
+  }
+
+
 
 
 
@@ -190,6 +206,10 @@ export class CheckoutComponent implements OnInit {
     let order = new Order();
     order.totalPrice = this.totalPrice;
     order.totalQuantity = this.totalQuantity;
+
+    // --- MODIFICARE AICI: Setam metoda de plata in obiectul Order ---
+    order.paymentMethod = this.isCashOnDelivery ? 'CASH' : 'CARD';
+
 
     // get cart items
     const cartItems = this.cartService.cartItems;
