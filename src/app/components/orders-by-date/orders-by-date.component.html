@@ -23,17 +23,26 @@
           
           <div class="card-header bg-dark text-white">
             <div class="row align-items-center">
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <small class="text-muted text-light">Data Comanda</small><br>
-                <strong>{{ tempOrder.dateCreated | date: 'medium' }}</strong>
+                <strong>{{ tempOrder.dateCreated | date: 'mediumDate' }}</strong>
               </div>
+              
               <div class="col-md-3">
                 <small class="text-muted text-light">Nr. Tracking</small><br>
-                <span>{{ tempOrder.orderTrackingNumber }}</span>
+                <span style="font-size: 0.9em;">{{ tempOrder.orderTrackingNumber }}</span>
               </div>
-              <div class="col-md-3">
+              
+              <div class="col-md-2">
                  <small class="text-muted text-light">Status</small><br>
                  <span class="badge badge-success">{{ tempOrder.status || 'Finalizat' }}</span>
+              </div>
+
+              <div class="col-md-2 text-center">
+                <small class="text-muted text-light">Metoda Plată</small><br>
+                <span class="badge badge-info">
+                    {{ tempOrder.paymentMethod === 'CARD' ? 'Card Bancar' : (tempOrder.paymentMethod === 'CASH' ? 'Ramburs' : tempOrder.paymentMethod) }}
+                </span>
               </div>
               <div class="col-md-3 text-right">
                 <small class="text-muted text-light">Total Comandă</small><br>

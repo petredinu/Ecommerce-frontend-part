@@ -7,6 +7,7 @@ export class OrderHistory {
         public totalQuantity: number,
         public dateCreated: Date,
         public status: string,
+        public paymentMethod: string,
         // Proprietăți pentru relații
         public customer?: {
             firstName: string;
