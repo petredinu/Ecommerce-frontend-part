@@ -50,15 +50,17 @@ export class ProductListComponent implements OnInit {
 
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
-    // if we have different keyword than previous
-    // then set thePageNumber to 1
-
-    if(this.previousKeyword != theKeyword){
-      this.thePageNumber = 1;
+   // --- MODIFICARE: Verificăm dacă ne-am întors la aceeași căutare ---
+    // Dacă cuvântul cheie e diferit, resetăm pagina la 1.
+    // Dacă e același ca în serviciu, păstrăm pagina salvată.
+    if (this.productService.previousKeyword != theKeyword) {
+       this.thePageNumber = 1;
+    } else {
+       this.thePageNumber = this.productService.thePageNumber;
     }
 
-    this.previousKeyword = theKeyword;
-
+    this.productService.previousKeyword = theKeyword;
+    // ------------------------------------------------------------------
     console.log(`keyword=${theKeyword}, thePageNumber= ${this.thePageNumber}`);
 
     //now search for the products using keyword
@@ -76,19 +78,17 @@ export class ProductListComponent implements OnInit {
     this.currentCategoryId=1;
   }
 
-  //
-  // Check if we have a different category than previous
-  // Note: Angular will reuse a component if it is currently being viewed
-  //
-
-  //if we have a differe3nt category id than previous
-  //then set thePageNumber back to 1
-  if(this.previousCategoryId != this.currentCategoryId){
-    this.thePageNumber=1;
+  // --- MODIFICARE: Logică de restaurare a paginii ---
+  
+  // Verificăm dacă categoria curentă este diferită de cea stocată în serviciu
+  if (this.productService.previousCategoryId != this.currentCategoryId) {
+    this.thePageNumber = 1; // Resetăm dacă am schimbat categoria
+  } else {
+    this.thePageNumber = this.productService.thePageNumber; // Restaurăm pagina dacă e aceeași categorie
   }
 
-  this.previousCategoryId = this.currentCategoryId;
-
+  this.productService.previousCategoryId = this.currentCategoryId;
+  // -----------------------------------------------
   console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`)
 
 
@@ -110,6 +110,12 @@ export class ProductListComponent implements OnInit {
       this.thePageNumber= data.page.number + 1;
       this.thePageSize = data.page.size;
       this.theTotalElements = data.page.totalElements;
+
+      // --- MODIFICARE: Salvăm starea în serviciu pentru a o avea la revenire ---
+      this.productService.thePageNumber = this.thePageNumber;
+      this.productService.thePageSize = this.thePageSize;
+      this.productService.theTotalElements = this.theTotalElements;
+      // ------------------------------------------------------------------------
     };
    }
    addToCart(theProduct: Product){

@@ -14,6 +14,14 @@ export class ProductService {
   private baseUrl=environment.luv2shopApiUrl+'/products';
  
   private categoryUrl = environment.luv2shopApiUrl+'/product-category';
+
+  // --- MODIFICARE: Adăugăm proprietăți pentru a salva starea paginării ---
+  public thePageNumber: number = 1;
+  public thePageSize: number = 5;
+  public theTotalElements: number = 0;
+  public previousCategoryId: number = 1;
+  public previousKeyword: string = "";
+  // ---------------------------------------------------------------------
    
   constructor(private httpClient:HttpClient) {}
 
