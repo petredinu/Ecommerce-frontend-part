@@ -797,278 +797,147 @@ footer ul li{
     padding:10px 20px
 }
 
-/* 
- * ----------------------------
- * Media Queries
+/* * ----------------------------
+ * Media Queries - OPTIMIZED
  * ----------------------------
  */
 
-@media (max-width:576px){
-    .au-input-xl{
-        min-width:100%
-    }
-}
-@media (max-width:1315px) and (min-width:992px){
-    .header-desktop3 .section-content{
-        padding:0 15px
-    }
-}
-@media (max-width:1570px) and (min-width:992px){
-    .header-navbar ul li a{
-        padding:25px 15px
-    }
-}
-@media (max-width:1315px) and (min-width:992px){
-    .header-navbar ul li a{
-        font-size:13px;
-        padding:27px 15px
-    }
-    .header-navbar ul li a i{
-        margin-right:5px
+/* Ajustări generale pentru ecrane mari */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1320px;
     }
 }
 
-@media (min-width:1200px){
-    .container{
-
-        max-width:1320px
+/* Tablete și Desktop-uri mici */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .cart-area i {
+        font-size: 22px;
+        float: left;
+        margin-top: 16px;
+        color: #205b8d;
+        margin-left: 15px;
+    }
+    .header-mobile .header-mobile-bar {
+        padding: 10px 0;
+        background: #fff;
+    }
+    .header-wrap .account-item > .content {
+        display: none;
     }
 }
 
-@media (min-width:992px) and (max-width:1199px){
-    .cart-area i{
-        font-size:22px;
-        float:left;
-        margin-top:16px;
-        color:#205b8d;
-        margin-left:15px
-    }
-    .header-mobile .header-mobile-bar{
-        padding:10px 0;
-        background:#fff
-    }
-    .header-wrap .account-item>.content{
-        display:none
-    }
-}
-
-
-@media (max-width:767px){
-     .section-content-p30{
-        padding:0
-    }
-    .page-container{
-        position:relative;
-        top:88px;
-        padding-left:0
-    }
-     .page-wrapper{
-        background:#e5e5e5;
-        padding-bottom:12vh
-    }
-     .main-content{
-        padding-top:50px;
-        padding-bottom:100px
-    }
-     
-    .form-header{
-        -webkit-box-pack:center;
-        -webkit-justify-content:center;
-        -moz-box-pack:center;
-        -ms-flex-pack:center;
-        justify-content:center
-    }
-     .au-input-xl{
-        min-width:350px
-    }
-      .logo{
-        text-align:center
-    }
-    .header-desktop{
-        position:relative;
-        top:0;
-        left:0;
-        height:80px
-    }
-    .header-wrap{
-        -webkit-box-orient:vertical;
-        -webkit-box-direction:normal;
-        -webkit-flex-direction:column;
-        -moz-box-orient:vertical;
-        -moz-box-direction:normal;
-        -ms-flex-direction:column;
-        flex-direction:column
-    }
-    .header-button{
-        margin-top:30px;
-        width:100%;
-        -webkit-box-pack:justify;
-        -webkit-justify-content:space-between;
-        -moz-box-pack:justify;
-        -ms-flex-pack:justify;
-        justify-content:space-between
-    }
-    .menu-sidebar2{
-        top:0;
-        right:-300px;
-        left:auto;
-        -webkit-box-shadow:0 5px 10px 0 rgba(0,0,0,.1);
-        -moz-box-shadow:0 5px 10px 0 rgba(0,0,0,.1);
-        box-shadow:0 5px 10px 0 rgba(0,0,0,.1)
-    }
-     .header-desktop2{
-        left:0;
-        position:relative
-    }
-     .header-desktop4{
-        position:static
-    }
-     .section-content.section-content-p30.e-spc{
-        padding-top:100px
-    }
-    header.header-desktop.extra{
-        top:93px!important
-    }
-    .cart-area i{
-        font-size:22px;
-        float:left;
-        margin-top:16px;
-        color:#205b8d;
-        margin-left:15px
-    }
-        .header-wrap2{
-        -webkit-box-pack:justify;
-        -webkit-justify-content:space-between;
-        -moz-box-pack:justify;
-        -ms-flex-pack:justify;
-        justify-content:space-between
-    }
-}
-
-
-@media (max-width:991px){
-      .au-input-xl{
-        width: 70%; /* Inputul de căutare ocupă 70% */
-        min-width: unset;
-    }
-    .header-button-item{
-        font-size:22px;
-        margin-right:15px
-    }
-        .main-content.page-m{
-        padding: 20px 15px!important
-    }
-    .header-mobile .navbar-mobile{
-        display:none;
-        position:absolute;
-        width:100%;
-        top:66px;
-        z-index:20
-    }
-    /* Ajustare pentru Search Bar pe mobil */
-    .form-header {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-    .section-content.section-content-p30.e-spc{
-        padding-top:100px
-    }
-    header.header-desktop.extra{
-        top:64px!important
-    }
-    .header-desktop{
-       position: relative; /* Schimbăm din fixed în relative pe mobil */
-        height: auto !important; /* Permite headerului să crească */
-        padding-bottom: 15px;
-    }
-    a.logo img{
-        width:110px
-    }
-    .cart-area {
-        display: block !important; /* Asigură-te că e vizibil */
-        float: none; /* Elimină float-ul care ar putea strica alinierea */
-        margin: 10px auto; /* Centrează-l sau dă-i spațiu */
-        text-align: center;
-    }
-
-    .cart-area i{
-        display: inline-block;
-        font-size:18px;
-        float: none;
-        margin-top:16px;
-        color:#205b8d;
-        margin-left:5px
-    }
-    .footer-pagination{
-        text-align:start;
-        display:inline-block
-    }
-    .product-box{
-        text-align:center;
-        position:left
-    }
-    .page-container{
-        position:relative;
-        top:66px;
-        padding-left:0
-    }
-    .au-btn-submit{
-        position:relative;
-        right:10px;
-        min-width:85px;
-        color:#fff;
-        border:1px solid #205b8d;
-        -webkit-border-radius:3px;
-        -moz-border-radius:3px;
-        border-radius:0;
-        background:#205b8d;
-        font-size: 12px; /* Butonul de search mai mic */
-    }
-    input.au-input.au-input-xl{
-        border-radius:0!important;
-        margin-right:0
-    }
-    .cart-area.d-b{
-        display:block
-    }
+/* MOBIL ȘI TABLETE (Tot ce e sub 991px) */
+@media (max-width: 991px) {
     
-    .cart-area i{
-        font-size:18px;
-        float:left;
-        margin-top:16px;
-        color:#03a9f4;
-        margin-left:15px
+    /* 1. REPARARE POZIȚIE HEADER: Eliminăm poziționarea absolută care tăia conținutul */
+    .header-desktop .section-content {
+        position: static; /* Important: revine în fluxul normal */
+        transform: none;  /* Eliminăm centrarea forțată de desktop */
+        padding: 15px 0;  /* Adăugăm spațiu sus și jos */
+        width: 100%;
     }
-    .total span{
-        display:inline-block;
-        background:#fff;
-        padding:0 10px;
-        color:#000;
-        border-top-right-radius:20px;
-        border-bottom-right-radius:20px;
-        margin-left:6px
+
+    .header-desktop {
+        position: relative;
+        height: auto !important; /* Headerul crește în funcție de conținut */
+        padding-bottom: 10px;
+        background: #0da8e4; /* Asigurăm culoarea de fundal */
     }
-    .total{
-        display: inline-block;
-        background:#205b8d;
-        line-height:30px;
-        color:#fff;
-        border-radius:30px;
-        border:1px solid #205b8d;
-        float:none;
-        margin-top:0;
-        padding-left:12px
-    }
-    .header-mobile .header-mobile-bar{
-        padding:6px 0;
-        background:#fff;
-        border:0;
-        padding:8px 0
-    }
+
+    /* 2. REPARARE LAYOUT FLEXIBIL */
     .header-wrap {
+        display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px; /* Spațiu între Search, Butoane și Coș */
+        gap: 15px; /* Spațiu între Search și butoane */
+    }
+
+    /* 3. REPARARE BARA DE CĂUTARE */
+    .form-header {
+        width: 90%; /* Ocupă 90% din ecran */
+        max-width: 500px; /* Dar nu mai mult de 500px */
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    .au-input-xl {
+        width: 100%; /* Inputul se întinde */
+        min-width: unset; /* Eliminăm limita fixă care strica pe telefoane mici */
+        border-radius: 40px 0 0 40px !important; /* Rotunjire doar stânga */
+        margin-right: 0;
+        height: 40px; /* Înălțime fixă pentru consistență */
+        line-height: 40px;
+    }
+
+    .au-btn-submit {
+        position: static; /* Nu mai e relativ */
+        transform: none;
+        border-radius: 0 40px 40px 0; /* Rotunjire doar dreapta */
+        height: 40px;
+        min-width: 80px;
+        margin: 0;
+        background: #05143f; /* Contrast mai bun */
+        border: 1px solid #05143f;
+    }
+
+    .au-btn-submit > i {
+        position: static;
+        transform: none;
+        line-height: 40px;
+    }
+
+    /* 4. REPARARE COȘ ȘI STATUS */
+    .cart-area {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: 0;
+    }
+
+    .total {
+        float: none;
+        margin: 0 10px;
+        background: #fff;
+        color: #0da8e4;
+        border: none;
+        line-height: 35px;
+    }
+
+    .total span {
+        background: #05143f;
+        color: #fff;
+    }
+
+    /* Ascunde meniul sidebar default */
+    .menu-sidebar {
+        display: none;
+    }
+    
+    /* Ajustare conținut principal */
+    .page-container {
+        padding-left: 0;
+        padding-top: 0; /* Elimină offset-ul */
+    }
+
+    .main-content {
+        padding-top: 20px;
+    }
+}
+
+/* TELEFOANE MICI (sub 576px) */
+@media (max-width: 576px) {
+    .au-input-xl {
+        font-size: 13px; /* Text mai mic în input */
+    }
+    
+    .logo img {
+        max-width: 120px; /* Logo mai mic */
+    }
+
+    .form-header {
+        width: 95%; /* Folosim aproape tot ecranul */
     }
 }
