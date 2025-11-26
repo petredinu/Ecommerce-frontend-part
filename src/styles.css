@@ -853,7 +853,7 @@ footer ul li{
 }
 
 
-@media (max-width:991px){
+@media (max-width:767px){
      .section-content-p30{
         padding:0
     }
@@ -870,9 +870,7 @@ footer ul li{
         padding-top:50px;
         padding-bottom:100px
     }
-     .cart-area.d-n{
-        display:none
-    }
+     
     .form-header{
         -webkit-box-pack:center;
         -webkit-justify-content:center;
@@ -987,13 +985,20 @@ footer ul li{
     a.logo img{
         width:110px
     }
+    .cart-area {
+        display: block !important; /* Asigură-te că e vizibil */
+        float: none; /* Elimină float-ul care ar putea strica alinierea */
+        margin: 10px auto; /* Centrează-l sau dă-i spațiu */
+        text-align: center;
+    }
 
     .cart-area i{
-        font-size:22px;
-        float:left;
+        display: inline-block;
+        font-size:18px;
+        float: none;
         margin-top:16px;
         color:#205b8d;
-        margin-left:15px
+        margin-left:5px
     }
     .footer-pagination{
         text-align:start;
@@ -1027,9 +1032,7 @@ footer ul li{
     .cart-area.d-b{
         display:block
     }
-    .cart-area.d-n{
-        display:none
-    }
+    
     .cart-area i{
         font-size:18px;
         float:left;
@@ -1047,13 +1050,14 @@ footer ul li{
         margin-left:6px
     }
     .total{
+        display: inline-block;
         background:#205b8d;
         line-height:30px;
         color:#fff;
         border-radius:30px;
         border:1px solid #205b8d;
-        float:left;
-        margin-top:9px;
+        float:none;
+        margin-top:0;
         padding-left:12px
     }
     .header-mobile .header-mobile-bar{
