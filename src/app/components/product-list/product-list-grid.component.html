@@ -2,11 +2,11 @@
     <div class="section-content section-content-p30">
         <div class="container-fluid"> 
             <div class="row"> 
-                <div class="col-12 col-md-6 col-lg-3 mb-5" *ngFor="let tempProduct of products">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-4" *ngFor="let tempProduct of products">
 
                     <div class="product-box">
                         <div routerLink="/products/{{tempProduct.id}}">
-                            <img src="{{ tempProduct.imageUrl }}" class="img-fluid img-responsive">
+                            <img src="{{ tempProduct.imageUrl }}" class="img-responsive img-fluid">
                         </div>
 
                         <a routerLink="/products/{{tempProduct.id}}">
@@ -18,26 +18,6 @@
                     </div>
                 </div>
             </div>
-        <!-- <div class="container">
-            <div class="cardComp item" *ngFor="let tempProduct of products">
-
-                <div class="product-box">
-
-                    <div routerLink="/products/{{tempProduct.id}}">
-                        <img src="{{ tempProduct.imageUrl }}" class="img-responsive">
-                    </div>
-
-                    <a routerLink="/products/{{tempProduct.id}}">
-                        <h1> {{ tempProduct.name }}</h1>
-                    </a>
-
-
-                    <div class="price">{{ tempProduct.unitPrice | currency:'USD' }}</div>
-                    <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
-
-
-                </div>
-            </div> -->
 
             <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
                 No products found.
