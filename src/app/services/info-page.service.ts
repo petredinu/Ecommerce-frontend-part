@@ -40,6 +40,15 @@ export class InfoPageService {
 
     return this.httpClient.put(updateUrl, payload);
   }
+  // --- METODA NOUĂ PENTRU CREARE ---
+  createPageContent(pageType: string, newContent: string): Observable<any> {
+    // Create (POST) - trimitem la URL-ul de bază
+    const payload = {
+      pageType: pageType,
+      content: newContent
+    };
+    return this.httpClient.post(this.baseUrl, payload);
+  }
 }
 
 // Interfata pentru a mapa raspunsul JSON de la Spring Data REST

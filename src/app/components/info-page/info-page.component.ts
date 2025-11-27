@@ -55,18 +55,31 @@ export class InfoPageComponent implements OnInit {
     this.isEditing = true;
   }
 
-  saveContent() {
+ saveContent() {
+    // Verificam daca avem un obiect incarcat (pentru a avea link-ul 'self' necesar la update)
     if (this.fullPageObject) {
       this.infoService.savePageContent(this.fullPageObject, this.content).subscribe({
         next: () => {
-        this.isEditing = false;
-        alert("Pagina a fost salvata in baza de date!");
-        this.loadContent();
+          this.isEditing = false;
+          alert("Pagina a fost salvata in baza de date!");
+          this.loadContent();
         },
-      error: (err) => {
-        console.error("Eroare la salvare:", err);
-        alert(`Eroare la salvare: ${err.status} - ${err.message}`);
-      }
+        error: (err) => {
+          console.error("Eroare la salvare:", err);
+          alert(`Eroare la salvare: ${err.status} - ${err.message}`);
+        }
+      });
+    } else {
+      this.infoService.createPageContent(this.pageType, this.content).subscribe({
+        next: (response) => {
+          this.isEditing = false;
+          alert("Pagina a fost creată și salvată în baza de date!");
+          this.loadContent(); // Reîncărcăm pentru a popula fullPageObject
+        },
+        error: (err) => {
+          console.error("Eroare la creare:", err);
+          alert(`Eroare la creare: ${err.status} - Asigură-te că ai activat POST în Java SecurityConfig!`);
+        }
       });
     }
   }

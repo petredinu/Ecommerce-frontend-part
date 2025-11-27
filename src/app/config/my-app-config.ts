@@ -1,3 +1,5 @@
+import { environment } from "../../environments/environment";
+
 export default {
   auth: {
     domain: "dev-li55ssrce5r8p0im.eu.auth0.com",
@@ -12,7 +14,7 @@ export default {
     allowedList: [
       'http://localhost:8080/api/orders/**',
       'http://localhost:8080/api/checkout/purchase',
-       'http://localhost:8080/api/page-contents/*',
+       'http://localhost:8080/api/page-contents/**',
     ],
   },
 }
