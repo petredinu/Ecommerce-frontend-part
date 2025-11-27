@@ -27,6 +27,7 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
 import { ProductFormComponent } from './components/product-form/product-form.component';
 import { OrdersByDateComponent } from './components/orders-by-date/orders-by-date.component';
 import { InfoPageComponent } from './components/info-page/info-page.component';
+import { environment } from '../environments/environment';
 
 
 
@@ -87,7 +88,7 @@ const routes: Routes =[
     AuthModule.forRoot({
       ...myAppConfig.auth,
       httpInterceptor: {
-        ...myAppConfig.httpInterceptor,
+        ...myAppConfig.httpInterceptor, 
       },
     }),
   ],

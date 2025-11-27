@@ -57,10 +57,16 @@ export class InfoPageComponent implements OnInit {
 
   saveContent() {
     if (this.fullPageObject) {
-      this.infoService.savePageContent(this.fullPageObject, this.content).subscribe(() => {
+      this.infoService.savePageContent(this.fullPageObject, this.content).subscribe({
+        next: () => {
         this.isEditing = false;
         alert("Pagina a fost salvata in baza de date!");
-        this.loadContent(); // Reimprospatam
+        this.loadContent();
+        },
+      error: (err) => {
+        console.error("Eroare la salvare:", err);
+        alert(`Eroare la salvare: ${err.status} - ${err.message}`);
+      }
       });
     }
   }
