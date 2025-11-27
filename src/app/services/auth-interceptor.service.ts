@@ -21,7 +21,13 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     // Verificam daca URL-ul cererii contine unul din endpoint-urile securizate
     if (securedEndpoints.some(url => request.urlWithParams.includes(url))) {
-      
+      // --- MODIFICAREA ESTE AICI ---
+      // Dacă cererea este către 'page-contents' DAR este de tip GET (citire),
+      // o lăsăm să treacă fără să atașăm token-ul (pentru a fi publică).
+      if (request.urlWithParams.includes(theEndpointPages) && request.method === 'GET') {
+        return next.handle(request);
+      }
+      // -----------------------------
       // Folosim switchMap pentru a obtine token-ul si a continua cu cererea
       return this.auth.getAccessTokenSilently().pipe(
         switchMap(token => {

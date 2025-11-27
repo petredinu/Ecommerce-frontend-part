@@ -88,7 +88,10 @@ const routes: Routes =[
     AuthModule.forRoot({
       ...myAppConfig.auth,
       httpInterceptor: {
-        ...myAppConfig.httpInterceptor, 
+        ...myAppConfig.httpInterceptor,
+        allowedList: [
+          `${environment.luv2shopApiUrl}/page-contents/*`
+        ] 
       },
     }),
   ],
