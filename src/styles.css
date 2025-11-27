@@ -833,18 +833,17 @@ footer ul li{
 /* 1. MOBIL ȘI TABLETE (Tot ce e sub 992px) */
 @media (max-width: 991.98px) {
     
-    /* --- FIXUL CRITIC PENTRU HEADER --- */
-    /* Aducem header-ul de la 200px la 0px stânga */
+    /* --- HEADER --- */
     .header-desktop {
         left: 0 !important;
         width: 100% !important;
-        position: relative !important; /* Nu-l mai lăsăm fix să acopere ecranul */
+        position: relative !important;
         padding: 15px 0;
         height: auto !important;
         background: #0da8e4;
+        z-index: 50; /* Z-index mai mic decât meniul lateral */
     }
 
-    /* Anulăm centrarea absolută a conținutului din header */
     .header-desktop .section-content {
         position: static !important;
         transform: none !important;
@@ -852,15 +851,12 @@ footer ul li{
         padding: 0 15px;
     }
 
-    /* --- ALTE AJUSTĂRI DE LAYOUT MOBIL --- */
-    
-    /* Scoatem padding-ul din stânga al paginii */
+    /* --- LAYOUT PAGINA --- */
     .page-container {
         padding-left: 0 !important;
         padding-top: 0 !important;
     }
 
-    /* Aranjăm elementele din header vertical (search sub butoane) */
     .header-wrap {
         display: flex;
         flex-direction: column;
@@ -868,22 +864,19 @@ footer ul li{
         gap: 15px;
     }
 
-    /* Bara de căutare să ocupe tot spațiul */
     .form-header {
         width: 100% !important;
-        max-width: 100% !important;
         display: flex;
     }
     
     .au-input-xl {
         width: 100% !important;
-        min-width: unset !important;
         border-radius: 30px !important;
     }
 
     .au-btn-submit {
         position: absolute;
-        right: 30px; /* Butonul de search peste input */
+        right: 30px;
         background: none;
         border: none;
         color: #333;
@@ -891,26 +884,70 @@ footer ul li{
         transform: none;
     }
 
-    /* Ascundem meniul lateral standard */
+    /* --- MENIUL LATERAL (SIDEBAR) PE MOBIL --- */
+    /* Modificăm stilul pentru a permite slide-in */
     .menu-sidebar {
-        display: none; 
-        /* Dacă ai implementat meniul hamburger, aici ar trebui să fie logica de toggle,
-           dar 'display: none' rezolvă problema spațiului alb momentan */
+        display: block !important; /* Îl facem vizibil pentru DOM */
+        position: fixed;
+        top: 0;
+        left: -250px; /* Ascuns în stânga ecranului */
+        width: 250px;
+        height: 100vh;
+        background: #fff;
+        z-index: 9999; /* Peste tot restul conținutului */
+        transition: left 0.3s ease-in-out; /* Animație de alunecare */
+        box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        overflow-y: auto;
     }
-    
-    .main-content {
-        padding-top: 20px;
+
+    /* Clasa care se activează când meniul este deschis */
+    /* Aceasta clasă 'toggled' vine din [class.toggled] din app.component.html */
+    .page-wrapper.toggled .menu-sidebar {
+        left: 0; /* Aduce meniul pe ecran */
+    }
+
+    /* Butonul de închidere (X) din meniu - doar pe mobil */
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 30px;
+        cursor: pointer;
+        color: #333;
+        display: block; /* Vizibil pe mobil */
+    }
+
+    /* --- BACKDROP (Fundal întunecat) --- */
+    .backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5); /* Semitransparent */
+        z-index: 9998; /* Sub meniu, dar peste conținut */
+        display: block;
+    }
+}
+
+/* Ascundem butonul de închidere pe Desktop */
+@media (min-width: 992px) {
+    .close-btn {
+        display: none;
+    }
+    .backdrop {
+        display: none;
     }
 }
 
 /* 2. DESKTOP (Ecrane mari peste 992px) */
 @media (min-width: 992px) {
     .page-container {
-        padding-left: 200px; /* Spațiu pentru sidebar */
+        padding-left: 200px;
     }
     
     .header-desktop {
-        left: 200px; /* Header-ul începe DUPĂ sidebar */
-        width: calc(100% - 200px); /* Lățimea este restul ecranului */
+        left: 200px;
+        width: calc(100% - 200px);
     }
 }
