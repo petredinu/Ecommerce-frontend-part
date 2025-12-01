@@ -826,220 +826,128 @@ footer ul li{
         display: none;
     }
 }
+/* =============================================
+   FIX FINAL PENTRU HEADER ȘI RESPONSIVE
+   ============================================= */
 
-/* MOBIL ȘI TABLETE (Tot ce e sub 991px) */
-@media (max-width: 991px) {
+/* 1. MOBIL ȘI TABLETE (Tot ce e sub 992px) */
+@media (max-width: 991.98px) {
     
-    /* 1. REPARARE POZIȚIE HEADER: Eliminăm poziționarea absolută care tăia conținutul */
-    .header-desktop .section-content {
-        position: static; /* Important: revine în fluxul normal */
-        transform: none;  /* Eliminăm centrarea forțată de desktop */
-        padding: 15px 0;  /* Adăugăm spațiu sus și jos */
-        width: 100%;
-    }
-
+    /* --- HEADER --- */
     .header-desktop {
-        position: relative;
-        height: auto !important; /* Headerul crește în funcție de conținut */
-        padding-bottom: 10px;
-        background: #0da8e4; /* Asigurăm culoarea de fundal */
+        left: 0 !important;
+        width: 100% !important;
+        position: relative !important;
+        padding: 15px 0;
+        height: auto !important;
+        background: #0da8e4;
+        z-index: 50; /* Z-index mai mic decât meniul lateral */
     }
 
-    /* 2. REPARARE LAYOUT FLEXIBIL */
+    .header-desktop .section-content {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        padding: 0 15px;
+    }
+
+    /* --- LAYOUT PAGINA --- */
+    .page-container {
+        padding-left: 0 !important;
+        padding-top: 0 !important;
+    }
+
     .header-wrap {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 15px; /* Spațiu între Search și butoane */
+        gap: 15px;
     }
 
-    /* 3. REPARARE BARA DE CĂUTARE */
     .form-header {
-        width: 90%; /* Ocupă 90% din ecran */
-        max-width: 500px; /* Dar nu mai mult de 500px */
+        width: 100% !important;
         display: flex;
-        justify-content: center;
-        margin: 0 auto;
     }
-
+    
     .au-input-xl {
-        width: 100%; /* Inputul se întinde */
-        min-width: unset; /* Eliminăm limita fixă care strica pe telefoane mici */
-        border-radius: 40px 0 0 40px !important; /* Rotunjire doar stânga */
-        margin-right: 0;
-        height: 40px; /* Înălțime fixă pentru consistență */
-        line-height: 40px;
+        width: 100% !important;
+        border-radius: 30px !important;
     }
 
     .au-btn-submit {
-        position: static; /* Nu mai e relativ */
-        transform: none;
-        border-radius: 0 40px 40px 0; /* Rotunjire doar dreapta */
-        height: 40px;
-        min-width: 80px;
-        margin: 0;
-        background: #05143f; /* Contrast mai bun */
-        border: 1px solid #05143f;
-    }
-
-    .au-btn-submit > i {
-        position: static;
-        transform: none;
-        line-height: 40px;
-    }
-
-    /* 4. REPARARE COȘ ȘI STATUS */
-    .cart-area {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        margin: 0;
-    }
-
-    .total {
-        float: none;
-        margin: 0 10px;
-        background: #fff;
-        color: #0da8e4;
-        border: none;
-        line-height: 35px;
-    }
-
-    .total span {
-        background: #05143f;
-        color: #fff;
-    }
-
-    /* Ascunde meniul sidebar default */
-    .menu-sidebar {
-        display: none;
-    }
-    
-    /* Ajustare conținut principal */
-    .page-container {
-        padding-left: 0;
-        padding-top: 0; /* Elimină offset-ul */
-    }
-
-    .main-content {
-        padding-top: 20px;
-    }
-}
-
-/* TELEFOANE MICI (sub 576px) */
-@media (max-width: 576px) {
-    .au-input-xl {
-        font-size: 13px; /* Text mai mic în input */
-    }
-    
-    .logo img {
-        max-width: 120px; /* Logo mai mic */
-    }
-
-    .form-header {
-        width: 95%; /* Folosim aproape tot ecranul */
-    }
-}
-/* --- CONFIGURĂRI GENERALE --- */
-body {
-    overflow-x: hidden; /* Previne scroll-ul orizontal nedorit */
-}
-
-.page-wrapper {
-    position: relative;
-    min-height: 100vh;
-    transition: all 0.3s ease;
-}
-
-/* --- SIDEBAR STYLING --- */
-.menu-sidebar {
-    width: 250px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    background: #ffffff;
-    border-right: 1px solid #e5e5e5;
-    transition: transform 0.3s ease-in-out;
-    overflow-y: auto;
-}
-
-/* Ajustare logo în sidebar */
-.menu-sidebar .logo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: #f8f9fa;
-}
-
-/* --- LOGICA PENTRU RESPONSIVE (MOBIL) --- */
-@media (max-width: 991.98px) { /* Sub 992px (Tablete și Mobile) */
-    
-    /* 1. Ascundem sidebar-ul implicit trăgându-l în stânga ecranului */
-    .menu-sidebar {
-        transform: translateX(-100%);
-        box-shadow: none;
-    }
-
-    /* 2. Când clasa .toggled este activă (meniu deschis) */
-    .page-wrapper.toggled .menu-sidebar {
-        transform: translateX(0); /* Aduce meniul înapoi pe ecran */
-        box-shadow: 5px 0 15px rgba(0,0,0,0.1); /* Umbră fină */
-    }
-
-    /* 3. Ajustăm containerul principal să ocupe tot ecranul pe mobil */
-    .page-container {
-        padding-left: 0 !important; /* Suprascrie stilul desktop */
-    }
-
-    /* 4. Butonul Close (X) din meniu */
-    .close-btn {
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: #666;
-    }
-
-    /* 5. Butonul Hamburger din Header */
-    .hamburger-btn {
+        position: absolute;
+        right: 30px;
         background: none;
         border: none;
-        font-size: 1.5rem;
+        color: #333;
+        top: inherit;
+        transform: none;
+    }
+
+    /* --- MENIUL LATERAL (SIDEBAR) PE MOBIL --- */
+    /* Modificăm stilul pentru a permite slide-in */
+    .menu-sidebar {
+        display: block !important; /* Îl facem vizibil pentru DOM */
+        position: fixed;
+        top: 0;
+        left: -250px; /* Ascuns în stânga ecranului */
+        width: 250px;
+        height: 100vh;
+        background: #fff;
+        z-index: 9999; /* Peste tot restul conținutului */
+        transition: left 0.3s ease-in-out; /* Animație de alunecare */
+        box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        overflow-y: auto;
+    }
+
+    /* Clasa care se activează când meniul este deschis */
+    /* Aceasta clasă 'toggled' vine din [class.toggled] din app.component.html */
+    .page-wrapper.toggled .menu-sidebar {
+        left: 0; /* Aduce meniul pe ecran */
+    }
+
+    /* Butonul de închidere (X) din meniu - doar pe mobil */
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 30px;
         cursor: pointer;
         color: #333;
-        padding: 0 10px;
+        display: block; /* Vizibil pe mobil */
     }
-    
-    /* 6. Backdrop (Fundal întunecat) */
+
+    /* --- BACKDROP (Fundal întunecat) --- */
     .backdrop {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(0,0,0,0.5);
-        z-index: 900; /* Sub sidebar (1000) dar peste conținut */
-        animation: fadeIn 0.3s;
+        background: rgba(0, 0, 0, 0.5); /* Semitransparent */
+        z-index: 9998; /* Sub meniu, dar peste conținut */
+        display: block;
     }
 }
 
-/* --- DESKTOP ONLY --- */
+/* Ascundem butonul de închidere pe Desktop */
 @media (min-width: 992px) {
-    /* Pe desktop, împingem conținutul la dreapta pentru a face loc meniului */
+    .close-btn {
+        display: none;
+    }
+    .backdrop {
+        display: none;
+    }
+}
+
+/* 2. DESKTOP (Ecrane mari peste 992px) */
+@media (min-width: 992px) {
     .page-container {
-        padding-left: 250px;
+        padding-left: 200px;
     }
     
-    /* Meniul este mereu vizibil */
-    .menu-sidebar {
-        transform: translateX(0);
+    .header-desktop {
+        left: 200px;
+        width: calc(100% - 200px);
     }
-}
-
-/* Animație simplă pentru backdrop */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }

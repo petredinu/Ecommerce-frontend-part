@@ -26,12 +26,19 @@ import { MembersPageComponent } from './components/members-page/members-page.com
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
 import { OrdersByDateComponent } from './components/orders-by-date/orders-by-date.component';
+import { InfoPageComponent } from './components/info-page/info-page.component';
+import { environment } from '../environments/environment';
+
 
 
 const routes: Routes =[
 
   // Rute noi pentru vizualizare comenzii după dată
   { path: 'search-orders-by-date', component: OrdersByDateComponent, canActivate:[AuthGuard] }, // Poți adăuga canActivate: [AuthGuard] dacă e doar pentru admini/useri logați
+
+  // Ruta noua pentru paginile din footer
+  { path: 'info/:type', component: InfoPageComponent },
+  
   // Rute noi pentru formular
   {path: 'add-product', component: ProductFormComponent},
   {path: 'edit-product/:id', component: ProductFormComponent},
@@ -64,7 +71,8 @@ const routes: Routes =[
     MembersPageComponent,
     OrderHistoryComponent,
     ProductFormComponent,
-    OrdersByDateComponent
+    OrdersByDateComponent,
+    InfoPageComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -81,6 +89,9 @@ const routes: Routes =[
       ...myAppConfig.auth,
       httpInterceptor: {
         ...myAppConfig.httpInterceptor,
+        allowedList: [
+          `${environment.luv2shopApiUrl}/page-contents/*`
+        ] 
       },
     }),
   ],

@@ -1,0 +1,35 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            
+            <div *ngIf="!isEditing" class="card">
+                <div class="card-body">
+                    <div [innerHTML]="content"></div>
+
+                    <div *ngIf="isAdmin" class="mt-4">
+                        <hr>
+                        <button class="btn btn-primary" (click)="enableEdit()">
+                            <i class="fas fa-edit"></i> Editează Pagina (Admin)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="isEditing && isAdmin" class="card">
+                <div class="card-header">
+                    Editează conținutul pentru: <strong>{{ pageType | titlecase }}</strong>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Conținut HTML (poți folosi &lt;p&gt;, &lt;b&gt;, &lt;br&gt;)</label>
+                        <textarea class="form-control" rows="15" [(ngModel)]="content"></textarea>
+                    </div>
+                    
+                    <button class="btn btn-success mr-2" (click)="saveContent()">Salvează</button>
+                    <button class="btn btn-secondary" (click)="cancelEdit()">Anulează</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
