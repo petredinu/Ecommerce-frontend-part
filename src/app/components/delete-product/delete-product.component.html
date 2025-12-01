@@ -1,15 +1,56 @@
 <div class="container text-center mt-5">
-      <div *ngIf="product.name">
-        <h2>Ștergerea produsului: **{{ product.name }}**</h2>
-        <p class="lead text-danger">Ești sigur că vrei să ștergi acest produs? Acțiunea este ireversibilă.</p>
-        <button class="btn btn-danger btn-lg" (click)="confirmDelete()">
-          CONFIRMĂ ȘTERGEREA
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="mb-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Se încarcă...</span>
+    </div>
+    <p class="lead mt-3">Se încarcă informațiile produsului...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMessage && !isLoading" class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Eroare!</h4>
+    <p>{{ errorMessage }}</p>
+    <hr>
+    <p class="mb-0">Veți fi redirecționat automat către lista de produse...</p>
+  </div>
+
+  <!-- Product Delete Confirmation -->
+  <div *ngIf="product && !isLoading && !errorMessage" class="card shadow-lg mx-auto" style="max-width: 600px;">
+    <div class="card-header bg-danger text-white">
+      <h3 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Confirmare Ștergere</h3>
+    </div>
+    <div class="card-body">
+      <div class="mb-4">
+        <h4 class="text-danger">{{ product.name }}</h4>
+        <p class="text-muted">SKU: {{ product.sku }}</p>
+        <p *ngIf="product.description" class="small text-muted">{{ product.description }}</p>
+      </div>
+
+      <div class="alert alert-warning" role="alert">
+        <strong>Atenție!</strong> Această acțiune va șterge permanent produsul și nu poate fi anulată.
+      </div>
+
+      <div class="d-grid gap-2 mt-4">
+        <button 
+          class="btn btn-danger btn-lg" 
+          (click)="confirmDelete()" 
+          [disabled]="isDeleting">
+          <span *ngIf="!isDeleting">
+            <i class="fas fa-trash-alt"></i> Șterge Definitiv
+          </span>
+          <span *ngIf="isDeleting">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Se șterge...
+          </span>
+        </button>
+        <button 
+          class="btn btn-secondary" 
+          (click)="cancelDelete()" 
+          [disabled]="isDeleting">
+          <i class="fas fa-arrow-left"></i> Anulează
         </button>
       </div>
-      <div *ngIf="!product.name">
-        <p class="lead">Încărcare produs...</p>
-      </div>
-      <button class="btn btn-secondary mt-3" (click)="backToList()">
-        Anulează și Revino
-      </button>
     </div>
+  </div>
+</div>

@@ -10,7 +10,10 @@ import { Product } from '../../common/product';
   styleUrl: './delete-product.component.css'
 })
 export class DeleteProductComponent implements OnInit {
-  product: Product = {} as Product;
+  product: Product | null = null;
+  isLoading: boolean = true;
+  isDeleting: boolean = false;
+  errorMessage: string = '';
 
   constructor(
     private productService: ProductService,
@@ -19,44 +22,75 @@ export class DeleteProductComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadProduct();
+  }
+
+  private loadProduct(): void {
     const productIdParam = this.route.snapshot.paramMap.get('id');
     const productId = productIdParam ? +productIdParam : 0;
 
-    if (productId > 0) {
-      // 1. Încărcăm produsul pentru a afișa numele și a confirma
-      this.productService.getProduct(productId).subscribe({
-        next: (data) => {
-          this.product = data;
-        },
-        error: (err) => {
-          alert(`Eroare la încărcarea produsului: ${err.message}`);
-          this.router.navigate(['/products']);
-        }
-      });
-    } else {
-      alert('ID produs invalid!');
-      this.router.navigate(['/products']);
-    }
-  }
-
-  confirmDelete(): void {
-    if (!this.product.id) {
-      alert('Eroare: Produsul nu are un ID valid pentru ștergere.');
-      this.router.navigate(['/products']);
+    if (productId <= 0) {
+      this.errorMessage = 'ID produs invalid!';
+      this.isLoading = false;
+      setTimeout(() => this.router.navigate(['/products']), 2000);
       return;
     }
-    
-    this.productService.deleteProduct(this.product.id).subscribe({
-      next: () => {
-        alert(`Produsul "${this.product.name}" șters cu succes!`);
-        this.router.navigate(['/products']);
+
+    this.productService.getProduct(productId).subscribe({
+      next: (data) => {
+        this.product = data;
+        this.isLoading = false;
       },
       error: (err) => {
-        alert(`Eroare la ștergere: ${err.message}`);
+        this.errorMessage = this.getErrorMessage(err);
+        this.isLoading = false;
+        setTimeout(() => this.router.navigate(['/products']), 3000);
       }
     });
   }
-  backToList(): void {
+
+  confirmDelete(): void {
+    if (!this.product?.id) {
+      this.errorMessage = 'Produsul nu are un ID valid pentru ștergere.';
+      return;
+    }
+
+    const confirmation = confirm(
+      `Ești absolut sigur că vrei să ștergi produsul "${this.product.name}"?\n\n` +
+      `Această acțiune nu poate fi anulată!`
+    );
+
+    if (!confirmation) {
+      return;
+    }
+
+    this.isDeleting = true;
+    this.errorMessage = '';
+    
+    this.productService.deleteProduct(this.product.id).subscribe({
+      next: () => {
+        alert(`Produsul "${this.product!.name}" a fost șters cu succes!`);
+        this.router.navigate(['/products']);
+      },
+      error: (err) => {
+        this.errorMessage = this.getErrorMessage(err);
+        this.isDeleting = false;
+      }
+    });
+  }
+
+  cancelDelete(): void {
     this.router.navigate(['/products']);
+  }
+
+  private getErrorMessage(err: any): string {
+    if (err.status === 404) {
+      return 'Produsul nu a fost găsit în baza de date.';
+    } else if (err.status === 403) {
+      return 'Nu aveți permisiunea să ștergeți acest produs.';
+    } else if (err.status === 0) {
+      return 'Nu se poate conecta la server. Verificați conexiunea la internet.';
+    }
+    return err.message || 'A apărut o eroare neașteptată.';
   }
 }

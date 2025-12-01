@@ -36,25 +36,22 @@ import { DeleteProductComponent } from './components/delete-product/delete-produ
 const routes: Routes =[
 
   // Rute noi pentru vizualizare comenzii după dată
-  { path: 'search-orders-by-date', component: OrdersByDateComponent, canActivate:[AuthGuard] }, // Poți adăuga canActivate: [AuthGuard] dacă e doar pentru admini/useri logați
+  { path: 'search-orders-by-date', component: OrdersByDateComponent, canActivate:[AuthGuard] },
 
   // Ruta noua pentru paginile din footer
   { path: 'info/:type', component: InfoPageComponent },
   
-  // Rute noi pentru formular
-  {path: 'add-product', component: ProductFormComponent},
-  {path: 'edit-product/:id', component: ProductFormComponent},
+  // Rute Admin pentru gestionare produse
+  { path: 'admin/product-form', component: ProductFormComponent }, // Adăugare produs nou
+  { path: 'admin/product-form/:id', component: ProductFormComponent }, // Editare produs
+  { path: 'admin/delete-product/:id', component: DeleteProductComponent }, // Ștergere produs
+  
+  // Rute vechi pentru backward compatibility (redirectează către rute admin)
+  { path: 'add-product', redirectTo: 'admin/product-form', pathMatch: 'full' },
+  { path: 'edit-product/:id', redirectTo: 'admin/product-form/:id', pathMatch: 'full' },
 
   {path: 'order-history', component: OrderHistoryComponent, canActivate: [AuthGuard]},
   {path: 'members', component: MembersPageComponent,  canActivate: [AuthGuard] },
-  // RUTA NOUĂ PENTRU ȘTERGERE:
-  { path: 'admin/delete-product/:id', component: DeleteProductComponent }, 
-  
-  // RUTA DE EDITARE EXISTENTĂ (o păstrăm în ProductFormComponent)
-  { path: 'admin/product-form/:id', component: ProductFormComponent },
-  
-  // RUTA DE ADĂUGARE (fără ID)
-  { path: 'admin/product-form', component: ProductFormComponent },
 
   {path:'checkout', component: CheckoutComponent},
   {path: 'cart-details', component: CartDetailsComponent},

@@ -4,6 +4,7 @@ import { Product } from '../../common/product';
 import { ActivatedRoute } from '@angular/router';
 import { CartItem } from '../../common/cart-item';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-product-list',
@@ -24,13 +25,27 @@ export class ProductListComponent implements OnInit {
   theTotalElements: number=0;
 
   previousKeyword: string = "";
+  isAdmin: boolean = false;
+  readonly adminEmail: string = 'dinu_petre26@yahoo.ro';
   
 
   constructor(private productService:ProductService,
               private cartService: CartService,
-              private route:ActivatedRoute){}
+              private route:ActivatedRoute,
+              private auth: AuthService){}
 
   ngOnInit(): void {
+    // Verificăm dacă utilizatorul este admin
+    this.auth.user$.subscribe(
+      (profile) => {
+        if (profile && profile.email === this.adminEmail) {
+          this.isAdmin = true;
+        } else {
+          this.isAdmin = false;
+        }
+      }
+    );
+
     // Restaurăm pagina salvată doar la încărcarea inițială a componentei
     // Dacă categoria nu s-a schimbat, vom începe cu pagina salvată.
     // Dacă utilizatorul a navigat între timp, subscription-ul de mai jos va reseta oricum pagina dacă se schimbă ID-ul categoriei.
@@ -129,5 +144,45 @@ export class ProductListComponent implements OnInit {
     const theCartItem = new CartItem(theProduct);
 
     this.cartService.addToCart(theCartItem);
+   }
+
+   deleteProduct(product: Product): void {
+    if (!product.id) {
+      alert('Eroare: Produsul nu are un ID valid.');
+      return;
+    }
+
+    const confirmation = confirm(
+      `Ești absolut sigur că vrei să ștergi produsul "${product.name}"?\n\n` +
+      `Această acțiune nu poate fi anulată!`
+    );
+
+    if (!confirmation) {
+      return;
+    }
+
+    this.productService.deleteProduct(product.id).subscribe({
+      next: () => {
+        alert(`Produsul "${product.name}" a fost șters cu succes!`);
+        // Reîncărcăm lista de produse după ștergere
+        this.listProducts();
+      },
+      error: (err) => {
+        console.error('Eroare la ștergere:', err);
+        const errorMessage = this.getErrorMessage(err);
+        alert(`Eroare la ștergere: ${errorMessage}`);
+      }
+    });
+   }
+
+   private getErrorMessage(err: any): string {
+    if (err.status === 404) {
+      return 'Produsul nu a fost găsit în baza de date.';
+    } else if (err.status === 403) {
+      return 'Nu aveți permisiunea să ștergeți acest produs.';
+    } else if (err.status === 0) {
+      return 'Nu se poate conecta la server. Verificați conexiunea la internet.';
+    }
+    return err.message || 'A apărut o eroare neașteptată.';
    }
 }

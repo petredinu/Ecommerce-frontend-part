@@ -1,0 +1,64 @@
+/* Admin Actions Styling */
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    padding-top: 0.5rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.admin-actions .btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.admin-actions a.btn {
+    text-decoration: none;
+}
+
+.admin-actions .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000;
+}
+
+.admin-actions .btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(255, 193, 7, 0.4);
+}
+
+.admin-actions .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+.admin-actions .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.4);
+}
+
+.admin-actions i {
+    font-size: 0.9rem;
+}
+
+/* Product Box Enhancement for Admin View */
+.product-box {
+    position: relative;
+    transition: box-shadow 0.3s ease;
+}
+
+.product-box:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

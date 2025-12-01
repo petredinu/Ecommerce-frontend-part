@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, catchError, throwError } from 'rxjs';
 import { Product } from '../common/product';
 import { ProductCategory } from '../common/product-category';
 import { environment } from '../../environments/environment';
@@ -25,37 +25,57 @@ export class ProductService {
    
   constructor(private httpClient:HttpClient) {}
 
-  // Adaugă această metodă pentru a crea un produs nou
+  // Creează un produs nou
   saveProduct(product: Product): Observable<Product> {
-    return this.httpClient.post<Product>(this.baseUrl, product);
+    return this.httpClient.post<Product>(this.baseUrl, product).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  // Adaugă această metodă pentru a actualiza un produs existent
+  // Actualizează un produs existent
   updateProduct(product: Product): Observable<Product> {
-    // Presupunând că id-ul produsului este disponibil
     const updateUrl = `${this.baseUrl}/${product.id}`;
-    return this.httpClient.put<Product>(updateUrl, product);
+    return this.httpClient.put<Product>(updateUrl, product).pipe(
+      catchError(this.handleError)
+    );
   }
   
-  // Adaugă metoda pentru a șterge un produs (opțional, dar util)
+  // Șterge un produs
   deleteProduct(productId: number): Observable<any> {
-      const deleteUrl = `${this.baseUrl}/${productId}`;
-      return this.httpClient.delete(deleteUrl);
+    const deleteUrl = `${this.baseUrl}/${productId}`;
+    return this.httpClient.delete(deleteUrl, { responseType: 'text' }).pipe(
+      catchError(this.handleError)
+    );
   }
  
   getProduct(theProductId: number): Observable<Product> {
-
-    //need to build URL based on product id
     const productUrl= `${this.baseUrl}/${theProductId}`;
-
-    return this.httpClient.get<Product>(productUrl);
-    
+    return this.httpClient.get<Product>(productUrl).pipe(
+      catchError(this.handleError)
+    );
   }
-  // --- ADOUGĂ ACEASTĂ METODĂ ---
+
+  // Caută produs după nume
   getProductByName(name: string): Observable<Product> {
-    // Construim URL-ul pentru endpoint-ul creat în Java
     const searchUrl = `${this.baseUrl}/search/findByName?name=${name}`;
-    return this.httpClient.get<Product>(searchUrl);
+    return this.httpClient.get<Product>(searchUrl).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: any) {
+    let errorMessage = 'A apărut o eroare necunoscută!';
+    
+    if (error.error instanceof ErrorEvent) {
+      // Eroare client-side
+      errorMessage = `Eroare: ${error.error.message}`;
+    } else {
+      // Eroare server-side
+      errorMessage = `Cod eroare: ${error.status}\nMesaj: ${error.message}`;
+    }
+    
+    console.error('Eroare în ProductService:', errorMessage, error);
+    return throwError(() => error);
   }
   getProductListPaginate(thePage:number,
     thePageSize: number,

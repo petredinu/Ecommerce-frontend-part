@@ -15,11 +15,25 @@
 
                         <div class="price">{{ tempProduct.unitPrice | currency:'USD' }}</div>
                         <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
+                        
+                        <!-- Admin Actions -->
+                        <div *ngIf="isAdmin" class="admin-actions mt-2">
+                            <a [routerLink]="['/admin/product-form', tempProduct.id]" 
+                               class="btn btn-warning btn-sm me-1"
+                               title="Editează produsul">
+                                <i class="fas fa-edit"></i> Editează
+                            </a>
+                            <button (click)="deleteProduct(tempProduct)" 
+                                    class="btn btn-danger btn-sm"
+                                    title="Șterge produsul">
+                                <i class="fas fa-trash-alt"></i> Șterge
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
+            <div *ngIf="products.length == 0" class="alert alert-warning col-md-12" role="alert">
                 No products found.
             </div>
             <hr>
