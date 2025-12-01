@@ -39,7 +39,7 @@ export class ProductFormComponent implements OnInit {
     }
   }
   // --- METODĂ NOUĂ: Caută produsul când se schimbă SKU-ul ---
-  /*onNameChange() {
+  onNameChange() {
     if (this.product.name) {
       this.productService.getProductByName(this.product.name).subscribe({
         next: (data) => {
@@ -60,29 +60,9 @@ export class ProductFormComponent implements OnInit {
         }
       });
     }
-  }*/
+  }
 
-onDelete() {
-  
-  // Oprește execuția dacă ID-ul lipsește sau este invalid
-  if (!this.product.id || isNaN(+this.product.id)) { // Folosim +this.product.id pentru a-l forța la număr
-     alert('Eroare: ID-ul produsului nu este valid. Te rugăm să încarci un produs existent.');
-     console.error('Tentativă de ștergere a unui produs fără ID valid:', this.product);
-     return; 
-  }
-  
-  const productIdToDelete = this.product.id; 
 
-  if (confirm(`Ești sigur că vrei să ștergi produsul "${this.product.name}"?`)) {
-    this.productService.deleteProduct(productIdToDelete).subscribe({
-      next: () => {
-        alert('Produs șters cu succes!');
-        this.router.navigate(['/products']);
-      },
-      error: err => alert(`Eroare la ștergere: ${err.message}`)
-    });
-  }
-}
 
   onSubmit() {
     // Copiem produsul

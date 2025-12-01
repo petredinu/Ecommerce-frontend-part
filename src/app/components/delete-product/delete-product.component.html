@@ -1,0 +1,15 @@
+<div class="container text-center mt-5">
+      <div *ngIf="product.name">
+        <h2>Ștergerea produsului: **{{ product.name }}**</h2>
+        <p class="lead text-danger">Ești sigur că vrei să ștergi acest produs? Acțiunea este ireversibilă.</p>
+        <button class="btn btn-danger btn-lg" (click)="confirmDelete()">
+          CONFIRMĂ ȘTERGEREA
+        </button>
+      </div>
+      <div *ngIf="!product.name">
+        <p class="lead">Încărcare produs...</p>
+      </div>
+      <button class="btn btn-secondary mt-3" (click)="backToList()">
+        Anulează și Revino
+      </button>
+    </div>

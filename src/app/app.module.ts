@@ -28,6 +28,8 @@ import { ProductFormComponent } from './components/product-form/product-form.com
 import { OrdersByDateComponent } from './components/orders-by-date/orders-by-date.component';
 import { InfoPageComponent } from './components/info-page/info-page.component';
 import { environment } from '../environments/environment';
+import { DeleteProductComponent } from './components/delete-product/delete-product.component';
+
 
 
 
@@ -45,6 +47,14 @@ const routes: Routes =[
 
   {path: 'order-history', component: OrderHistoryComponent, canActivate: [AuthGuard]},
   {path: 'members', component: MembersPageComponent,  canActivate: [AuthGuard] },
+  // RUTA NOUĂ PENTRU ȘTERGERE:
+  { path: 'admin/delete-product/:id', component: DeleteProductComponent }, 
+  
+  // RUTA DE EDITARE EXISTENTĂ (o păstrăm în ProductFormComponent)
+  { path: 'admin/product-form/:id', component: ProductFormComponent },
+  
+  // RUTA DE ADĂUGARE (fără ID)
+  { path: 'admin/product-form', component: ProductFormComponent },
 
   {path:'checkout', component: CheckoutComponent},
   {path: 'cart-details', component: CartDetailsComponent},
@@ -72,7 +82,8 @@ const routes: Routes =[
     OrderHistoryComponent,
     ProductFormComponent,
     OrdersByDateComponent,
-    InfoPageComponent
+    InfoPageComponent,
+    DeleteProductComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

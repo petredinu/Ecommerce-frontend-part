@@ -69,13 +69,11 @@
 
         <div class="mt-3">
             <button type="submit" class="btn btn-primary me-2">Salvează</button>
-            
-            <button type="button" 
-                    class="btn btn-danger" 
-                    (click)="onDelete()" 
-                    *ngIf="isEditMode">
-                Șterge Produs
-            </button>
+         <a routerLink="/admin/delete-product/{{product.id}}" 
+   class="btn btn-danger" 
+   *ngIf="isEditMode && product.id">
+   Șterge Produs
+</a>   
             
             <a routerLink="/products" class="btn btn-link">Înapoi la listă</a>
         </div>
