@@ -4,6 +4,14 @@
       <h3>{{ isEditMode ? 'Editare Produs' : 'Adaugă Produs Nou' }}</h3>
       
       <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+        <div class="form-group">
+          <label>ID (Caută automat la introducere)</label>
+          <input type="text" 
+                 class="form-control" 
+                 [(ngModel)]="product.id"  
+                 name="id" 
+                 >
+        </div>
 
         <div class="form-group">
           <label>SKU (Caută automat la introducere)</label>
@@ -11,7 +19,6 @@
                  class="form-control" 
                  [(ngModel)]="product.sku"  
                  name="sku" 
-                 required 
                  >
         </div>
 
@@ -20,7 +27,7 @@
           <input type="text" 
           class="form-control" 
           [(ngModel)]="product.name"
-          (change)="onNameChange()" 
+          
            name="name" 
            required
            placeholder="Introdu Nume și apasă Enter pentru autocompletare">
