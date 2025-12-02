@@ -139,11 +139,11 @@ export class ProductReviewsComponent implements OnInit {
           this.resetForm();
           this.loadReviews();
           this.loadReviewStats();
-          alert('Review updated successfully!');
+          alert('Review actualizat cu succes!');
         },
         error: (error) => {
           this.isSubmitting = false;
-          this.errorMessage = 'Error updating review. Please try again.';
+          this.errorMessage = 'Eroare la actualizarea review-ului. Te rog încearcă din nou.';
           console.error('Error updating review:', error);
         }
       });
@@ -156,11 +156,11 @@ export class ProductReviewsComponent implements OnInit {
           this.resetForm();
           this.loadReviews();
           this.loadReviewStats();
-          alert('Review added successfully!');
+          alert('Review adăugat cu succes!');
         },
         error: (error) => {
           this.isSubmitting = false;
-          this.errorMessage = 'Error adding review. Please try again.';
+          this.errorMessage = 'Eroare la adăugarea review-ului. Te rog încearcă din nou.';
           console.error('Error adding review:', error);
         }
       });
@@ -169,15 +169,15 @@ export class ProductReviewsComponent implements OnInit {
 
   validateReview(): boolean {
     if (this.newReview.rating === 0) {
-      this.errorMessage = 'Please select a rating';
+      this.errorMessage = 'Te rog selectează un rating';
       return false;
     }
     if (!this.newReview.title.trim()) {
-      this.errorMessage = 'Please enter a review title';
+      this.errorMessage = 'Te rog introduce un titlu pentru review';
       return false;
     }
     if (!this.newReview.comment.trim()) {
-      this.errorMessage = 'Please enter a review comment';
+      this.errorMessage = 'Te rog scrie un comentariu pentru review';
       return false;
     }
     return true;

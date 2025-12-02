@@ -1,12 +1,12 @@
 <div class="product-reviews-container">
   <!-- Reviews Summary -->
   <div class="reviews-summary">
-    <h3>Customer Reviews</h3>
+    <h3>Review-uri Clienți</h3>
     <div class="summary-content">
       <div class="average-rating">
         <div class="rating-number">{{ averageRating | number:'1.1-1' }}</div>
         <app-star-rating [rating]="averageRating" [readonly]="true" [size]="'large'"></app-star-rating>
-        <div class="total-reviews">{{ totalReviews }} reviews</div>
+        <div class="total-reviews">{{ totalReviews }} review-uri</div>
       </div>
       
       <div class="rating-distribution">
@@ -26,21 +26,21 @@
     <button *ngIf="!showAddReviewForm && canUserReview" 
             class="btn btn-primary"
             (click)="toggleAddReviewForm()">
-      <i class="fas fa-plus"></i> Write a Review
+      <i class="fas fa-plus"></i> Scrie un Review
     </button>
     <button *ngIf="!showAddReviewForm && userExistingReview" 
             class="btn btn-warning"
             (click)="toggleAddReviewForm()">
-      <i class="fas fa-edit"></i> Edit Your Review
+      <i class="fas fa-edit"></i> Editează Review-ul Tău
     </button>
     <p *ngIf="!canUserReview && !userExistingReview" class="text-muted">
-      You need to purchase this product to write a review.
+      Trebuie să cumperi acest produs pentru a scrie un review.
     </p>
   </div>
 
   <!-- Add/Edit Review Form -->
   <div class="add-review-form" *ngIf="showAddReviewForm">
-    <h4>{{ userExistingReview ? 'Edit Your Review' : 'Write a Review' }}</h4>
+    <h4>{{ userExistingReview ? 'Editează Review-ul Tău' : 'Scrie un Review' }}</h4>
     
     <div class="form-group">
       <label>Rating *</label>
@@ -55,7 +55,7 @@
       <input type="text" 
              class="form-control" 
              [(ngModel)]="newReview.title" 
-             placeholder="Sum up your experience"
+             placeholder="Rezumă experiența ta"
              maxlength="100">
     </div>
     
@@ -64,7 +64,7 @@
       <textarea class="form-control" 
                 [(ngModel)]="newReview.comment" 
                 rows="5" 
-                placeholder="Tell us about your experience with this product"
+                placeholder="Spune-ne despre experiența ta cu acest produs"
                 maxlength="500"></textarea>
       <small class="text-muted">{{ newReview.comment.length }}/500</small>
     </div>
@@ -77,13 +77,13 @@
       <button class="btn btn-primary" 
               (click)="submitReview()" 
               [disabled]="isSubmitting">
-        <span *ngIf="!isSubmitting">{{ userExistingReview ? 'Update Review' : 'Submit Review' }}</span>
-        <span *ngIf="isSubmitting">Submitting...</span>
+        <span *ngIf="!isSubmitting">{{ userExistingReview ? 'Actualizează Review' : 'Trimite Review' }}</span>
+        <span *ngIf="isSubmitting">Se trimite...</span>
       </button>
       <button class="btn btn-secondary" 
               (click)="toggleAddReviewForm()" 
               [disabled]="isSubmitting">
-        Cancel
+        Anulează
       </button>
     </div>
   </div>
@@ -95,7 +95,7 @@
     </div>
     
     <div *ngIf="!isLoading && reviews.length === 0" class="no-reviews">
-      <p>No reviews yet. Be the first to review this product!</p>
+      <p>Niciun review încă. Fii primul care scrie un review pentru acest produs!</p>
     </div>
     
     <div *ngIf="!isLoading && reviews.length > 0">
@@ -126,7 +126,7 @@
         
         <div class="review-footer">
           <button class="btn btn-sm btn-link helpful-btn" (click)="markHelpful(review.id)">
-            <i class="fas fa-thumbs-up"></i> Helpful ({{ review.helpfulCount }})
+            <i class="fas fa-thumbs-up"></i> Util ({{ review.helpfulCount }})
           </button>
         </div>
       </div>

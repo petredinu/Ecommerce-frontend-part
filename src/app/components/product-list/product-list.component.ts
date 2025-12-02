@@ -135,19 +135,26 @@ export class ProductListComponent implements OnInit {
    
    processResult(){
     return(data: any) =>{
-      this.products = data._embedded.products;
-      this.thePageNumber= data.page.number + 1;
-      this.thePageSize = data.page.size;
-      this.theTotalElements = data.page.totalElements;
+      // Verificăm dacă răspunsul are structura corectă
+      if (data && data._embedded && data._embedded.products) {
+        this.products = data._embedded.products;
+        this.thePageNumber= data.page.number + 1;
+        this.thePageSize = data.page.size;
+        this.theTotalElements = data.page.totalElements;
 
-      // --- MODIFICARE: Salvăm starea în serviciu pentru a o avea la revenire ---
-      this.productService.thePageNumber = this.thePageNumber;
-      this.productService.thePageSize = this.thePageSize;
-      this.productService.theTotalElements = this.theTotalElements;
-      // ------------------------------------------------------------------------
-      
-      // SEO: Update meta tags based on category or search
-      this.updateSEO();
+        // --- MODIFICARE: Salvăm starea în serviciu pentru a o avea la revenire ---
+        this.productService.thePageNumber = this.thePageNumber;
+        this.productService.thePageSize = this.thePageSize;
+        this.productService.theTotalElements = this.theTotalElements;
+        // ------------------------------------------------------------------------
+        
+        // SEO: Update meta tags based on category or search
+        this.updateSEO();
+      } else {
+        console.error('Răspuns invalid de la server în processResult:', data);
+        this.products = [];
+        this.theTotalElements = 0;
+      }
     };
    }
    
@@ -275,11 +282,25 @@ export class ProductListComponent implements OnInit {
       this.thePageNumber - 1,
       this.thePageSize,
       this.currentFilters.sortBy
-    ).subscribe(data => {
-      this.products = data.content;
-      this.thePageNumber = data.number + 1;
-      this.thePageSize = data.size;
-      this.theTotalElements = data.totalElements;
+    ).subscribe({
+      next: (data) => {
+        // Verificăm dacă răspunsul are structura corectă
+        if (data && data._embedded && data._embedded.products) {
+          this.products = data._embedded.products;
+          this.thePageNumber = data.page.number + 1;
+          this.thePageSize = data.page.size;
+          this.theTotalElements = data.page.totalElements;
+        } else {
+          console.error('Răspuns invalid de la server:', data);
+          this.products = [];
+          this.theTotalElements = 0;
+        }
+      },
+      error: (err) => {
+        console.error('Eroare la aplicarea filtrelor:', err);
+        this.products = [];
+        this.theTotalElements = 0;
+      }
     });
   }
 }

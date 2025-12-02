@@ -7,6 +7,7 @@ import { Luv2ShopValidators } from '../../validators/luv2-shop-validators';
 import { CartService } from '../../services/cart.service';
 import { CheckoutService } from '../../services/checkout.service';
 import { ShippingService } from '../../services/shipping.service';
+import { PromoCodeService } from '../../services/promo-code.service';
 import { Route, Router } from '@angular/router';
 import { Order } from '../../common/order';
 import { OrderItem } from '../../common/order-item';
@@ -32,6 +33,13 @@ export class CheckoutComponent implements OnInit {
   shippingCost: number = 0;
   totalWithShipping: number = 0;
 
+  // Promo Code
+  promoCode: string = '';
+  appliedPromoCode: string = '';
+  discount: number = 0;
+  promoCodeMessage: string = '';
+  isApplyingPromoCode: boolean = false;
+
   checkoutFormGroup!: FormGroup<any>;
 
   creditCardYears: number[] = [];
@@ -49,6 +57,7 @@ export class CheckoutComponent implements OnInit {
               private cartService: CartService,
               private checkoutService: CheckoutService,
               private shippingService: ShippingService,
+              private promoCodeService: PromoCodeService,
               private router: Router) {}
 
  ngOnInit(): void {
@@ -221,7 +230,7 @@ export class CheckoutComponent implements OnInit {
     }
     // set up order
     let order = new Order();
-    order.totalPrice = this.totalPrice;
+    order.totalPrice = this.getFinalTotal(); // Use final total with discount
     order.totalQuantity = this.totalQuantity;
 
     // --- MODIFICARE AICI: Setam metoda de plata in obiectul Order ---
@@ -267,17 +276,34 @@ export class CheckoutComponent implements OnInit {
     purchase.order= order;
     purchase.orderItems = orderItems;
 
+    // Add promo code to purchase if applied
+    if (this.appliedPromoCode) {
+      purchase.promoCode = this.appliedPromoCode;
+    }
+
     // call REST API via the CheckoutService
     this.checkoutService.placeOrder(purchase).subscribe(
       {
         next: response => {
-          alert(`Your order has been received. \nOrder tracking number: ${response.orderTrackingNumber}`);
+          // Increment promo code usage count after successful order
+          if (this.appliedPromoCode) {
+            this.promoCodeService.applyPromoCode(this.appliedPromoCode).subscribe({
+              next: () => {
+                console.log('Promo code usage incremented:', this.appliedPromoCode);
+              },
+              error: (err) => {
+                console.error('Error incrementing promo code usage:', err);
+              }
+            });
+          }
+
+          alert(`Comanda ta a fost primită. \nNumăr tracking comandă: ${response.orderTrackingNumber}`);
            
           // reset cart
           this.resetCart();
         },
         error: err => {
-          alert(`There was an error: ${err.message}`);
+          alert(`A apărut o eroare: ${err.message}`);
         }
       }
     );
@@ -398,6 +424,58 @@ export class CheckoutComponent implements OnInit {
         this.totalWithShipping = this.totalPrice + this.shippingCost;
       }
     });
+  }
+
+  // PROMO CODE METHODS
+  applyPromoCode() {
+    if (!this.promoCode || this.promoCode.trim() === '') {
+      this.promoCodeMessage = 'Te rog introdu un cod promoțional';
+      return;
+    }
+
+    this.isApplyingPromoCode = true;
+    this.promoCodeMessage = '';
+
+    const orderTotal = this.totalPrice + this.shippingCost;
+
+    this.promoCodeService.validatePromoCode(this.promoCode.toUpperCase(), orderTotal).subscribe({
+      next: (response) => {
+        if (response.valid) {
+          this.appliedPromoCode = this.promoCode.toUpperCase();
+          this.discount = response.discountAmount;
+          this.promoCodeMessage = `✓ ${response.message}`;
+          this.recalculateTotal();
+        } else {
+          this.promoCodeMessage = `✗ ${response.message}`;
+          this.discount = 0;
+          this.appliedPromoCode = '';
+        }
+        this.isApplyingPromoCode = false;
+      },
+      error: (err) => {
+        console.error('Eroare la validarea codului:', err);
+        this.promoCodeMessage = '✗ Eroare la validarea codului promoțional';
+        this.discount = 0;
+        this.appliedPromoCode = '';
+        this.isApplyingPromoCode = false;
+      }
+    });
+  }
+
+  removePromoCode() {
+    this.promoCode = '';
+    this.appliedPromoCode = '';
+    this.discount = 0;
+    this.promoCodeMessage = '';
+    this.recalculateTotal();
+  }
+
+  recalculateTotal() {
+    this.totalWithShipping = this.totalPrice + this.shippingCost - this.discount;
+  }
+
+  getFinalTotal(): number {
+    return Math.max(0, this.totalPrice + this.shippingCost - this.discount);
   }
 
 }

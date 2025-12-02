@@ -1,16 +1,16 @@
 <div class="login-status-header">
 
-    <div *ngIf="isAuthenticated" class="login-status-user-info">
-        Welcome back {{ userEmail }}!
+    <div *ngIf="isAuthenticated" class="login-status-user-info d-none d-lg-block">
+        {{ 'header.welcome' | translate }} {{ userEmail }}!
     </div>
 
-     <button *ngIf="!isAuthenticated" (click)="login()" class="security-btn">Login</button>
+     <button *ngIf="!isAuthenticated" (click)="login()" class="security-btn">{{ 'header.login' | translate }}</button>
 
-    <button *ngIf="isAuthenticated" (click)="logout()" class="security-btn">Logout</button>
+    <button *ngIf="isAuthenticated" (click)="logout()" class="security-btn">{{ 'header.logout' | translate }}</button>
 
-    <button *ngIf="isAuthenticated" routerLink="/members" class="security-btn ml-1">Member</button>
+    <button *ngIf="isAuthenticated" routerLink="/members" class="security-btn ml-1">{{ 'header.profile' | translate }}</button>
 
-    <button *ngIf="isAuthenticated" routerLink="/order-history" class="security-btn ms-1">Orders</button>
+    <button *ngIf="isAuthenticated" routerLink="/order-history" class="security-btn ms-1">{{ 'header.orders' | translate }}</button>
 
     
 </div>

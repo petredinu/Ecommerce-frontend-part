@@ -21,12 +21,16 @@
           <div class="header-wrap d-flex align-items-center justify-content-between">
             
             <button class="hamburger-btn d-lg-none mr-3" (click)="toggleMobileMenu()">
-              <i class="fas fa-bars"></i> &#9776; </button>
-<div class="header-icons d-flex align-items-center ml-3">
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+            
             <app-search class="flex-grow-1"></app-search>
-</div>
+            
             <div class="header-icons d-flex align-items-center ml-3">
               <app-login-status></app-login-status>
+              <app-language-switcher class="ml-2"></app-language-switcher>
               <app-cart-status class="ml-2"></app-cart-status>
             </div>
 
@@ -45,13 +49,13 @@
   <div class="footer-container">
     <!-- Secțiunea Newsletter -->
     <div class="footer-section newsletter-section">
-      <h3>STAY CONNECTED</h3>
-      <p>Subscribe to get special offers and exclusive deals</p>
+      <h3>RĂMÂI CONECTAT</h3>
+      <p>Abonează-te pentru oferte speciale și dealuri exclusive</p>
       <div class="newsletter-form">
         <input 
           type="email" 
           [(ngModel)]="newsletterEmail" 
-          placeholder="Enter your email address"
+          placeholder="Introdu adresa ta de email"
           class="newsletter-input"
           [disabled]="isSubscribing"
           (keyup.enter)="subscribeToNewsletter()"
@@ -62,7 +66,7 @@
           [disabled]="isSubscribing"
         >
           <i class="fas" [ngClass]="isSubscribing ? 'fa-spinner fa-spin' : 'fa-envelope'"></i> 
-          {{ isSubscribing ? 'SUBSCRIBING...' : 'SUBSCRIBE' }}
+          {{ isSubscribing ? 'SE ABONEAZĂ...' : 'ABONEAZĂ-TE' }}
         </button>
       </div>
       <div *ngIf="subscriptionMessage" class="subscription-success">

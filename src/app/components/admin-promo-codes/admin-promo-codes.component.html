@@ -32,7 +32,7 @@
           <input type="number" formControlName="discountValue" class="form-control">
         </div>
         <div class="form-group">
-          <label>Comandă Min ($)</label>
+          <label>Comandă Min (Lei)</label>
           <input type="number" formControlName="minOrderValue" class="form-control">
         </div>
       </div>
@@ -68,7 +68,7 @@
         <span class="badge" [class.badge-active]="promoCode.active">{{ promoCode.active ? 'Activ' : 'Inactiv' }}</span>
       </div>
       <div class="card-body">
-        <p><i class="fas fa-percentage"></i> {{ promoCode.discountType === 'PERCENTAGE' ? promoCode.discountValue + '%' : '$' + promoCode.discountValue }}</p>
+        <p><i class="fas fa-percentage"></i> {{ promoCode.discountType === 'PERCENTAGE' ? promoCode.discountValue + '%' : promoCode.discountValue + ' Lei' }}</p>
         <p *ngIf="promoCode.expiryDate"><i class="fas fa-calendar"></i> {{ promoCode.expiryDate | date:'dd MMM yyyy' }}</p>
         <p>{{ promoCode.usedCount }} / {{ promoCode.usageLimit || '∞' }}</p>
       </div>

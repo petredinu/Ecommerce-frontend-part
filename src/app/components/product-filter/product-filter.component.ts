@@ -20,7 +20,7 @@ export class ProductFilterComponent implements OnInit {
   @Output() filtersChanged = new EventEmitter<ProductFilters>();
   
   filterForm!: FormGroup;
-  showFilters = true;
+  showFilters = false;
 
   sortOptions = [
     { value: 'id,asc', label: 'Implicit' },

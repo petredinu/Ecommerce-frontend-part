@@ -1,0 +1,81 @@
+<div class="price-alerts-container">
+  <div class="container-fluid">
+    <div class="page-header">
+      <h1><i class="fas fa-bell"></i> Alertele Mele de Preț</h1>
+      <p class="subtitle">Gestionează alertele tale de preț și primește notificări automate</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-section">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Se încarcă...</span>
+      </div>
+      <p class="mt-3">Se încarcă alertele tale...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && priceAlerts.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-bell-slash"></i>
+      </div>
+      <h3>Nu ai alerte de preț active</h3>
+      <p>Setează o alertă de preț pe un produs și vei fi notificat automat când prețul scade!</p>
+      <button class="btn btn-primary mt-3" routerLink="/products">
+        <i class="fas fa-shopping-bag"></i> Explorează Produsele
+      </button>
+    </div>
+
+    <!-- Price Alerts List -->
+    <div *ngIf="!isLoading && priceAlerts.length > 0" class="alerts-grid">
+      <div class="alert-card" *ngFor="let alert of priceAlerts">
+        <div class="alert-status" [ngClass]="getStatusClass(alert)">
+          {{ getStatusText(alert) }}
+        </div>
+
+        <div class="product-image-section">
+          <img [src]="alert.product.imageUrl" 
+               [alt]="alert.product.name"
+               class="product-img"
+               (click)="viewProduct(alert.product.id)">
+        </div>
+
+        <div class="alert-info">
+          <h4 class="product-name" (click)="viewProduct(alert.product.id)">
+            {{ alert.product.name }}
+          </h4>
+
+          <div class="price-info-grid">
+            <div class="price-box">
+              <label>Preț Curent</label>
+              <div class="price-value current">{{ alert.product.unitPrice | number:'1.2-2' }} Lei</div>
+            </div>
+            <div class="price-box">
+              <label>Preț Țintă</label>
+              <div class="price-value target">{{ alert.targetPrice | number:'1.2-2' }} Lei</div>
+            </div>
+          </div>
+
+          <div class="alert-details">
+            <div class="detail-item">
+              <i class="fas fa-calendar-plus"></i>
+              <span>Creat: {{ alert.dateCreated | date:'dd MMM yyyy' }}</span>
+            </div>
+            <div class="detail-item" *ngIf="alert.notifiedDate">
+              <i class="fas fa-check-circle"></i>
+              <span>Notificat: {{ alert.notifiedDate | date:'dd MMM yyyy' }}</span>
+            </div>
+          </div>
+
+          <div class="alert-actions">
+            <button class="btn btn-sm btn-primary" (click)="viewProduct(alert.product.id)">
+              <i class="fas fa-eye"></i> Vezi Produs
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteAlert(alert.id)">
+              <i class="fas fa-trash"></i> Șterge
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

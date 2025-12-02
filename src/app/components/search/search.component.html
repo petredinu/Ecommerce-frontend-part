@@ -1,10 +1,10 @@
 <div class="form-header">
     <input #myInput type="text"
-    placeholder="Search for products ..."
+    [placeholder]="'header.search.placeholder' | translate"
     class="au-input au-input-xl"
     (keyup.enter)="doShearch(myInput.value)" />
     
     <button (click)="doShearch(myInput.value)" class="btn btn-outline-success" >
-        Search
+        {{ 'header.search.button' | translate }}
     </button>
 </div>

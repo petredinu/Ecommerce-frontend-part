@@ -2,17 +2,17 @@
   <div class="container-fluid mt-4">
     <div class="row mb-4">
       <div class="col-12">
-        <h2><i class="fas fa-heart"></i> My Wishlist</h2>
+        <h2><i class="fas fa-heart"></i> Lista Mea de Dorințe</h2>
       </div>
     </div>
 
     <!-- Empty Wishlist -->
     <div *ngIf="wishlistItems.length === 0" class="empty-wishlist">
       <i class="fas fa-heart-broken fa-5x mb-3"></i>
-      <h3>Your wishlist is empty</h3>
-      <p>Start adding products you love!</p>
+      <h3>Lista ta de dorințe este goală</h3>
+      <p>Începe să adaugi produsele pe care le iubești!</p>
       <a routerLink="/products" class="btn btn-primary">
-        <i class="fas fa-shopping-bag"></i> Continue Shopping
+        <i class="fas fa-shopping-bag"></i> Continuă Cumpărăturile
       </a>
     </div>
 
@@ -21,7 +21,7 @@
       <div class="row mb-3">
         <div class="col-12 text-end">
           <button class="btn btn-sm btn-outline-danger" (click)="clearWishlist()">
-            <i class="fas fa-trash"></i> Clear Wishlist
+            <i class="fas fa-trash"></i> Golește Wishlist
           </button>
         </div>
       </div>
@@ -42,27 +42,27 @@
             
             <div class="product-info">
               <h5 (click)="viewProduct(item.product.id)">{{ item.product.name }}</h5>
-              <p class="price">{{ item.product.unitPrice | currency:'USD' }}</p>
+              <p class="price">{{ item.product.unitPrice | number:'1.2-2' }} Lei</p>
               
               <div *ngIf="item.product.unitsInStock > 0" class="stock-status in-stock">
-                <i class="fas fa-check-circle"></i> In Stock
+                <i class="fas fa-check-circle"></i> În Stoc
               </div>
               <div *ngIf="item.product.unitsInStock === 0" class="stock-status out-of-stock">
-                <i class="fas fa-times-circle"></i> Out of Stock
+                <i class="fas fa-times-circle"></i> Stoc Epuizat
               </div>
               
-              <p class="date-added">Added: {{ item.dateAdded | date:'short' }}</p>
+              <p class="date-added">Adăugat: {{ item.dateAdded | date:'short' }}</p>
             </div>
             
             <div class="card-actions">
               <button class="btn btn-primary btn-sm w-100 mb-2" 
                       (click)="moveToCart(item)"
                       [disabled]="item.product.unitsInStock === 0">
-                <i class="fas fa-shopping-cart"></i> Move to Cart
+                <i class="fas fa-shopping-cart"></i> Mută în Coș
               </button>
               <button class="btn btn-outline-primary btn-sm w-100" 
                       (click)="viewProduct(item.product.id)">
-                <i class="fas fa-eye"></i> View Details
+                <i class="fas fa-eye"></i> Vezi Detalii
               </button>
             </div>
           </div>

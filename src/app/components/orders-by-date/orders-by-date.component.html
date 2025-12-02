@@ -46,7 +46,7 @@
               </div>
               <div class="col-md-3 text-right">
                 <small class="text-muted text-light">Total Comandă</small><br>
-                <strong style="font-size: 1.2em;">{{ tempOrder.totalPrice | currency: 'USD' }}</strong>
+                <strong style="font-size: 1.2em;">{{ tempOrder.totalPrice | number:'1.2-2' }} Lei</strong>
               </div>
             </div>
           </div>
@@ -105,10 +105,10 @@
                     <td class="align-middle">
                       <strong>{{ item.name }}</strong>
                     </td>
-                    <td class="align-middle text-right">{{ item.unitPrice | currency: 'USD' }}</td>
+                    <td class="align-middle text-right">{{ item.unitPrice | number:'1.2-2' }} Lei</td>
                     <td class="align-middle text-center">{{ item.quantity }}</td>
                     <td class="align-middle text-right font-weight-bold">
-                      {{ (item.unitPrice * item.quantity) | currency: 'USD' }}
+                      {{ (item.unitPrice * item.quantity) | number:'1.2-2' }} Lei
                     </td>
                   </tr>
                 </tbody>

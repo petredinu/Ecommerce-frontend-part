@@ -1,15 +1,15 @@
 <div class="admin-dashboard-container">
   <!-- Header -->
   <div class="dashboard-header">
-    <h1><i class="fas fa-chart-line"></i> Admin Dashboard & Analytics</h1>
+    <h1><i class="fas fa-chart-line"></i> Panou de Administrare & Analiză</h1>
     <div class="header-actions">
       <button class="btn-refresh" (click)="refreshData()" [disabled]="isLoadingStats">
         <i class="fas" [ngClass]="isLoadingStats ? 'fa-spinner fa-spin' : 'fa-sync-alt'"></i>
-        Refresh
+        Actualizează
       </button>
       <button class="btn-export" (click)="exportData()">
         <i class="fas fa-download"></i>
-        Export CSV
+        Exportă CSV
       </button>
     </div>
   </div>
@@ -24,11 +24,11 @@
   <div class="stats-grid">
     <div class="stat-card" *ngIf="!isLoadingStats && dashboardStats">
       <div class="stat-icon revenue">
-        <i class="fas fa-dollar-sign"></i>
+        <i class="fas fa-money-bill-wave"></i>
       </div>
       <div class="stat-content">
-        <h3>Total Revenue</h3>
-        <p class="stat-value">${{ dashboardStats.totalRevenue | number:'1.2-2' }}</p>
+        <h3>Venit Total</h3>
+        <p class="stat-value">{{ dashboardStats.totalRevenue | number:'1.2-2' }} Lei</p>
       </div>
     </div>
 
@@ -37,7 +37,7 @@
         <i class="fas fa-shopping-cart"></i>
       </div>
       <div class="stat-content">
-        <h3>Total Orders</h3>
+        <h3>Total Comenzi</h3>
         <p class="stat-value">{{ dashboardStats.totalOrders | number }}</p>
       </div>
     </div>
@@ -47,7 +47,7 @@
         <i class="fas fa-users"></i>
       </div>
       <div class="stat-content">
-        <h3>Total Customers</h3>
+        <h3>Total Clienți</h3>
         <p class="stat-value">{{ dashboardStats.totalCustomers | number }}</p>
       </div>
     </div>
@@ -57,8 +57,8 @@
         <i class="fas fa-receipt"></i>
       </div>
       <div class="stat-content">
-        <h3>Avg Order Value</h3>
-        <p class="stat-value">${{ dashboardStats.averageOrderValue | number:'1.2-2' }}</p>
+        <h3>Valoare Medie Comandă</h3>
+        <p class="stat-value">{{ dashboardStats.averageOrderValue | number:'1.2-2' }} Lei</p>
       </div>
     </div>
 
@@ -67,7 +67,7 @@
         <i class="fas fa-chart-pie"></i>
       </div>
       <div class="stat-content">
-        <h3>Conversion Rate</h3>
+        <h3>Rată de Conversie</h3>
         <p class="stat-value">{{ dashboardStats.conversionRate | number:'1.2-2' }}%</p>
       </div>
     </div>
@@ -77,9 +77,9 @@
         <i class="fas fa-user-check"></i>
       </div>
       <div class="stat-content">
-        <h3>Active Users</h3>
+        <h3>Utilizatori Activi</h3>
         <p class="stat-value">{{ dashboardStats.activeUsers | number }}</p>
-        <span class="stat-subtitle">+{{ dashboardStats.newUsersToday }} today</span>
+        <span class="stat-subtitle">+{{ dashboardStats.newUsersToday }} astăzi</span>
       </div>
     </div>
 
@@ -98,25 +98,25 @@
     <!-- Sales Chart -->
     <div class="chart-container">
       <div class="chart-header">
-        <h2><i class="fas fa-chart-area"></i> Sales Overview</h2>
+        <h2><i class="fas fa-chart-area"></i> Prezentare Generală Vânzări</h2>
         <div class="period-selector">
           <button 
             class="period-btn" 
             [class.active]="selectedPeriod === 'daily'"
             (click)="onPeriodChange('daily')">
-            30 Days
+            30 Zile
           </button>
           <button 
             class="period-btn" 
             [class.active]="selectedPeriod === 'weekly'"
             (click)="onPeriodChange('weekly')">
-            90 Days
+            90 Zile
           </button>
           <button 
             class="period-btn" 
             [class.active]="selectedPeriod === 'monthly'"
             (click)="onPeriodChange('monthly')">
-            12 Months
+            12 Luni
           </button>
         </div>
       </div>
@@ -129,14 +129,14 @@
       </div>
       <div class="chart-loading" *ngIf="isLoadingCharts">
         <i class="fas fa-spinner fa-spin"></i>
-        <p>Loading sales data...</p>
+        <p>Se încarcă datele de vânzări...</p>
       </div>
     </div>
 
     <!-- Category Sales Pie Chart -->
     <div class="chart-container small">
       <div class="chart-header">
-        <h2><i class="fas fa-chart-pie"></i> Sales by Category</h2>
+        <h2><i class="fas fa-chart-pie"></i> Vânzări pe Categorii</h2>
       </div>
       <div class="chart-body" *ngIf="!isLoadingCharts && categorySales.length > 0">
         <canvas baseChart
@@ -147,7 +147,7 @@
       </div>
       <div class="chart-loading" *ngIf="isLoadingCharts">
         <i class="fas fa-spinner fa-spin"></i>
-        <p>Loading category data...</p>
+        <p>Se încarcă datele de categorii...</p>
       </div>
     </div>
   </div>
@@ -155,7 +155,7 @@
   <!-- Top Products Table -->
   <div class="top-products-section">
     <div class="section-header">
-      <h2><i class="fas fa-trophy"></i> Top 10 Best Selling Products</h2>
+      <h2><i class="fas fa-trophy"></i> Top 10 Produse Cele Mai Vândute</h2>
     </div>
     
     <div class="table-container" *ngIf="!isLoadingProducts && topProducts.length > 0">
@@ -163,10 +163,10 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Product</th>
-            <th>Category</th>
-            <th>Units Sold</th>
-            <th>Revenue</th>
+            <th>Produs</th>
+            <th>Categorie</th>
+            <th>Unități Vândute</th>
+            <th>Venit</th>
           </tr>
         </thead>
         <tbody>
@@ -182,7 +182,7 @@
             </td>
             <td>{{ product.category }}</td>
             <td class="text-center">{{ product.unitsSold | number }}</td>
-            <td class="revenue">${{ product.revenue | number:'1.2-2' }}</td>
+            <td class="revenue">{{ product.revenue | number:'1.2-2' }} Lei</td>
           </tr>
         </tbody>
       </table>
@@ -190,34 +190,34 @@
 
     <div class="no-data" *ngIf="!isLoadingProducts && topProducts.length === 0">
       <i class="fas fa-inbox"></i>
-      <p>No sales data available yet</p>
+      <p>Nu există încă date de vânzări</p>
     </div>
 
     <div class="loading-spinner" *ngIf="isLoadingProducts">
       <i class="fas fa-spinner fa-spin"></i>
-      <p>Loading top products...</p>
+      <p>Se încarcă produsele top...</p>
     </div>
   </div>
 
   <!-- Quick Links -->
   <div class="quick-links">
-    <h2><i class="fas fa-link"></i> Quick Actions</h2>
+    <h2><i class="fas fa-link"></i> Acțiuni Rapide</h2>
     <div class="links-grid">
       <a routerLink="/admin/products" class="quick-link-card">
         <i class="fas fa-box"></i>
-        <span>Manage Products</span>
+        <span>Gestionează Produse</span>
       </a>
       <a routerLink="/admin/stock-alerts" class="quick-link-card">
         <i class="fas fa-exclamation-triangle"></i>
-        <span>Stock Alerts</span>
+        <span>Alerte Stoc</span>
       </a>
       <a routerLink="/search-orders-by-date" class="quick-link-card">
         <i class="fas fa-calendar-alt"></i>
-        <span>View Orders</span>
+        <span>Vezi Comenzi</span>
       </a>
       <a routerLink="/admin/product-form" class="quick-link-card">
         <i class="fas fa-plus-circle"></i>
-        <span>Add New Product</span>
+        <span>Adaugă Produs Nou</span>
       </a>
     </div>
   </div>

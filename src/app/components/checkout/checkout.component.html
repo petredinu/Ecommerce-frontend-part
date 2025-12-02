@@ -3,9 +3,9 @@
         <div class="container-fluid">
             <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
                 <div formGroupName="customer" class="form-area">
-                    <h3>Customer</h3>
+                    <h3>Date Client</h3>
                     <div class="row">
-                        <div class="col-md-2"><label>First Name</label></div>
+                        <div class="col-md-2"><label>Prenume</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="firstName" type="text">
@@ -13,17 +13,17 @@
                                     class="alert alert-danger mt-1">
                                     <div
                                         *ngIf="firstName?.errors?.['required'] || firstName?.errors?.['notOnlyWhitespace']">
-                                        First Name is required
+                                        Prenumele este obligatoriu
                                     </div>
                                     <div *ngIf="firstName?.errors?.['minlength']">
-                                        First Name must be at least 2 characters long
+                                        Prenumele trebuie să aibă minim 2 caractere
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>Last Name</label></div>
+                        <div class="col-md-2"><label>Nume</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="lastName" type="text">
@@ -31,10 +31,10 @@
                                     class="alert alert-danger mt-1">
                                     <div
                                         *ngIf="lastName?.errors?.['required'] || lastName?.errors?.['notOnlyWhitespace']">
-                                        Last Name is required
+                                        Numele este obligatoriu
                                     </div>
                                     <div *ngIf="lastName?.errors?.['minlength']">
-                                        Last Name must be at least 2 characters long
+                                        Numele trebuie să aibă minim 2 caractere
                                     </div>
                                 </div>
                             </div>
@@ -48,10 +48,10 @@
                                 <div *ngIf="email?.invalid && (email?.dirty || email?.touched)"
                                     class="alert alert-danger mt-1">
                                     <div *ngIf="email?.errors?.['required']">
-                                        Email is required
+                                        Email-ul este obligatoriu
                                     </div>
                                     <div *ngIf="email?.errors?.['pattern']">
-                                        Email must be a valid email address format
+                                        Email-ul trebuie să aibă un format valid
                                     </div>
                                 </div>
                             </div>
@@ -60,9 +60,9 @@
                 </div>
                 <!-- shipping Address-->
                 <div formGroupName="shippingAddress" class="form-area">
-                    <h3>Shipping Address</h3>
+                    <h3>Adresă Livrare</h3>
                     <div class="row">
-                        <div class="col-md-2"><label>Country</label></div>
+                        <div class="col-md-2"><label>Țară</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="country" (change)="getStates('shippingAddress')">
@@ -73,14 +73,14 @@
                                 <div *ngIf="shippingAddressCountry?.invalid && (shippingAddressCountry?.dirty || shippingAddressCountry?.touched)"
                                     class="alert alert-danger mt-1">
                                     <div *ngIf="shippingAddressCountry?.errors?.['required']">
-                                        Country is required
+                                        Țara este obligatorie
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>Street</label></div>
+                        <div class="col-md-2"><label>Stradă</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="street" type="text">
@@ -88,17 +88,17 @@
                                     class="alert alert-danger mt-1">
                                     <div
                                         *ngIf="shippingAddressStreet?.errors?.['required'] || shippingAddressStreet?.errors?.['notOnlyWhitespace']">
-                                        Street is required
+                                        Strada este obligatorie
                                     </div>
                                     <div *ngIf="shippingAddressStreet?.errors?.['minlength']">
-                                        Street must be at least 2 characters long
+                                        Strada trebuie să aibă minim 2 caractere
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>City</label></div>
+                        <div class="col-md-2"><label>Oraș</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="city" type="text">
@@ -106,17 +106,17 @@
                                     class="alert alert-danger mt-1">
                                     <div
                                         *ngIf="shippingAddressCity?.errors?.['required'] || shippingAddressCity?.errors?.['notOnlyWhitespace']">
-                                        City is required
+                                        Orașul este obligatoriu
                                     </div>
                                     <div *ngIf="shippingAddressCity?.errors?.['minlength']">
-                                        City must be at least 2 characters long
+                                        Orașul trebuie să aibă minim 2 caractere
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>State</label></div>
+                        <div class="col-md-2"><label>Județ</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="state">
@@ -127,14 +127,14 @@
                                 <div *ngIf="shippingAddressState?.invalid && (shippingAddressState?.dirty || shippingAddressState?.touched)"
                                     class="alert alert-danger mt-1">
                                     <div *ngIf="shippingAddressState?.errors?.['required']">
-                                        State is required
+                                        Județul este obligatoriu
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>Zip Code</label></div>
+                        <div class="col-md-2"><label>Cod Poștal</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="zipCode" type="text">
@@ -142,10 +142,10 @@
                                     class="alert alert-danger mt-1">
                                     <div
                                         *ngIf="shippingAddressZipCode?.errors?.['required'] || shippingAddressZipCode?.errors?.['notOnlyWhitespace']">
-                                        Zip Code is required
+                                        Codul poștal este obligatoriu
                                     </div>
                                     <div *ngIf="shippingAddressZipCode?.errors?.['minlength']">
-                                        Zip Code must be at least 2 characters long
+                                        Codul poștal trebuie să aibă minim 2 caractere
                                     </div>
                                 </div>
                             </div>
@@ -156,14 +156,14 @@
                 <div class="input-space">
                     <label class="au-checkbox">
                         <input type="checkbox" (change)="copyShippingAddressToBillingAddress($event)">
-                        <span class="au-checkmark"></span>Billing Address same as Shipping Address
+                        <span class="au-checkmark"></span>Adresa de facturare este aceiași cu adresa de livrare
                     </label>
                 </div>
                 <!-- Billing Address-->
                 <div formGroupName="billingAddress" class="form-area">
-                    <h3>Billing Address</h3>
+                    <h3>Adresă Facturare</h3>
                     <div class="row">
-                        <div class="col-md-2"><label>Country</label></div>
+                        <div class="col-md-2"><label>Țară</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="country" (change)="getStates('billingAddress')">
@@ -174,14 +174,14 @@
                                 <div *ngIf="billingAddressCountry?.invalid && (billingAddressCountry?.dirty || billingAddressCountry?.touched)"
                                     class="alert alert-danger mt-1">
                                     <div *ngIf="billingAddressCountry?.errors?.['required']">
-                                        Country is required
+                                        Țara este obligatorie
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>Street</label></div>
+                        <div class="col-md-2"><label>Stradă</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="street" type="text">
@@ -189,17 +189,17 @@
                                     class="alert alert-danger mt-1">
                                     <div
                                         *ngIf="billingAddressStreet?.errors?.['required'] || billingAddressStreet?.errors?.['notOnlyWhitespace']">
-                                        Street is required
+                                        Strada este obligatorie
                                     </div>
                                     <div *ngIf="billingAddressStreet?.errors?.['minlength']">
-                                        Street must be at least 2 characters long
+                                        Strada trebuie să aibă minim 2 caractere
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>City</label></div>
+                        <div class="col-md-2"><label>Oraș</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="city" type="text">
@@ -207,17 +207,17 @@
                                     class="alert alert-danger mt-1">
                                     <div
                                         *ngIf="billingAddressCity?.errors?.['required'] || billingAddressCity?.errors?.['notOnlyWhitespace']">
-                                        City is required
+                                        Orașul este obligatoriu
                                     </div>
                                     <div *ngIf="billingAddressCity?.errors?.['minlength']">
-                                        City must be at least 2 characters long
+                                        Orașul trebuie să aibă minim 2 caractere
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>State</label></div>
+                        <div class="col-md-2"><label>Județ</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="state">
@@ -228,14 +228,14 @@
                                 <div *ngIf="billingAddressState?.invalid && (billingAddressState?.dirty || billingAddressState?.touched)"
                                     class="alert alert-danger mt-1">
                                     <div *ngIf="billingAddressState?.errors?.['required']">
-                                        State is required
+                                        Județul este obligatoriu
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>Zip Code</label></div>
+                        <div class="col-md-2"><label>Cod Poștal</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="zipCode" type="text">
@@ -243,10 +243,10 @@
                                     class="alert alert-danger mt-1">
                                     <div
                                         *ngIf="billingAddressZipCode?.errors?.['required'] || billingAddressZipCode?.errors?.['notOnlyWhitespace']">
-                                        Zip Code is required
+                                        Codul poștal este obligatoriu
                                     </div>
                                     <div *ngIf="billingAddressZipCode?.errors?.['minlength']">
-                                        Zip Code must be at least 2 characters long
+                                        Codul poștal trebuie să aibă minim 2 caractere
                                     </div>
                                 </div>
                             </div>
@@ -261,12 +261,45 @@
                     </label>
                 </div>
 
+                <!-- Shipping Method Selection -->
+                <div class="form-area" *ngIf="shippingMethods.length > 0">
+                    <h3>Metodă de Livrare</h3>
+                    <div class="shipping-methods">
+                        <div *ngFor="let method of shippingMethods" class="shipping-method-option">
+                            <label class="shipping-method-label">
+                                <input 
+                                    type="radio" 
+                                    name="shippingMethod" 
+                                    [value]="method.id"
+                                    [checked]="selectedShippingMethod?.id === method.id"
+                                    (change)="onShippingMethodChange(method)">
+                                <span class="shipping-method-info">
+                                    <strong>{{ method.name }}</strong> - {{ method.deliveryDays }}
+                                    <br>
+                                    <small>{{ method.description }}</small>
+                                    <br>
+                                    <span class="shipping-cost">
+                                        <span *ngIf="method.freeShippingThreshold && totalPrice >= method.freeShippingThreshold" class="text-success">
+                                            <strong>GRATUIT</strong>
+                                        </span>
+                                        <span *ngIf="!method.freeShippingThreshold || totalPrice < method.freeShippingThreshold">
+                                            {{ method.basePrice | number:'1.2-2' }} Lei
+                                        </span>
+                                        <small *ngIf="method.freeShippingThreshold && totalPrice < method.freeShippingThreshold" class="text-muted">
+                                            (Livrare gratuită pentru comenzi peste {{ method.freeShippingThreshold | number:'1.2-2' }} Lei)
+                                        </small>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Credit Card -->
                 <div *ngIf="!isCashOnDelivery" formGroupName="creditCard" class="form-area">
-                    <h3>Credit Card</h3>
+                    <h3>Card de Credit</h3>
                     <div class="row">
-                        <div class="col-md-2"><label>Card Type</label></div>
+                        <div class="col-md-2"><label>Tip Card</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="cardType">
@@ -276,14 +309,14 @@
                                 <div *ngIf="creditCardType?.invalid && (creditCardType?.dirty || creditCardType?.touched)"
                                     class="alert alert-danger mt-1">
                                     <div *ngIf="creditCardType?.errors?.['required']">
-                                        Credit card type is required
+                                        Tipul cardului este obligatoriu
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>Name on Card</label></div>
+                        <div class="col-md-2"><label>Nume pe Card</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="nameOnCard" type="text">
@@ -291,17 +324,17 @@
                                     class="alert alert-danger mt-1">
                                     <div
                                         *ngIf="creditCardNameOnCard?.errors?.['required'] || creditCardNameOnCard?.errors?.['notOnlyWhitespace']">
-                                        Name is required
+                                        Numele este obligatoriu
                                     </div>
                                     <div *ngIf="creditCardNameOnCard?.errors?.['minlength']">
-                                        Name must be at least 2 characters long
+                                        Numele trebuie să aibă minim 2 caractere
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>Card Number</label></div>
+                        <div class="col-md-2"><label>Număr Card</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="cardNumber" type="text">
@@ -322,7 +355,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>Security Code</label></div>
+                        <div class="col-md-2"><label>Cod Securitate</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="securityCode" type="text">
@@ -330,17 +363,17 @@
                                     class="alert alert-danger mt-1">
                                     <div
                                         *ngIf="creditCardSecurityCode?.errors?.['required']">
-                                        Security code is required
+                                        Codul de securitate este obligatoriu
                                     </div>
                                     <div *ngIf="creditCardSecurityCode?.errors?.['pattern']">
-                                        Security code must be 3 digits long
+                                        Codul de securitate trebuie să aibă 3 cifre
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>Expiration Month</label></div>
+                        <div class="col-md-2"><label>Luna Expirării</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="expirationMonth">
@@ -352,7 +385,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label>Expiration Year</label></div>
+                        <div class="col-md-2"><label>Anul Expirării</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="expirationYear" (change)="handleMonthsAndYears()">
@@ -365,55 +398,61 @@
                     </div>
                 </div>
                 
-                <!-- Shipping Method Selection -->
-                <div class="form-area" *ngIf="shippingMethods.length > 0">
-                    <h3>Shipping Method</h3>
-                    <div class="shipping-methods">
-                        <div *ngFor="let method of shippingMethods" class="shipping-method-option">
-                            <label class="shipping-method-label">
-                                <input 
-                                    type="radio" 
-                                    name="shippingMethod" 
-                                    [value]="method.id"
-                                    [checked]="selectedShippingMethod?.id === method.id"
-                                    (change)="onShippingMethodChange(method)">
-                                <span class="shipping-method-info">
-                                    <strong>{{ method.name }}</strong> - {{ method.deliveryDays }}
-                                    <br>
-                                    <small>{{ method.description }}</small>
-                                    <br>
-                                    <span class="shipping-cost">
-                                        <span *ngIf="method.freeShippingThreshold && totalPrice >= method.freeShippingThreshold" class="text-success">
-                                            <strong>FREE</strong>
-                                        </span>
-                                        <span *ngIf="!method.freeShippingThreshold || totalPrice < method.freeShippingThreshold">
-                                            {{ method.basePrice | currency:'USD' }}
-                                        </span>
-                                        <small *ngIf="method.freeShippingThreshold && totalPrice < method.freeShippingThreshold" class="text-muted">
-                                            (Free shipping on orders over {{ method.freeShippingThreshold | currency:'USD' }})
-                                        </small>
-                                    </span>
-                                </span>
-                            </label>
+                <!-- Promo Code Section -->
+                <div class="form-area promo-code-section">
+                    <h3><i class="fas fa-tags"></i> Cod Promoțional</h3>
+                    <div class="promo-code-input-wrapper">
+                        <div class="input-group">
+                            <input type="text" 
+                                   [(ngModel)]="promoCode" 
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Introdu codul promoțional" 
+                                   [disabled]="appliedPromoCode"
+                                   class="form-control promo-input"
+                                   (keyup.enter)="applyPromoCode()">
+                            <button *ngIf="!appliedPromoCode" 
+                                    (click)="applyPromoCode()" 
+                                    [disabled]="isApplyingPromoCode || !promoCode"
+                                    class="btn btn-apply">
+                                <i class="fas fa-check-circle"></i>
+                                {{ isApplyingPromoCode ? 'Se verifică...' : 'Aplică' }}
+                            </button>
+                            <button *ngIf="appliedPromoCode" 
+                                    (click)="removePromoCode()" 
+                                    class="btn btn-remove">
+                                <i class="fas fa-times-circle"></i>
+                                Elimină
+                            </button>
                         </div>
+                    </div>
+                    <div *ngIf="promoCodeMessage" 
+                         class="promo-message"
+                         [class.success-message]="appliedPromoCode"
+                         [class.error-message]="!appliedPromoCode && promoCodeMessage">
+                        {{ promoCodeMessage }}
                     </div>
                 </div>
                 
                 <!-- Order details-->
                 <div class="form-area">
-                    <h3>Review Your Order</h3>
-                    <p>Total Quantity: {{totalQuantity}}</p>
-                    <p>Subtotal: {{totalPrice | currency: 'USD'}}</p>
-                    <p>Shipping: 
-                        <span *ngIf="shippingCost === 0" class="text-success"><strong>FREE</strong></span>
-                        <span *ngIf="shippingCost > 0">{{shippingCost | currency: 'USD'}}</span>
+                    <h3>Verificare Comandă</h3>
+                    <p>Cantitate Totală: {{totalQuantity}}</p>
+                    <p>Subtotal: {{totalPrice | number:'1.2-2'}} Lei</p>
+                    <p>Livrare: 
+                        <span *ngIf="shippingCost === 0" class="text-success"><strong>GRATUIT</strong></span>
+                        <span *ngIf="shippingCost > 0">{{shippingCost | number:'1.2-2'}} Lei</span>
+                    </p>
+                    <p *ngIf="discount > 0" class="discount-line">
+                        <i class="fas fa-tag"></i> 
+                        Reducere ({{appliedPromoCode}}): 
+                        <span class="discount-amount">-{{discount | number:'1.2-2'}} Lei</span>
                     </p>
                     <hr>
-                    <p><strong>Total Price: {{totalWithShipping || totalPrice | currency: 'USD'}}</strong></p>
+                    <p><strong>Preț Total: {{getFinalTotal() | number:'1.2-2'}} Lei</strong></p>
                 </div>
                 <!-- submit button -->
                 <div class="text-center">
-                    <button type="submit" class="btn btn-info">Purchase</button>
+                    <button type="submit" class="btn btn-info">Finalizează Comanda</button>
                 </div>
             </form>
         </div>

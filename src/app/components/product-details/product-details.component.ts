@@ -7,6 +7,8 @@ import { CartItem } from '../../common/cart-item';
 import { Location } from '@angular/common';
 import { SeoService } from '../../services/seo.service';
 import { WishlistService } from '../../services/wishlist.service';
+import { PriceAlertService } from '../../services/price-alert.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-product-details',
@@ -17,6 +19,10 @@ import { WishlistService } from '../../services/wishlist.service';
 export class ProductDetailsComponent implements OnInit {
 
   product: Product | undefined;
+  showPriceAlertModal: boolean = false;
+  targetPrice: number = 0;
+  userEmail: string = '';
+  isAuthenticated: boolean = false;
 
   constructor(private productService: ProductService,
               private cartService: CartService,
@@ -24,12 +30,25 @@ export class ProductDetailsComponent implements OnInit {
               private router: Router,
               private location: Location,
               private seoService: SeoService,
-              public wishlistService: WishlistService){}
+              public wishlistService: WishlistService,
+              private priceAlertService: PriceAlertService,
+              private authService: AuthService){}
 
    ngOnInit(): void {
       this.route.paramMap.subscribe((params) => {
         this.handleProductDetails();
-      })     
+      });
+      
+      // Check authentication
+      this.authService.isAuthenticated$.subscribe(isAuth => {
+        this.isAuthenticated = isAuth;
+      });
+      
+      this.authService.user$.subscribe(user => {
+        if (user?.email) {
+          this.userEmail = user.email;
+        }
+      });
    }           
   handleProductDetails() {
     // get the "id" param string. convert string to a number using the "+" symbol
@@ -112,6 +131,49 @@ export class ProductDetailsComponent implements OnInit {
     } else {
       this.wishlistService.addToWishlist(this.product);
     }
+   }
+
+   openPriceAlertModal(): void {
+    if (!this.isAuthenticated) {
+      alert('Trebuie să fii autentificat pentru a seta o alertă de preț.');
+      return;
+    }
+    
+    if (!this.product) return;
+    
+    // Set default target price to 90% of current price
+    this.targetPrice = Math.floor(this.product.unitPrice * 0.9 * 100) / 100;
+    this.showPriceAlertModal = true;
+   }
+
+   closePriceAlertModal(): void {
+    this.showPriceAlertModal = false;
+   }
+
+   createPriceAlert(): void {
+    if (!this.product) return;
+    
+    if (this.targetPrice <= 0) {
+      alert('Prețul țintă trebuie să fie mai mare decât 0.');
+      return;
+    }
+    
+    if (this.targetPrice >= this.product.unitPrice) {
+      alert('Prețul țintă trebuie să fie mai mic decât prețul actual.');
+      return;
+    }
+    
+    this.priceAlertService.createAlert(this.userEmail, this.product.id, this.targetPrice)
+      .subscribe({
+        next: (response) => {
+          alert('Alertă de preț creată cu succes! Vei primi un email când prețul scade.');
+          this.closePriceAlertModal();
+        },
+        error: (error) => {
+          console.error('Eroare la crearea alertei:', error);
+          alert('Eroare la crearea alertei de preț. Te rugăm să încerci din nou.');
+        }
+      });
    }
 
    goBack() {

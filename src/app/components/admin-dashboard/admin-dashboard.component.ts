@@ -45,7 +45,7 @@ export class AdminDashboardComponent implements OnInit {
     datasets: [
       {
         data: [],
-        label: 'Revenue ($)',
+        label: 'Venit ($)',
         borderColor: '#0da8e4',
         backgroundColor: 'rgba(13, 168, 228, 0.1)',
         fill: true,
@@ -53,7 +53,7 @@ export class AdminDashboardComponent implements OnInit {
       },
       {
         data: [],
-        label: 'Orders',
+        label: 'Comenzi',
         borderColor: '#28a745',
         backgroundColor: 'rgba(40, 167, 69, 0.1)',
         fill: true,
@@ -72,7 +72,7 @@ export class AdminDashboardComponent implements OnInit {
         position: 'left',
         title: {
           display: true,
-          text: 'Revenue ($)'
+          text: 'Venit ($)'
         }
       },
       y1: {
@@ -83,7 +83,7 @@ export class AdminDashboardComponent implements OnInit {
         },
         title: {
           display: true,
-          text: 'Orders'
+          text: 'Comenzi'
         }
       }
     },
@@ -153,7 +153,7 @@ export class AdminDashboardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading dashboard stats:', error);
-        this.errorMessage = 'Failed to load dashboard statistics';
+        this.errorMessage = 'Eroare la încărcarea statisticilor dashboard';
         this.isLoadingStats = false;
       }
     });
@@ -247,7 +247,7 @@ export class AdminDashboardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error exporting data:', error);
-        alert('Failed to export analytics data');
+        alert('Eroare la exportarea datelor de analiză');
       }
     });
   }

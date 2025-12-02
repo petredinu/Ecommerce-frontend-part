@@ -49,7 +49,7 @@ export class WishlistComponent implements OnInit {
   }
 
   clearWishlist(): void {
-    if (confirm('Are you sure you want to clear your entire wishlist?')) {
+    if (confirm('Sigur vrei să golești întreaga listă de dorințe?')) {
       this.wishlistService.clearWishlist();
     }
   }

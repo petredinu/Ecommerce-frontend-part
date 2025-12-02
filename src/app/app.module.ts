@@ -41,6 +41,10 @@ import { PromoBannerComponent } from './components/promo-banner/promo-banner.com
 import { AdminPromoBannerComponent } from './components/admin-promo-banner/admin-promo-banner.component';
 import { ProductFilterComponent } from './components/product-filter/product-filter.component';
 import { AdminPromoCodesComponent } from './components/admin-promo-codes/admin-promo-codes.component';
+import { MyPriceAlertsComponent } from './components/my-price-alerts/my-price-alerts.component';
+import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
+import { TranslatePipe } from './pipes/translate.pipe';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 
 
@@ -55,6 +59,9 @@ const routes: Routes =[
   
   // Ruta pentru Wishlist
   { path: 'wishlist', component: WishlistComponent },
+  
+  // Ruta pentru My Price Alerts
+  { path: 'my-price-alerts', component: MyPriceAlertsComponent, canActivate: [AuthGuard] },
   
   // Ruta pentru Email Testing (dev only)
   { path: 'email-test', component: EmailTestComponent },
@@ -113,7 +120,10 @@ const routes: Routes =[
     PromoBannerComponent,
     AdminPromoBannerComponent,
     ProductFilterComponent,
-    AdminPromoCodesComponent
+    AdminPromoCodesComponent,
+    MyPriceAlertsComponent,
+    LanguageSwitcherComponent,
+    ClickOutsideDirective
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -127,6 +137,7 @@ const routes: Routes =[
     ReactiveFormsModule,
     LoginStatusComponent,
     AdminDashboardComponent,
+    TranslatePipe,
     AuthModule.forRoot({
       ...myAppConfig.auth,
       httpInterceptor: {

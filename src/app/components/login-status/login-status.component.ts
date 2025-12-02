@@ -4,6 +4,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from "../../app-routing.module";
 import { EmailService } from '../../services/email.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 
 
@@ -11,7 +12,7 @@ import { EmailService } from '../../services/email.service';
   selector: 'app-login-status',
   templateUrl: './login-status.component.html',
   styleUrls: ['./login-status.component.css'],
-  imports: [CommonModule, AppRoutingModule],
+  imports: [CommonModule, AppRoutingModule, TranslatePipe],
   standalone: true
 })
 export class LoginStatusComponent {

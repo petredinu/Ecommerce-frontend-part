@@ -10,6 +10,7 @@ export class Purchase {
     billingAddress!: Address;
     order!: Order;
     orderItems!: OrderItem[];
+    promoCode?: string; // Optional promo code field
 
     // Constructor gol, care nu cere argumente la creare
     constructor() { }

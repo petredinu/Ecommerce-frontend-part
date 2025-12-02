@@ -11,14 +11,6 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-4" *ngFor="let tempProduct of products">
 
                     <div class="product-box">
-                        <button class="wishlist-btn" 
-                                (click)="toggleWishlist(tempProduct)"
-                                [class.in-wishlist]="wishlistService.isInWishlist(tempProduct.id)"
-                                title="{{ wishlistService.isInWishlist(tempProduct.id) ? 'Elimină din Favorite' : 'Adaugă la Favorite' }}">
-                            <i class="fas fa-heart"></i>
-                            <span class="wishlist-text">{{ wishlistService.isInWishlist(tempProduct.id) ? 'Șterge' : 'Salvează' }}</span>
-                        </button>
-                        
                         <div routerLink="/products/{{tempProduct.id}}">
                             <img src="{{ tempProduct.imageUrl }}" 
                                  alt="{{ tempProduct.name }} - Buy online at best price" 
@@ -31,15 +23,28 @@
                             <h1> {{ tempProduct.name }}</h1>
                         </a>
 
-                        <div class="price">{{ tempProduct.unitPrice | currency:'USD' }}</div>
-                        <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
+                        <div class="price">{{ tempProduct.unitPrice | number:'1.2-2' }} Lei</div>
+                        
+                        <!-- Product Actions -->
+                        <div class="product-actions mb-2">
+                            <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm me-2">
+                                <i class="fas fa-shopping-cart"></i> {{ 'products.add-to-cart' | translate }}
+                            </button>
+                            <button (click)="wishlistService.isInWishlist(tempProduct.id) ? wishlistService.removeFromWishlist(tempProduct.id) : wishlistService.addToWishlist(tempProduct)" 
+                                    class="btn btn-sm"
+                                    [ngClass]="wishlistService.isInWishlist(tempProduct.id) ? 'btn-danger' : 'btn-outline-purple'"
+                                    [title]="wishlistService.isInWishlist(tempProduct.id) ? ('products.remove-from-favorites' | translate) : ('products.add-to-favorites' | translate)">
+                                <i class="fas fa-heart"></i>
+                                {{ wishlistService.isInWishlist(tempProduct.id) ? ('products.delete' | translate) : ('products.save' | translate) }}
+                            </button>
+                        </div>
                         
                         <!-- Admin Actions -->
                         <div *ngIf="isAdmin" class="admin-actions mt-2">
                             <a [routerLink]="['/admin/product-form', tempProduct.id]" 
                                class="btn btn-warning btn-sm me-1"
-                               title="Editează produsul">
-                                <i class="fas fa-edit"></i> Editează
+                               [title]="'common.edit' | translate">
+                                <i class="fas fa-edit"></i> {{ 'common.edit' | translate }}
                             </a>
                             <button (click)="deleteProduct(tempProduct)" 
                                     class="btn btn-danger btn-sm"
@@ -52,7 +57,7 @@
             </div>
 
             <div *ngIf="products.length == 0" class="alert alert-warning col-md-12" role="alert">
-                No products found.
+                Niciun produs găsit.
             </div>
             <hr>
             <!-- begin footer -->
@@ -77,7 +82,7 @@
 
                             </div>
                             <div class="col-md-3 mt-2" style="text-align: left;">
-                                <span class="mr-2">Page Size</span>
+                                <span class="mr-2">Dimensiune Pagină</span>
 
                                 <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
                                     <option selected="true">8</option>
