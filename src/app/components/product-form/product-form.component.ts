@@ -43,7 +43,7 @@ export class ProductFormComponent implements OnInit {
       unitsInStock: 0,
       dateCreated: new Date(),
       lastUpdated: new Date(),
-      category: {} as ProductCategory
+      category: undefined as any
     };
   }
 
@@ -95,20 +95,40 @@ export class ProductFormComponent implements OnInit {
     this.errorMessage = '';
 
     const productToSave = this.prepareProductForSave();
+    
+    console.log('Trimit către backend:', JSON.stringify(productToSave, null, 2));
 
     const saveObservable = this.isEditMode 
       ? this.productService.updateProduct(productToSave)
       : this.productService.saveProduct(productToSave);
 
     saveObservable.subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('=== RĂSPUNS DE LA BACKEND ===');
+        console.log('Răspuns complet:', response);
+        console.log('ID produs creat/actualizat:', response.id);
+        console.log('Produs activ?', response.active);
+        console.log('============================');
+        
         const message = this.isEditMode 
           ? `Produsul "${this.product.name}" a fost actualizat cu succes!`
-          : `Produsul "${this.product.name}" a fost adăugat cu succes!`;
+          : `Produsul "${this.product.name}" a fost adăugat cu succes cu ID=${response.id}!`;
         alert(message);
-        this.router.navigate(['/products']);
+        
+        this.isSaving = false;
+        
+        // După creare, navighează către detaliile produsului nou
+        // După editare, navighează către lista de produse
+        if (!this.isEditMode && response.id) {
+          this.router.navigate(['/products', response.id]);
+        } else {
+          this.router.navigate(['/products']);
+        }
       },
       error: (err) => {
+        console.error('Eroare completă:', err);
+        console.error('Status:', err.status);
+        console.error('Error body:', err.error);
         this.errorMessage = this.getErrorMessage(err);
         this.isSaving = false;
       }
@@ -145,11 +165,26 @@ export class ProductFormComponent implements OnInit {
   }
 
   private prepareProductForSave(): any {
-    const productToSave: any = { ...this.product };
+    const productToSave: any = { 
+      sku: this.product.sku,
+      name: this.product.name,
+      description: this.product.description,
+      unitPrice: this.product.unitPrice,
+      imageUrl: this.product.imageUrl,
+      active: this.product.active,
+      unitsInStock: this.product.unitsInStock,
+      // Pentru Controller custom, trimitem doar ID-ul categoriei
+      category: {
+        id: this.product.category.id
+      }
+    };
+
+    // Include ID only for updates (existing products with id > 0)
+    if (this.product.id && this.product.id > 0) {
+      productToSave.id = this.product.id;
+    }
     
-    // Construim link-ul pentru Spring Data REST
-    productToSave.category = `${environment.luv2shopApiUrl}/product-category/${this.product.category.id}`;
-    
+    console.log('Product to save:', productToSave);
     return productToSave;
   }
 

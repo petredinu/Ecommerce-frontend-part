@@ -163,9 +163,22 @@ export class ProductListComponent implements OnInit {
 
     this.productService.deleteProduct(product.id).subscribe({
       next: () => {
+        console.log('Backend a confirmat ștergerea cu succes');
+        
+        // Eliminăm produsul din array-ul local imediat
+        const productIdToDelete = product.id;
+        this.products = this.products.filter(p => p.id !== productIdToDelete);
+        
+        // Actualizăm totalul de elemente
+        this.theTotalElements--;
+        
+        console.log(`Produs ${productIdToDelete} eliminat din array local`);
+        console.log('Produse rămase:', this.products.length);
+        
         alert(`Produsul "${product.name}" a fost șters cu succes!`);
-        // Reîncărcăm lista de produse după ștergere
-        this.listProducts();
+        
+        // NU mai reîncărcăm lista - lăsăm doar eliminarea locală
+        // Utilizatorul poate da refresh manual dacă dorește
       },
       error: (err) => {
         console.error('Eroare la ștergere:', err);

@@ -120,8 +120,8 @@
                           [(ngModel)]="product.category" 
                           name="category" 
                           required
-                          [class.is-invalid]="productForm.submitted && !product.category.id">
-                    <option [ngValue]="null" disabled>Selectează o categorie...</option>
+                          [class.is-invalid]="productForm.submitted && (!product.category || !product.category.id)">
+                    <option [ngValue]="undefined">Selectează o categorie...</option>
                     <option *ngFor="let tempCategory of categories" [ngValue]="tempCategory">
                       {{ tempCategory.categoryName }}
                     </option>
