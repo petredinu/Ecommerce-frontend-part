@@ -1,0 +1,87 @@
+<div class="admin-promo-codes-container">
+  <div class="page-header">
+    <h2><i class="fas fa-tags"></i> Coduri Promoționale</h2>
+    <button class="btn-add" (click)="toggleForm()">
+      <i class="fas" [ngClass]="showForm ? 'fa-times' : 'fa-plus'"></i>
+      {{ showForm ? 'Închide' : 'Adaugă Cod Nou' }}
+    </button>
+  </div>
+
+  <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="form-section" *ngIf="showForm">
+    <h3>{{ isEditing ? 'Editează Cod' : 'Cod Nou' }}</h3>
+    <form [formGroup]="promoCodeForm" (ngSubmit)="savePromoCode()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cod *</label>
+          <input type="text" formControlName="code" placeholder="SUMMER2025" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Tip *</label>
+          <select formControlName="discountType" class="form-control">
+            <option *ngFor="let type of discountTypes" [value]="type.value">{{ type.label }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Valoare *</label>
+          <input type="number" formControlName="discountValue" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Comandă Min ($)</label>
+          <input type="number" formControlName="minOrderValue" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Expiră</label>
+          <input type="date" formControlName="expiryDate" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Limită</label>
+          <input type="number" formControlName="usageLimit" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label><input type="checkbox" formControlName="active"> Activ</label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-save" [disabled]="isSaving">
+          <i class="fas fa-check"></i> Salvează
+        </button>
+        <button type="button" class="btn-cancel" (click)="resetForm()">Anulează</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="promo-codes-grid" *ngIf="!isLoading && promoCodes.length > 0">
+    <div class="promo-code-card" *ngFor="let promoCode of promoCodes">
+      <div class="card-header">
+        <h3>{{ promoCode.code }}</h3>
+        <span class="badge" [class.badge-active]="promoCode.active">{{ promoCode.active ? 'Activ' : 'Inactiv' }}</span>
+      </div>
+      <div class="card-body">
+        <p><i class="fas fa-percentage"></i> {{ promoCode.discountType === 'PERCENTAGE' ? promoCode.discountValue + '%' : '$' + promoCode.discountValue }}</p>
+        <p *ngIf="promoCode.expiryDate"><i class="fas fa-calendar"></i> {{ promoCode.expiryDate | date:'dd MMM yyyy' }}</p>
+        <p>{{ promoCode.usedCount }} / {{ promoCode.usageLimit || '∞' }}</p>
+      </div>
+      <div class="card-actions">
+        <button class="btn-edit" (click)="editPromoCode(promoCode)"><i class="fas fa-edit"></i></button>
+        <button class="btn-toggle" (click)="togglePromoCodeStatus(promoCode)"><i class="fas fa-toggle-on"></i></button>
+        <button class="btn-delete" (click)="deletePromoCode(promoCode)"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && promoCodes.length === 0">
+    <p>Nu există coduri</p>
+    <button class="btn-add" (click)="toggleForm()">Adaugă cod</button>
+  </div>
+</div>

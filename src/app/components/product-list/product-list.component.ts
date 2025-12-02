@@ -7,6 +7,7 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { SeoService } from '../../services/seo.service';
 import { WishlistService } from '../../services/wishlist.service';
+import { ProductFilters } from '../product-filter/product-filter.component';
 
 @Component({
   selector: 'app-product-list',
@@ -30,6 +31,9 @@ export class ProductListComponent implements OnInit {
   previousKeyword: string = "";
   isAdmin: boolean = false;
   readonly adminEmail: string = 'dinu_petre26@yahoo.ro';
+  
+  // FILTRARE AVANSATĂ - proprietăți noi
+  currentFilters: ProductFilters = { inStockOnly: false, sortBy: 'id,asc' };
   
 
   constructor(private productService:ProductService,
@@ -246,6 +250,36 @@ export class ProductListComponent implements OnInit {
     } else if (err.status === 0) {
       return 'Nu se poate conecta la server. Verificați conexiunea la internet.';
     }
-    return err.message || 'A apărut o eroare neașteptată.';
-   }
+    return err.error || err.message || 'A apărut o eroare necunoscută.';
+  }
+
+  // FILTRARE AVANSATĂ - Metodă nouă pentru a aplica filtre
+  onFiltersChanged(filters: ProductFilters) {
+    console.log('Filtre aplicate:', filters);
+    this.currentFilters = filters;
+    this.thePageNumber = 1; // Resetăm pagina când aplicăm filtre
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    const keyword = this.searchMode ? this.route.snapshot.paramMap.get('keyword')! : undefined;
+    const categoryId = !this.searchMode && this.currentCategoryId !== 1 ? this.currentCategoryId : undefined;
+
+    this.productService.searchProductsWithFilters(
+      categoryId,
+      this.currentFilters.priceMin,
+      this.currentFilters.priceMax,
+      this.currentFilters.minRating,
+      this.currentFilters.inStockOnly,
+      keyword,
+      this.thePageNumber - 1,
+      this.thePageSize,
+      this.currentFilters.sortBy
+    ).subscribe(data => {
+      this.products = data.content;
+      this.thePageNumber = data.number + 1;
+      this.thePageSize = data.size;
+      this.theTotalElements = data.totalElements;
+    });
+  }
 }

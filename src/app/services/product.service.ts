@@ -48,6 +48,50 @@ export class ProductService {
     );
   }
 
+  // FILTRARE AVANSATĂ - Căutare cu multiple filtre
+  searchProductsWithFilters(
+    categoryId?: number,
+    priceMin?: number,
+    priceMax?: number,
+    minRating?: number,
+    inStockOnly?: boolean,
+    keyword?: string,
+    page: number = 0,
+    size: number = 12,
+    sort: string = 'id,asc'
+  ): Observable<GetResponseProducts> {
+    const searchUrl = `${this.baseUrl}/search`;
+    
+    let params: any = {
+      page: page.toString(),
+      size: size.toString(),
+      sort: sort
+    };
+
+    if (categoryId !== null && categoryId !== undefined) {
+      params.categoryId = categoryId.toString();
+    }
+    if (priceMin !== null && priceMin !== undefined) {
+      params.priceMin = priceMin.toString();
+    }
+    if (priceMax !== null && priceMax !== undefined) {
+      params.priceMax = priceMax.toString();
+    }
+    if (minRating !== null && minRating !== undefined) {
+      params.minRating = minRating.toString();
+    }
+    if (inStockOnly !== null && inStockOnly !== undefined) {
+      params.inStockOnly = inStockOnly.toString();
+    }
+    if (keyword) {
+      params.keyword = keyword;
+    }
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl, { params }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   // Obține toate produsele (inclusiv inactive) - pentru admin
   getAllProducts(): Observable<Product[]> {
     // Folosim endpoint-ul admin pentru a obține toate produsele

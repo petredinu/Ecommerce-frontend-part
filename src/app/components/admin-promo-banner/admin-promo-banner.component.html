@@ -1,0 +1,188 @@
+<div class="admin-banner-container">
+  <!-- Header -->
+  <div class="page-header">
+    <h1>
+      <i class="fas fa-bullhorn"></i>
+      Gestionare Bannere Promoționale
+    </h1>
+    <button (click)="toggleForm()" class="btn-add" [class.active]="showForm">
+      <i class="fas" [class.fa-plus]="!showForm" [class.fa-times]="showForm"></i>
+      {{ showForm ? 'Anulează' : 'Adaugă Banner Nou' }}
+    </button>
+  </div>
+
+  <!-- Success/Error Messages -->
+  <div *ngIf="successMessage" class="alert alert-success">
+    <i class="fas fa-check-circle"></i> {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-error">
+    <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+  </div>
+
+  <!-- Banner Form -->
+  <div *ngIf="showForm" class="banner-form-section">
+    <div class="form-header">
+      <h2>{{ isEditing ? 'Editează Banner' : 'Banner Nou' }}</h2>
+    </div>
+
+    <form [formGroup]="bannerForm" (ngSubmit)="saveBanner()">
+      <div class="form-grid">
+        <!-- Title -->
+        <div class="form-group full-width">
+          <label for="title">Titlu Banner *</label>
+          <input type="text" id="title" formControlName="title" 
+                 placeholder="Ex: Ofertă Specială Black Friday!">
+          <div *ngIf="bannerForm.get('title')?.invalid && bannerForm.get('title')?.touched" 
+               class="error-text">
+            Titlul trebuie să aibă minim 3 caractere
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group full-width">
+          <label for="description">Descriere *</label>
+          <textarea id="description" formControlName="description" rows="3"
+                    placeholder="Ex: Reduceri de până la 50% la toate produsele!"></textarea>
+          <div *ngIf="bannerForm.get('description')?.invalid && bannerForm.get('description')?.touched" 
+               class="error-text">
+            Descrierea trebuie să aibă minim 10 caractere
+          </div>
+        </div>
+
+        <!-- Image URL -->
+        <div class="form-group">
+          <label for="imageUrl">URL Imagine Produs *</label>
+          <input type="url" id="imageUrl" formControlName="imageUrl"
+                 placeholder="https://example.com/produs.jpg">
+          <small>URL-ul imaginii produsului în ofertă</small>
+        </div>
+
+        <!-- Link URL -->
+        <div class="form-group">
+          <label for="linkUrl">Link Destinație *</label>
+          <input type="text" id="linkUrl" formControlName="linkUrl"
+                 placeholder="/category/1">
+          <small>Ex: /category/1, /products, /search/keyword</small>
+        </div>
+
+        <!-- Button Text -->
+        <div class="form-group">
+          <label for="buttonText">Text Buton *</label>
+          <input type="text" id="buttonText" formControlName="buttonText"
+                 placeholder="Vezi Oferta">
+        </div>
+
+        <!-- Background Color -->
+        <div class="form-group">
+          <label for="backgroundColor">Culoare Fundal *</label>
+          <div class="color-input-group">
+            <input type="color" id="backgroundColor" formControlName="backgroundColor">
+            <input type="text" [value]="bannerForm.get('backgroundColor')?.value" readonly>
+          </div>
+        </div>
+
+        <!-- Text Color -->
+        <div class="form-group">
+          <label for="textColor">Culoare Text *</label>
+          <div class="color-input-group">
+            <input type="color" id="textColor" formControlName="textColor">
+            <input type="text" [value]="bannerForm.get('textColor')?.value" readonly>
+          </div>
+        </div>
+
+        <!-- Active Toggle -->
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="active">
+            <span>Banner Activ</span>
+          </label>
+          <small>Doar un banner activ va fi afișat pe homepage</small>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" (click)="resetForm()" class="btn-secondary">
+          <i class="fas fa-undo"></i> Resetează
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="isSaving || bannerForm.invalid">
+          <i class="fas" [class.fa-save]="!isSaving" [class.fa-spinner]="isSaving" [class.fa-spin]="isSaving"></i>
+          {{ isSaving ? 'Se salvează...' : (isEditing ? 'Actualizează' : 'Creează Banner') }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Banners List -->
+  <div class="banners-list">
+    <h2>Bannere Existente ({{ banners.length }})</h2>
+
+    <div *ngIf="isLoading" class="loading-state">
+      <i class="fas fa-spinner fa-spin"></i> Se încarcă...
+    </div>
+
+    <div *ngIf="!isLoading && banners.length === 0" class="empty-state">
+      <i class="fas fa-bullhorn"></i>
+      <p>Nu există bannere create încă</p>
+      <button (click)="toggleForm()" class="btn-add">
+        <i class="fas fa-plus"></i> Creează Primul Banner
+      </button>
+    </div>
+
+    <div *ngIf="!isLoading && banners.length > 0" class="banners-grid">
+      <div *ngFor="let banner of banners" class="banner-card" [class.active]="banner.active">
+        <!-- Active Badge -->
+        <div *ngIf="banner.active" class="active-badge">
+          <i class="fas fa-check-circle"></i> ACTIV
+        </div>
+
+        <!-- Banner Preview -->
+        <div class="banner-preview" [ngStyle]="{'background-color': banner.backgroundColor}">
+          <div class="preview-content" [ngStyle]="{'color': banner.textColor}">
+            <div class="preview-text">
+              <h3>{{ banner.title }}</h3>
+              <p>{{ banner.description }}</p>
+            </div>
+            <div class="preview-image">
+              <img [src]="banner.imageUrl" [alt]="banner.title">
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner Info -->
+        <div class="banner-info">
+          <div class="info-row">
+            <span class="label">Link:</span>
+            <span class="value">{{ banner.linkUrl }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Buton:</span>
+            <span class="value">{{ banner.buttonText }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Status:</span>
+            <span class="status-badge" [class.active]="banner.active">
+              {{ banner.active ? 'Activ' : 'Inactiv' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="banner-actions">
+          <button (click)="editBanner(banner)" class="btn-edit" title="Editează">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button (click)="toggleBannerStatus(banner)" 
+                  [class.btn-activate]="!banner.active"
+                  [class.btn-deactivate]="banner.active"
+                  [title]="banner.active ? 'Dezactivează' : 'Activează'">
+            <i class="fas" [class.fa-toggle-on]="banner.active" [class.fa-toggle-off]="!banner.active"></i>
+          </button>
+          <button (click)="deleteBanner(banner.id)" class="btn-delete" title="Șterge">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

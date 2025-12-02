@@ -48,9 +48,28 @@
       <h3>STAY CONNECTED</h3>
       <p>Subscribe to get special offers and exclusive deals</p>
       <div class="newsletter-form">
-        <button class="btn-newsletter">
-          <i class="fas fa-envelope"></i> SUBSCRIBE TO NEWSLETTER
+        <input 
+          type="email" 
+          [(ngModel)]="newsletterEmail" 
+          placeholder="Enter your email address"
+          class="newsletter-input"
+          [disabled]="isSubscribing"
+          (keyup.enter)="subscribeToNewsletter()"
+        />
+        <button 
+          class="btn-newsletter" 
+          (click)="subscribeToNewsletter()"
+          [disabled]="isSubscribing"
+        >
+          <i class="fas" [ngClass]="isSubscribing ? 'fa-spinner fa-spin' : 'fa-envelope'"></i> 
+          {{ isSubscribing ? 'SUBSCRIBING...' : 'SUBSCRIBE' }}
         </button>
+      </div>
+      <div *ngIf="subscriptionMessage" class="subscription-success">
+        <i class="fas fa-check-circle"></i> {{ subscriptionMessage }}
+      </div>
+      <div *ngIf="subscriptionError" class="subscription-error">
+        <i class="fas fa-exclamation-circle"></i> {{ subscriptionError }}
       </div>
     </div>
 

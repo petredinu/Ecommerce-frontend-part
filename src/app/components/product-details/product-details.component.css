@@ -1,3 +1,14 @@
+/* Product Details Section */
+.detail-section {
+  padding-top: 95px; /* 75px header height + 20px spacing */
+}
+
+.detail-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
 /* Button Group */
 .button-group {
   display: flex;

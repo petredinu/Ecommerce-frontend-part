@@ -1,0 +1,85 @@
+<div class="filter-container">
+  <div class="filter-header">
+    <h3>
+      <i class="fas fa-filter"></i>
+      Filtrare Produse
+    </h3>
+    <button class="toggle-btn" (click)="toggleFilters()">
+      <i class="fas" [ngClass]="showFilters ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+    </button>
+  </div>
+
+  <form [formGroup]="filterForm" *ngIf="showFilters" class="filter-form">
+    
+    <!-- Sort Dropdown -->
+    <div class="filter-group">
+      <label><i class="fas fa-sort"></i> Sortare</label>
+      <select formControlName="sortBy" (change)="applyFilters()" class="form-control">
+        <option *ngFor="let option of sortOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Price Range -->
+    <div class="filter-group">
+      <label><i class="fas fa-dollar-sign"></i> Interval Preț ($)</label>
+      <div class="price-inputs">
+        <input 
+          type="number" 
+          formControlName="priceMin" 
+          placeholder="Min" 
+          class="form-control"
+          min="0"
+        >
+        <span>-</span>
+        <input 
+          type="number" 
+          formControlName="priceMax" 
+          placeholder="Max" 
+          class="form-control"
+          min="0"
+        >
+      </div>
+    </div>
+
+    <!-- Rating Filter -->
+    <div class="filter-group">
+      <label><i class="fas fa-star"></i> Rating Minim</label>
+      <div class="rating-buttons">
+        <button 
+          *ngFor="let option of ratingOptions" 
+          type="button"
+          class="rating-btn"
+          [class.active]="filterForm.value.minRating === option.value"
+          (click)="filterForm.patchValue({minRating: option.value})"
+        >
+          {{ option.label }}
+        </button>
+      </div>
+    </div>
+
+    <!-- In Stock Only -->
+    <div class="filter-group">
+      <label class="checkbox-label">
+        <input 
+          type="checkbox" 
+          formControlName="inStockOnly"
+        >
+        <span><i class="fas fa-box"></i> Doar în stoc</span>
+      </label>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="filter-actions">
+      <button type="button" class="btn-apply" (click)="applyFilters()">
+        <i class="fas fa-check"></i>
+        Aplică Filtre
+      </button>
+      <button type="button" class="btn-reset" (click)="resetFilters()">
+        <i class="fas fa-undo"></i>
+        Resetează
+      </button>
+    </div>
+  </form>
+</div>

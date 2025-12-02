@@ -1,0 +1,224 @@
+<div class="admin-dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1><i class="fas fa-chart-line"></i> Admin Dashboard & Analytics</h1>
+    <div class="header-actions">
+      <button class="btn-refresh" (click)="refreshData()" [disabled]="isLoadingStats">
+        <i class="fas" [ngClass]="isLoadingStats ? 'fa-spinner fa-spin' : 'fa-sync-alt'"></i>
+        Refresh
+      </button>
+      <button class="btn-export" (click)="exportData()">
+        <i class="fas fa-download"></i>
+        Export CSV
+      </button>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-alert">
+    <i class="fas fa-exclamation-triangle"></i>
+    {{ errorMessage }}
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card" *ngIf="!isLoadingStats && dashboardStats">
+      <div class="stat-icon revenue">
+        <i class="fas fa-dollar-sign"></i>
+      </div>
+      <div class="stat-content">
+        <h3>Total Revenue</h3>
+        <p class="stat-value">${{ dashboardStats.totalRevenue | number:'1.2-2' }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card" *ngIf="!isLoadingStats && dashboardStats">
+      <div class="stat-icon orders">
+        <i class="fas fa-shopping-cart"></i>
+      </div>
+      <div class="stat-content">
+        <h3>Total Orders</h3>
+        <p class="stat-value">{{ dashboardStats.totalOrders | number }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card" *ngIf="!isLoadingStats && dashboardStats">
+      <div class="stat-icon customers">
+        <i class="fas fa-users"></i>
+      </div>
+      <div class="stat-content">
+        <h3>Total Customers</h3>
+        <p class="stat-value">{{ dashboardStats.totalCustomers | number }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card" *ngIf="!isLoadingStats && dashboardStats">
+      <div class="stat-icon avg-order">
+        <i class="fas fa-receipt"></i>
+      </div>
+      <div class="stat-content">
+        <h3>Avg Order Value</h3>
+        <p class="stat-value">${{ dashboardStats.averageOrderValue | number:'1.2-2' }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card" *ngIf="!isLoadingStats && dashboardStats">
+      <div class="stat-icon conversion">
+        <i class="fas fa-chart-pie"></i>
+      </div>
+      <div class="stat-content">
+        <h3>Conversion Rate</h3>
+        <p class="stat-value">{{ dashboardStats.conversionRate | number:'1.2-2' }}%</p>
+      </div>
+    </div>
+
+    <div class="stat-card" *ngIf="!isLoadingStats && dashboardStats">
+      <div class="stat-icon active-users">
+        <i class="fas fa-user-check"></i>
+      </div>
+      <div class="stat-content">
+        <h3>Active Users</h3>
+        <p class="stat-value">{{ dashboardStats.activeUsers | number }}</p>
+        <span class="stat-subtitle">+{{ dashboardStats.newUsersToday }} today</span>
+      </div>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <div class="stat-card skeleton" *ngIf="isLoadingStats">
+      <div class="skeleton-icon"></div>
+      <div class="skeleton-content">
+        <div class="skeleton-line"></div>
+        <div class="skeleton-value"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    <!-- Sales Chart -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <h2><i class="fas fa-chart-area"></i> Sales Overview</h2>
+        <div class="period-selector">
+          <button 
+            class="period-btn" 
+            [class.active]="selectedPeriod === 'daily'"
+            (click)="onPeriodChange('daily')">
+            30 Days
+          </button>
+          <button 
+            class="period-btn" 
+            [class.active]="selectedPeriod === 'weekly'"
+            (click)="onPeriodChange('weekly')">
+            90 Days
+          </button>
+          <button 
+            class="period-btn" 
+            [class.active]="selectedPeriod === 'monthly'"
+            (click)="onPeriodChange('monthly')">
+            12 Months
+          </button>
+        </div>
+      </div>
+      <div class="chart-body" *ngIf="!isLoadingCharts">
+        <canvas baseChart
+          [data]="salesLineChartData"
+          [options]="salesLineChartOptions"
+          [type]="salesLineChartType">
+        </canvas>
+      </div>
+      <div class="chart-loading" *ngIf="isLoadingCharts">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading sales data...</p>
+      </div>
+    </div>
+
+    <!-- Category Sales Pie Chart -->
+    <div class="chart-container small">
+      <div class="chart-header">
+        <h2><i class="fas fa-chart-pie"></i> Sales by Category</h2>
+      </div>
+      <div class="chart-body" *ngIf="!isLoadingCharts && categorySales.length > 0">
+        <canvas baseChart
+          [data]="categoryPieChartData"
+          [options]="categoryPieChartOptions"
+          [type]="categoryPieChartType">
+        </canvas>
+      </div>
+      <div class="chart-loading" *ngIf="isLoadingCharts">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading category data...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Products Table -->
+  <div class="top-products-section">
+    <div class="section-header">
+      <h2><i class="fas fa-trophy"></i> Top 10 Best Selling Products</h2>
+    </div>
+    
+    <div class="table-container" *ngIf="!isLoadingProducts && topProducts.length > 0">
+      <table class="products-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Units Sold</th>
+            <th>Revenue</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of topProducts; let i = index">
+            <td class="rank">
+              <span class="rank-badge" [class.gold]="i === 0" [class.silver]="i === 1" [class.bronze]="i === 2">
+                {{ i + 1 }}
+              </span>
+            </td>
+            <td class="product-info">
+              <img [src]="product.imageUrl" [alt]="product.name" class="product-thumb">
+              <span>{{ product.name }}</span>
+            </td>
+            <td>{{ product.category }}</td>
+            <td class="text-center">{{ product.unitsSold | number }}</td>
+            <td class="revenue">${{ product.revenue | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="no-data" *ngIf="!isLoadingProducts && topProducts.length === 0">
+      <i class="fas fa-inbox"></i>
+      <p>No sales data available yet</p>
+    </div>
+
+    <div class="loading-spinner" *ngIf="isLoadingProducts">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Loading top products...</p>
+    </div>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="quick-links">
+    <h2><i class="fas fa-link"></i> Quick Actions</h2>
+    <div class="links-grid">
+      <a routerLink="/admin/products" class="quick-link-card">
+        <i class="fas fa-box"></i>
+        <span>Manage Products</span>
+      </a>
+      <a routerLink="/admin/stock-alerts" class="quick-link-card">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Stock Alerts</span>
+      </a>
+      <a routerLink="/search-orders-by-date" class="quick-link-card">
+        <i class="fas fa-calendar-alt"></i>
+        <span>View Orders</span>
+      </a>
+      <a routerLink="/admin/product-form" class="quick-link-card">
+        <i class="fas fa-plus-circle"></i>
+        <span>Add New Product</span>
+      </a>
+    </div>
+  </div>
+</div>

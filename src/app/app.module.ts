@@ -34,6 +34,13 @@ import { StockAlertsComponent } from './components/stock-alerts/stock-alerts.com
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
 import { ProductReviewsComponent } from './components/product-reviews/product-reviews.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { EmailTestComponent } from './components/email-test/email-test.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { provideCharts, withDefaultRegisterables, BaseChartDirective } from 'ng2-charts';
+import { PromoBannerComponent } from './components/promo-banner/promo-banner.component';
+import { AdminPromoBannerComponent } from './components/admin-promo-banner/admin-promo-banner.component';
+import { ProductFilterComponent } from './components/product-filter/product-filter.component';
+import { AdminPromoCodesComponent } from './components/admin-promo-codes/admin-promo-codes.component';
 
 
 
@@ -49,9 +56,15 @@ const routes: Routes =[
   // Ruta pentru Wishlist
   { path: 'wishlist', component: WishlistComponent },
   
-  // Rute Admin pentru gestionare produse
+  // Ruta pentru Email Testing (dev only)
+  { path: 'email-test', component: EmailTestComponent },
+  
+  // Rute Admin
+  { path: 'admin/dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] }, // Admin Dashboard
   { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuard] }, // Management produse
   { path: 'admin/stock-alerts', component: StockAlertsComponent, canActivate: [AuthGuard] }, // Alerte stoc
+  { path: 'admin/promo-banners', component: AdminPromoBannerComponent, canActivate: [AuthGuard] }, // Bannere promoționale
+  { path: 'admin/promo-codes', component: AdminPromoCodesComponent, canActivate: [AuthGuard] }, // Coduri promoționale
   { path: 'admin/product-form', component: ProductFormComponent }, // Adăugare produs nou
   { path: 'admin/product-form/:id', component: ProductFormComponent }, // Editare produs
   { path: 'admin/delete-product/:id', component: DeleteProductComponent }, // Ștergere produs
@@ -95,7 +108,12 @@ const routes: Routes =[
     StockAlertsComponent,
     StarRatingComponent,
     ProductReviewsComponent,
-    WishlistComponent
+    WishlistComponent,
+    EmailTestComponent,
+    PromoBannerComponent,
+    AdminPromoBannerComponent,
+    ProductFilterComponent,
+    AdminPromoCodesComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -108,6 +126,7 @@ const routes: Routes =[
     FontAwesomeModule,
     ReactiveFormsModule,
     LoginStatusComponent,
+    AdminDashboardComponent,
     AuthModule.forRoot({
       ...myAppConfig.auth,
       httpInterceptor: {
@@ -118,11 +137,15 @@ const routes: Routes =[
       },
     }),
   ],
-  providers: [ProductService,{
+  providers: [
+    ProductService,
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true,
-    },],
+    },
+    provideCharts(withDefaultRegisterables())
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

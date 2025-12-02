@@ -1,0 +1,85 @@
+/* Admin Dashboard Button Styling */
+.admin-dashboard-item {
+  margin-bottom: 5px;
+}
+
+.admin-dashboard-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: #fff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.admin-dashboard-link:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+.admin-dashboard-link.active-link {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6);
+}
+
+.admin-dashboard-link i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.admin-dashboard-link span {
+  font-size: 15px;
+}
+
+/* Admin Menu Items (Manage Produse, Stoc, etc.) */
+.admin-menu-item {
+  margin-bottom: 5px;
+}
+
+.admin-menu-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: #fff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.25);
+}
+
+.admin-menu-link:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateX(3px);
+  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4);
+}
+
+.admin-menu-link.active-link {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+.admin-menu-link i {
+  margin-right: 10px;
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.admin-menu-link:hover i {
+  color: #fff;
+}
+
+/* Menu Separator */
+.menu-separator {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+  margin: 15px 0;
+}
