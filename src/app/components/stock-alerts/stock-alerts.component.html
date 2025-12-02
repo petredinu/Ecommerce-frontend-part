@@ -1,0 +1,147 @@
+<div class="main-content">
+    <div class="container-fluid mt-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2 class="mb-3">
+                    <i class="fas fa-warehouse"></i> Gestionare Stoc
+                </h2>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link" 
+                   [class.active]="activeTab === 'alerts'"
+                   (click)="switchTab('alerts')"
+                   style="cursor: pointer;">
+                    <i class="fas fa-exclamation-triangle"></i> Alerte Stoc
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" 
+                   [class.active]="activeTab === 'movements'"
+                   (click)="switchTab('movements')"
+                   style="cursor: pointer;">
+                    <i class="fas fa-exchange-alt"></i> Mișcări Stoc
+                </a>
+            </li>
+        </ul>
+
+        <!-- Stock Alerts Tab -->
+        <div *ngIf="activeTab === 'alerts'">
+            <div *ngIf="isLoadingAlerts" class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Se încarcă...</span>
+                </div>
+            </div>
+
+            <div *ngIf="!isLoadingAlerts && alerts.length === 0" class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Nu există alerte de stoc active.
+            </div>
+
+            <div *ngIf="!isLoadingAlerts && alerts.length > 0" class="row">
+                <div *ngFor="let alert of alerts" class="col-md-6 mb-3">
+                    <div class="card" [ngClass]="getAlertClass(alert.alertLevel)">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span>{{ getAlertIcon(alert.alertLevel) }}</span>
+                                {{ alert.productName }}
+                            </h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-1"><strong>Stoc Curent:</strong> {{ alert.currentStock }}</p>
+                                    <p class="mb-1"><strong>Stoc Minim:</strong> {{ alert.minimumStock }}</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-1"><strong>Nivel:</strong> {{ alert.alertLevel }}</p>
+                                    <p class="mb-1"><strong>Data:</strong> {{ alert.dateCreated | date:'short' }}</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-primary mt-2" (click)="viewProduct(alert.productId)">
+                                <i class="fas fa-edit"></i> Editează Produs
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Movements Tab -->
+        <div *ngIf="activeTab === 'movements'">
+            <div *ngIf="isLoadingMovements" class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Se încarcă...</span>
+                </div>
+            </div>
+
+            <div *ngIf="!isLoadingMovements && movements.length === 0" class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Nu există mișcări de stoc înregistrate.
+            </div>
+
+            <div *ngIf="!isLoadingMovements && movements.length > 0" class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Data</th>
+                            <th>Produs</th>
+                            <th>Tip</th>
+                            <th>Cantitate</th>
+                            <th>Stoc Anterior</th>
+                            <th>Stoc Nou</th>
+                            <th>Motiv</th>
+                            <th>Executat De</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let movement of movements">
+                            <td>{{ movement.dateCreated | date:'short' }}</td>
+                            <td>
+                                <a (click)="viewProduct(movement.productId)" 
+                                   style="cursor: pointer; color: blue; text-decoration: underline;">
+                                    {{ movement.productName }}
+                                </a>
+                            </td>
+                            <td [ngClass]="getMovementClass(movement.movementType)">
+                                {{ getMovementIcon(movement.movementType) }} {{ movement.movementType }}
+                            </td>
+                            <td [ngClass]="getMovementClass(movement.movementType)">
+                                <strong>{{ movement.movementType === 'IN' ? '+' : '-' }}{{ movement.quantity }}</strong>
+                            </td>
+                            <td>{{ movement.previousStock }}</td>
+                            <td>{{ movement.newStock }}</td>
+                            <td>{{ movement.reason }}</td>
+                            <td>{{ movement.performedBy }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div *ngIf="totalElements > pageSize" class="row mt-4">
+            <div class="col-12">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" [class.disabled]="currentPage === 0">
+                            <a class="page-link" (click)="previousPage()" style="cursor: pointer;">
+                                Anterior
+                            </a>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link">
+                                Pagina {{ currentPage + 1 }} din {{ (totalElements / pageSize) | number:'1.0-0' }}
+                            </span>
+                        </li>
+                        <li class="page-item" 
+                            [class.disabled]="currentPage >= (totalElements / pageSize) - 1">
+                            <a class="page-link" (click)="nextPage()" style="cursor: pointer;">
+                                Următor
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { CartItem } from '../../common/cart-item';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '@auth0/auth0-angular';
+import { SeoService } from '../../services/seo.service';
+import { WishlistService } from '../../services/wishlist.service';
 
 @Component({
   selector: 'app-product-list',
@@ -18,6 +20,7 @@ export class ProductListComponent implements OnInit {
   currentCategoryId:number=1;
   previousCategoryId: number=1;
   searchMode: boolean=false;
+  currentCategoryName: string = '';
 
   //NEW properties for pagination
   thePageNumber: number=1;
@@ -32,7 +35,9 @@ export class ProductListComponent implements OnInit {
   constructor(private productService:ProductService,
               private cartService: CartService,
               private route:ActivatedRoute,
-              private auth: AuthService){}
+              private auth: AuthService,
+              private seoService: SeoService,
+              public wishlistService: WishlistService){}
 
   ngOnInit(): void {
     // Verificăm dacă utilizatorul este admin
@@ -136,14 +141,59 @@ export class ProductListComponent implements OnInit {
       this.productService.thePageSize = this.thePageSize;
       this.productService.theTotalElements = this.theTotalElements;
       // ------------------------------------------------------------------------
+      
+      // SEO: Update meta tags based on category or search
+      this.updateSEO();
     };
    }
+   
+   private updateSEO() {
+    if (this.searchMode) {
+      // SEO for search results
+      const keyword = this.route.snapshot.paramMap.get('keyword') || '';
+      const canonicalUrl = `https://localhost:4200/search/${keyword}`;
+      this.seoService.updateCanonicalUrl(canonicalUrl);
+      
+      this.seoService.updateMetaTags({
+        title: `Search Results for "${keyword}" | Your Shop`,
+        description: `Found ${this.theTotalElements} products matching "${keyword}". Shop now with fast delivery and best prices!`,
+        keywords: `${keyword}, search products, online shopping`,
+        ogUrl: canonicalUrl
+      });
+    } else {
+      // SEO for category pages
+      const categoryId = this.route.snapshot.paramMap.get('id');
+      const categoryName = this.products[0]?.category?.categoryName || 'All Products';
+      this.currentCategoryName = categoryName;
+      
+      const canonicalUrl = categoryId 
+        ? `https://localhost:4200/category/${categoryId}` 
+        : 'https://localhost:4200/products';
+      this.seoService.updateCanonicalUrl(canonicalUrl);
+      
+      this.seoService.updateMetaTags({
+        title: `${categoryName} - Shop Online | Your Shop`,
+        description: `Browse our collection of ${this.theTotalElements} ${categoryName.toLowerCase()}. Best prices, fast delivery, and excellent customer service.`,
+        keywords: `${categoryName}, buy online, shop ${categoryName.toLowerCase()}, ecommerce`,
+        ogUrl: canonicalUrl
+      });
+    }
+   }
+   
    addToCart(theProduct: Product){
     console.log(`Adding to cart: ${theProduct.name}, ${theProduct.unitPrice}`);
     
     const theCartItem = new CartItem(theProduct);
 
     this.cartService.addToCart(theCartItem);
+   }
+
+   toggleWishlist(product: Product): void {
+    if (this.wishlistService.isInWishlist(product.id)) {
+      this.wishlistService.removeFromWishlist(product.id);
+    } else {
+      this.wishlistService.addToWishlist(product);
+    }
    }
 
    deleteProduct(product: Product): void {

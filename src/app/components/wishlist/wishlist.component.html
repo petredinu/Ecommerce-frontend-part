@@ -1,0 +1,73 @@
+<div class="main-content">
+  <div class="container-fluid mt-4">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h2><i class="fas fa-heart"></i> My Wishlist</h2>
+      </div>
+    </div>
+
+    <!-- Empty Wishlist -->
+    <div *ngIf="wishlistItems.length === 0" class="empty-wishlist">
+      <i class="fas fa-heart-broken fa-5x mb-3"></i>
+      <h3>Your wishlist is empty</h3>
+      <p>Start adding products you love!</p>
+      <a routerLink="/products" class="btn btn-primary">
+        <i class="fas fa-shopping-bag"></i> Continue Shopping
+      </a>
+    </div>
+
+    <!-- Wishlist Items -->
+    <div *ngIf="wishlistItems.length > 0">
+      <div class="row mb-3">
+        <div class="col-12 text-end">
+          <button class="btn btn-sm btn-outline-danger" (click)="clearWishlist()">
+            <i class="fas fa-trash"></i> Clear Wishlist
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div *ngFor="let item of wishlistItems" class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div class="wishlist-card">
+            <button class="remove-btn" (click)="removeFromWishlist(item.product.id)">
+              <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="product-image" (click)="viewProduct(item.product.id)">
+              <img [src]="item.product.imageUrl" 
+                   [alt]="item.product.name"
+                   [title]="item.product.name"
+                   loading="lazy">
+            </div>
+            
+            <div class="product-info">
+              <h5 (click)="viewProduct(item.product.id)">{{ item.product.name }}</h5>
+              <p class="price">{{ item.product.unitPrice | currency:'USD' }}</p>
+              
+              <div *ngIf="item.product.unitsInStock > 0" class="stock-status in-stock">
+                <i class="fas fa-check-circle"></i> In Stock
+              </div>
+              <div *ngIf="item.product.unitsInStock === 0" class="stock-status out-of-stock">
+                <i class="fas fa-times-circle"></i> Out of Stock
+              </div>
+              
+              <p class="date-added">Added: {{ item.dateAdded | date:'short' }}</p>
+            </div>
+            
+            <div class="card-actions">
+              <button class="btn btn-primary btn-sm w-100 mb-2" 
+                      (click)="moveToCart(item)"
+                      [disabled]="item.product.unitsInStock === 0">
+                <i class="fas fa-shopping-cart"></i> Move to Cart
+              </button>
+              <button class="btn btn-outline-primary btn-sm w-100" 
+                      (click)="viewProduct(item.product.id)">
+                <i class="fas fa-eye"></i> View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

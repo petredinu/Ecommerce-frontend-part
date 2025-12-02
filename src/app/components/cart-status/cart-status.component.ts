@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { CartService } from '../../services/cart.service';
+import { WishlistService } from '../../services/wishlist.service';
 
 
 @Component({
@@ -11,13 +13,17 @@ import { CartService } from '../../services/cart.service';
 })
 export class CartStatusComponent implements OnInit {
   faCartShopping=faCartShopping;
+  faHeart=faHeart;
   totalPrice: number=0.00;
   totalQuantity: number=0;
+  wishlistCount: number=0;
 
-  constructor(private cartService: CartService){ }
+  constructor(private cartService: CartService,
+              private wishlistService: WishlistService){ }
 
   ngOnInit(): void {
     this.updateCartStatus();
+    this.updateWishlistCount();
   }
   updateCartStatus() {
 
@@ -29,6 +35,12 @@ export class CartStatusComponent implements OnInit {
     // subscribe to the cart totalQuantity
     this.cartService.totalQuantity.subscribe(
       data => this.totalQuantity = data
+    );
+  }
+
+  updateWishlistCount() {
+    this.wishlistService.wishlist$.subscribe(
+      items => this.wishlistCount = items.length
     );
   }
 

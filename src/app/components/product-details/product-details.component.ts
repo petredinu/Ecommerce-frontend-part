@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../common/cart-item';
 import { Location } from '@angular/common';
+import { SeoService } from '../../services/seo.service';
+import { WishlistService } from '../../services/wishlist.service';
 
 @Component({
   selector: 'app-product-details',
@@ -20,7 +22,9 @@ export class ProductDetailsComponent implements OnInit {
               private cartService: CartService,
               private route: ActivatedRoute,
               private router: Router,
-              private location: Location){}
+              private location: Location,
+              private seoService: SeoService,
+              public wishlistService: WishlistService){}
 
    ngOnInit(): void {
       this.route.paramMap.subscribe((params) => {
@@ -48,6 +52,9 @@ export class ProductDetailsComponent implements OnInit {
       next: (data) => {
         console.log('Produs încărcat cu succes:', data.name);
         this.product = data;
+        
+        // SEO: Update meta tags and structured data
+        this.updateSEO(data);
       },
       error: (err) => {
         console.error('Eroare la încărcarea produsului:', err);
@@ -56,6 +63,34 @@ export class ProductDetailsComponent implements OnInit {
       }
     });
   }
+
+  private updateSEO(product: Product) {
+    // Update canonical URL
+    const canonicalUrl = `https://localhost:4200/products/${product.id}`;
+    this.seoService.updateCanonicalUrl(canonicalUrl);
+
+    // Update meta tags
+    this.seoService.updateMetaTags({
+      title: `${product.name} - Best Price | Your Shop`,
+      description: `${product.description || product.name}. Only $${product.unitPrice}. ${product.unitsInStock > 0 ? 'In stock' : 'Out of stock'}. Fast delivery!`,
+      keywords: `${product.name}, ${product.category?.categoryName}, buy online, ecommerce`,
+      ogTitle: product.name,
+      ogDescription: product.description || product.name,
+      ogImage: product.imageUrl,
+      ogUrl: canonicalUrl
+    });
+
+    // Create structured data for product
+    this.seoService.createProductStructuredData(product);
+
+    // Create breadcrumb structured data
+    this.seoService.createBreadcrumbStructuredData([
+      { name: 'Home', url: 'https://localhost:4200/' },
+      { name: product.category?.categoryName || 'Products', url: `https://localhost:4200/category/${product.category?.id}` },
+      { name: product.name, url: window.location.href }
+    ]);
+  }
+
    addToCart(){
     if (!this.product) {
       alert('Eroare: Produsul nu este disponibil.');
@@ -67,6 +102,16 @@ export class ProductDetailsComponent implements OnInit {
     const theCartItem = new CartItem(this.product);
 
     this.cartService.addToCart(theCartItem);
+   }
+
+   toggleWishlist(): void {
+    if (!this.product) return;
+    
+    if (this.wishlistService.isInWishlist(this.product.id)) {
+      this.wishlistService.removeFromWishlist(this.product.id);
+    } else {
+      this.wishlistService.addToWishlist(this.product);
+    }
    }
 
    goBack() {

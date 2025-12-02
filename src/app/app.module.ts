@@ -30,6 +30,10 @@ import { InfoPageComponent } from './components/info-page/info-page.component';
 import { environment } from '../environments/environment';
 import { DeleteProductComponent } from './components/delete-product/delete-product.component';
 import { AdminProductsComponent } from './components/admin-products/admin-products.component';
+import { StockAlertsComponent } from './components/stock-alerts/stock-alerts.component';
+import { StarRatingComponent } from './components/star-rating/star-rating.component';
+import { ProductReviewsComponent } from './components/product-reviews/product-reviews.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
 
 
 
@@ -42,8 +46,12 @@ const routes: Routes =[
   // Ruta noua pentru paginile din footer
   { path: 'info/:type', component: InfoPageComponent },
   
+  // Ruta pentru Wishlist
+  { path: 'wishlist', component: WishlistComponent },
+  
   // Rute Admin pentru gestionare produse
   { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuard] }, // Management produse
+  { path: 'admin/stock-alerts', component: StockAlertsComponent, canActivate: [AuthGuard] }, // Alerte stoc
   { path: 'admin/product-form', component: ProductFormComponent }, // Adăugare produs nou
   { path: 'admin/product-form/:id', component: ProductFormComponent }, // Editare produs
   { path: 'admin/delete-product/:id', component: DeleteProductComponent }, // Ștergere produs
@@ -83,7 +91,11 @@ const routes: Routes =[
     OrdersByDateComponent,
     InfoPageComponent,
     DeleteProductComponent,
-    AdminProductsComponent
+    AdminProductsComponent,
+    StockAlertsComponent,
+    StarRatingComponent,
+    ProductReviewsComponent,
+    WishlistComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

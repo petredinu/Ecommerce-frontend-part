@@ -1,0 +1,150 @@
+<div class="product-reviews-container">
+  <!-- Reviews Summary -->
+  <div class="reviews-summary">
+    <h3>Customer Reviews</h3>
+    <div class="summary-content">
+      <div class="average-rating">
+        <div class="rating-number">{{ averageRating | number:'1.1-1' }}</div>
+        <app-star-rating [rating]="averageRating" [readonly]="true" [size]="'large'"></app-star-rating>
+        <div class="total-reviews">{{ totalReviews }} reviews</div>
+      </div>
+      
+      <div class="rating-distribution">
+        <div *ngFor="let star of [5,4,3,2,1]" class="rating-bar">
+          <span class="star-label">{{ star }} ⭐</span>
+          <div class="bar-container">
+            <div class="bar-fill" [style.width.%]="getRatingPercentage(star)"></div>
+          </div>
+          <span class="bar-percentage">{{ getRatingPercentage(star) | number:'1.0-0' }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Review Button -->
+  <div class="add-review-section" *ngIf="isAuthenticated">
+    <button *ngIf="!showAddReviewForm && canUserReview" 
+            class="btn btn-primary"
+            (click)="toggleAddReviewForm()">
+      <i class="fas fa-plus"></i> Write a Review
+    </button>
+    <button *ngIf="!showAddReviewForm && userExistingReview" 
+            class="btn btn-warning"
+            (click)="toggleAddReviewForm()">
+      <i class="fas fa-edit"></i> Edit Your Review
+    </button>
+    <p *ngIf="!canUserReview && !userExistingReview" class="text-muted">
+      You need to purchase this product to write a review.
+    </p>
+  </div>
+
+  <!-- Add/Edit Review Form -->
+  <div class="add-review-form" *ngIf="showAddReviewForm">
+    <h4>{{ userExistingReview ? 'Edit Your Review' : 'Write a Review' }}</h4>
+    
+    <div class="form-group">
+      <label>Rating *</label>
+      <app-star-rating [rating]="newReview.rating" 
+                       [readonly]="false" 
+                       [size]="'large'"
+                       (ratingChange)="onRatingChange($event)"></app-star-rating>
+    </div>
+    
+    <div class="form-group">
+      <label>Title *</label>
+      <input type="text" 
+             class="form-control" 
+             [(ngModel)]="newReview.title" 
+             placeholder="Sum up your experience"
+             maxlength="100">
+    </div>
+    
+    <div class="form-group">
+      <label>Review *</label>
+      <textarea class="form-control" 
+                [(ngModel)]="newReview.comment" 
+                rows="5" 
+                placeholder="Tell us about your experience with this product"
+                maxlength="500"></textarea>
+      <small class="text-muted">{{ newReview.comment.length }}/500</small>
+    </div>
+    
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+    
+    <div class="form-actions">
+      <button class="btn btn-primary" 
+              (click)="submitReview()" 
+              [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting">{{ userExistingReview ? 'Update Review' : 'Submit Review' }}</span>
+        <span *ngIf="isSubmitting">Submitting...</span>
+      </button>
+      <button class="btn btn-secondary" 
+              (click)="toggleAddReviewForm()" 
+              [disabled]="isSubmitting">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <!-- Reviews List -->
+  <div class="reviews-list">
+    <div *ngIf="isLoading" class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+    </div>
+    
+    <div *ngIf="!isLoading && reviews.length === 0" class="no-reviews">
+      <p>No reviews yet. Be the first to review this product!</p>
+    </div>
+    
+    <div *ngIf="!isLoading && reviews.length > 0">
+      <div *ngFor="let review of reviews" class="review-item">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <strong>{{ review.userName }}</strong>
+            <span class="verified-badge" *ngIf="review.verifiedPurchase">
+              <i class="fas fa-check-circle"></i> Verified Purchase
+            </span>
+          </div>
+          <div class="review-date">
+            {{ review.dateCreated | date:'mediumDate' }}
+          </div>
+        </div>
+        
+        <div class="review-rating">
+          <app-star-rating [rating]="review.rating" [readonly]="true" [size]="'small'"></app-star-rating>
+        </div>
+        
+        <div class="review-title">
+          <strong>{{ review.title }}</strong>
+        </div>
+        
+        <div class="review-comment">
+          {{ review.comment }}
+        </div>
+        
+        <div class="review-footer">
+          <button class="btn btn-sm btn-link helpful-btn" (click)="markHelpful(review.id)">
+            <i class="fas fa-thumbs-up"></i> Helpful ({{ review.helpfulCount }})
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-controls" *ngIf="totalPages > 1">
+    <button class="btn btn-sm btn-outline-primary" 
+            (click)="previousPage()" 
+            [disabled]="currentPage === 0">
+      Previous
+    </button>
+    <span class="page-info">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+    <button class="btn btn-sm btn-outline-primary" 
+            (click)="nextPage()" 
+            [disabled]="currentPage >= totalPages - 1">
+      Next
+    </button>
+  </div>
+</div>

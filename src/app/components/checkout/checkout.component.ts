@@ -6,12 +6,14 @@ import { State } from '../../common/state';
 import { Luv2ShopValidators } from '../../validators/luv2-shop-validators';
 import { CartService } from '../../services/cart.service';
 import { CheckoutService } from '../../services/checkout.service';
+import { ShippingService } from '../../services/shipping.service';
 import { Route, Router } from '@angular/router';
 import { Order } from '../../common/order';
 import { OrderItem } from '../../common/order-item';
 import { Purchase } from '../../common/purchase';
 import { Address } from '../../common/address';
 import { Customer } from '../../common/customer';
+import { ShippingMethod } from '../../common/shipping-method';
 
 @Component({
   selector: 'app-checkout',
@@ -23,6 +25,12 @@ export class CheckoutComponent implements OnInit {
   totalPrice: number = 0;
   totalQuantity: number = 0;
   isCashOnDelivery: boolean = false;
+  
+  // Shipping
+  shippingMethods: ShippingMethod[] = [];
+  selectedShippingMethod: ShippingMethod | null = null;
+  shippingCost: number = 0;
+  totalWithShipping: number = 0;
 
   checkoutFormGroup!: FormGroup<any>;
 
@@ -40,6 +48,7 @@ export class CheckoutComponent implements OnInit {
               private luv2ShopFormService: Luv2ShopFormService,
               private cartService: CartService,
               private checkoutService: CheckoutService,
+              private shippingService: ShippingService,
               private router: Router) {}
 
  ngOnInit(): void {
@@ -331,6 +340,8 @@ export class CheckoutComponent implements OnInit {
       data => {
         if (formGroupName === 'shippingAddress') {
           this.shippingAddressStates = data;
+          // Load shipping methods when country changes
+          this.loadShippingMethods(countryCode);
         }
         else {
           this.billingAddressStates = data;
@@ -341,6 +352,52 @@ export class CheckoutComponent implements OnInit {
       }
     );
 
+  }
+
+  loadShippingMethods(countryCode: string): void {
+    this.shippingService.getShippingMethodsByCountry(countryCode).subscribe({
+      next: (methods) => {
+        this.shippingMethods = methods;
+        // Select first method by default
+        if (methods.length > 0) {
+          this.onShippingMethodChange(methods[0]);
+        }
+      },
+      error: (error) => {
+        console.error('Error loading shipping methods:', error);
+        // Use default methods as fallback
+        this.shippingMethods = this.shippingService['getDefaultShippingMethods']();
+        if (this.shippingMethods.length > 0) {
+          this.onShippingMethodChange(this.shippingMethods[0]);
+        }
+      }
+    });
+  }
+
+  onShippingMethodChange(method: ShippingMethod): void {
+    this.selectedShippingMethod = method;
+    
+    // Calculate shipping cost
+    const cartWeight = this.shippingService.calculateTotalWeight(this.cartService.cartItems);
+    
+    this.shippingService.calculateShippingCost(
+      method.id,
+      this.checkoutFormGroup.get('shippingAddress.country')?.value?.code || 'US',
+      cartWeight,
+      this.totalPrice
+    ).subscribe({
+      next: (calculation) => {
+        this.shippingCost = calculation.cost;
+        this.totalWithShipping = this.totalPrice + this.shippingCost;
+      },
+      error: (error) => {
+        console.error('Error calculating shipping:', error);
+        // Use base price as fallback
+        const isFreeShipping = this.shippingService.qualifiesForFreeShipping(this.totalPrice, method);
+        this.shippingCost = isFreeShipping ? 0 : method.basePrice;
+        this.totalWithShipping = this.totalPrice + this.shippingCost;
+      }
+    });
   }
 
 }

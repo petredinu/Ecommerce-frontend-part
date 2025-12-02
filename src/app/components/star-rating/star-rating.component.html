@@ -1,0 +1,13 @@
+<div class="star-rating" [ngClass]="getSizeClass()" (mouseleave)="onMouseLeave()">
+  <span *ngFor="let star of stars"
+        class="star"
+        [ngClass]="{
+          'clickable': !readonly,
+          'readonly': readonly
+        }"
+        (click)="onStarClick(star)"
+        (mouseenter)="onStarHover(star)">
+    <i [ngClass]="getStarClass(star)"></i>
+  </span>
+  <span class="rating-value" *ngIf="rating > 0">({{ rating | number:'1.1-1' }})</span>
+</div>

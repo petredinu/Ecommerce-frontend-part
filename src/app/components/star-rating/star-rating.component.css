@@ -1,0 +1,75 @@
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.star {
+  display: inline-block;
+  cursor: default;
+  transition: transform 0.2s;
+}
+
+.star.clickable {
+  cursor: pointer;
+}
+
+.star.clickable:hover {
+  transform: scale(1.2);
+}
+
+.star i {
+  transition: color 0.2s;
+}
+
+.star i.filled {
+  color: #ffc107;
+}
+
+.star i.half-filled {
+  color: #ffc107;
+}
+
+.star i.empty {
+  color: #ddd;
+}
+
+.rating-value {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Size variations */
+.star-small .star i {
+  font-size: 14px;
+}
+
+.star-small .rating-value {
+  font-size: 12px;
+}
+
+.star-medium .star i {
+  font-size: 18px;
+}
+
+.star-medium .rating-value {
+  font-size: 14px;
+}
+
+.star-large .star i {
+  font-size: 24px;
+}
+
+.star-large .rating-value {
+  font-size: 16px;
+}
+
+.star.readonly {
+  cursor: default;
+}
+
+.star.readonly:hover {
+  transform: none;
+}

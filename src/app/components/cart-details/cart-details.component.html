@@ -12,7 +12,12 @@
 
                     <tr *ngFor="let tempCartItem of cartItems">
                         <td>
-                            <img src="{{tempCartItem.imageUrl}}" class="img-responsive" width="150px">
+                            <img src="{{tempCartItem.imageUrl}}" 
+                                 alt="{{tempCartItem.name}} - Product in cart"
+                                 title="{{tempCartItem.name}}"
+                                 class="img-responsive" 
+                                 width="150px"
+                                 loading="lazy">
 
                         </td>
                         <td>
@@ -26,7 +31,7 @@
 
                                 <div class="row no-gutters">
                                     <div class="col">
-                                        <button (click)="incrementQuantity(tempCartItem)" class="btn btn-primary btn-lg">
+                                        <button (click)="incrementQuantity(tempCartItem)" class="btn btn-primary btn-sm">
                                             <i>
                                                 <fa-icon [icon]="faPlusSquare" aria-hidden="true"></fa-icon>
                                             </i>
@@ -38,7 +43,7 @@
                                     </div>
 
                                     <div class="col">
-                                        <button (click)="decrementQuantity(tempCartItem)" class="btn btn-primary btn-lg">
+                                        <button (click)="decrementQuantity(tempCartItem)" class="btn btn-primary btn-sm">
                                             <i>
                                                 <fa-icon [icon]="faSquareMinus" aria-hidden="true"></fa-icon>
                                             </i>
@@ -51,7 +56,7 @@
                                 </div>
                             </div>
                             <div>
-                            <button (click)="remove(tempCartItem)" class="btn btn-primary btn-lg mt-2">Remove</button>
+                            <button (click)="remove(tempCartItem)" class="btn btn-primary btn-sm mt-2">Remove</button>
                             </div>
                             <p class="mt-2">Subtotal: {{ tempCartItem.quantity * tempCartItem.unitPrice | currency:'USD'
                                 }}

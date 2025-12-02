@@ -364,12 +364,52 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Shipping Method Selection -->
+                <div class="form-area" *ngIf="shippingMethods.length > 0">
+                    <h3>Shipping Method</h3>
+                    <div class="shipping-methods">
+                        <div *ngFor="let method of shippingMethods" class="shipping-method-option">
+                            <label class="shipping-method-label">
+                                <input 
+                                    type="radio" 
+                                    name="shippingMethod" 
+                                    [value]="method.id"
+                                    [checked]="selectedShippingMethod?.id === method.id"
+                                    (change)="onShippingMethodChange(method)">
+                                <span class="shipping-method-info">
+                                    <strong>{{ method.name }}</strong> - {{ method.deliveryDays }}
+                                    <br>
+                                    <small>{{ method.description }}</small>
+                                    <br>
+                                    <span class="shipping-cost">
+                                        <span *ngIf="method.freeShippingThreshold && totalPrice >= method.freeShippingThreshold" class="text-success">
+                                            <strong>FREE</strong>
+                                        </span>
+                                        <span *ngIf="!method.freeShippingThreshold || totalPrice < method.freeShippingThreshold">
+                                            {{ method.basePrice | currency:'USD' }}
+                                        </span>
+                                        <small *ngIf="method.freeShippingThreshold && totalPrice < method.freeShippingThreshold" class="text-muted">
+                                            (Free shipping on orders over {{ method.freeShippingThreshold | currency:'USD' }})
+                                        </small>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Order details-->
                 <div class="form-area">
                     <h3>Review Your Order</h3>
-                    <p>Total Quantity: {{totalQuantity | json}}</p>
-                    <p>Shipping FREE</p>
-                    <p>Total Price: {{totalPrice | currency: 'USD'}}</p>
+                    <p>Total Quantity: {{totalQuantity}}</p>
+                    <p>Subtotal: {{totalPrice | currency: 'USD'}}</p>
+                    <p>Shipping: 
+                        <span *ngIf="shippingCost === 0" class="text-success"><strong>FREE</strong></span>
+                        <span *ngIf="shippingCost > 0">{{shippingCost | currency: 'USD'}}</span>
+                    </p>
+                    <hr>
+                    <p><strong>Total Price: {{totalWithShipping || totalPrice | currency: 'USD'}}</strong></p>
                 </div>
                 <!-- submit button -->
                 <div class="text-center">

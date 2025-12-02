@@ -5,8 +5,20 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-4" *ngFor="let tempProduct of products">
 
                     <div class="product-box">
+                        <button class="wishlist-btn" 
+                                (click)="toggleWishlist(tempProduct)"
+                                [class.in-wishlist]="wishlistService.isInWishlist(tempProduct.id)"
+                                title="{{ wishlistService.isInWishlist(tempProduct.id) ? 'Elimină din Favorite' : 'Adaugă la Favorite' }}">
+                            <i class="fas fa-heart"></i>
+                            <span class="wishlist-text">{{ wishlistService.isInWishlist(tempProduct.id) ? 'Șterge' : 'Salvează' }}</span>
+                        </button>
+                        
                         <div routerLink="/products/{{tempProduct.id}}">
-                            <img src="{{ tempProduct.imageUrl }}" class="img-responsive img-fluid">
+                            <img src="{{ tempProduct.imageUrl }}" 
+                                 alt="{{ tempProduct.name }} - Buy online at best price" 
+                                 title="{{ tempProduct.name }}"
+                                 class="img-responsive img-fluid"
+                                 loading="lazy">
                         </div>
 
                         <a routerLink="/products/{{tempProduct.id}}">

@@ -1,0 +1,22 @@
+# robots.txt for Your Shop E-commerce
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /admin/
+Disallow: /members/
+Disallow: /checkout/
+Disallow: /cart-details/
+Disallow: /order-history/
+
+# Allow important pages
+Allow: /products
+Allow: /category/
+Allow: /search/
+Allow: /info/
+
+# Sitemap location
+Sitemap: https://localhost:4200/sitemap.xml
+
+# Crawl-delay for all bots (optional)
+Crawl-delay: 1
