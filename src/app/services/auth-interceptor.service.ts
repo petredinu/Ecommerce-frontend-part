@@ -17,19 +17,33 @@ export class AuthInterceptorService implements HttpInterceptor {
     const theEndpointOrders = environment.luv2shopApiUrl + '/orders';
     const theEndpointPages = environment.luv2shopApiUrl + '/page-contents';
     const theEndpointProducts = environment.luv2shopApiUrl + '/products';
+    const theEndpointAdmin = environment.luv2shopApiUrl + '/admin';
 
-    const securedEndpoints = [theEndpointOrders, theEndpointPages, theEndpointProducts];
+    const securedEndpoints = [theEndpointOrders, theEndpointPages, theEndpointProducts, theEndpointAdmin];
 
     // Verificam daca URL-ul cererii contine unul din endpoint-urile securizate
     if (securedEndpoints.some(url => request.urlWithParams.includes(url))) {
-      // --- MODIFICAREA ESTE AICI ---
+      // Toate endpoint-urile /admin necesită autentificare
+      if (request.urlWithParams.includes(theEndpointAdmin)) {
+        return this.auth.getAccessTokenSilently().pipe(
+          switchMap(token => {
+            const authRequest = request.clone({
+              setHeaders: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+            return next.handle(authRequest);
+          })
+        );
+      }
+
       // Dacă cererea este către 'page-contents' DAR este de tip GET (citire),
       // o lăsăm să treacă fără să atașăm token-ul (pentru a fi publică).
       if (request.urlWithParams.includes(theEndpointPages) && request.method === 'GET') {
         return next.handle(request);
       }
 
-      // Pentru products, doar operațiunile POST, PUT, DELETE necesită autentificare
+      // Pentru products, doar operațiunile POST, PUT, DELETE, PATCH necesită autentificare
       // GET-urile (listare/vizualizare produse) rămân publice
       if (request.urlWithParams.includes(theEndpointProducts) && request.method === 'GET') {
         return next.handle(request);

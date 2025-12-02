@@ -29,6 +29,7 @@ import { OrdersByDateComponent } from './components/orders-by-date/orders-by-dat
 import { InfoPageComponent } from './components/info-page/info-page.component';
 import { environment } from '../environments/environment';
 import { DeleteProductComponent } from './components/delete-product/delete-product.component';
+import { AdminProductsComponent } from './components/admin-products/admin-products.component';
 
 
 
@@ -42,6 +43,7 @@ const routes: Routes =[
   { path: 'info/:type', component: InfoPageComponent },
   
   // Rute Admin pentru gestionare produse
+  { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuard] }, // Management produse
   { path: 'admin/product-form', component: ProductFormComponent }, // Adăugare produs nou
   { path: 'admin/product-form/:id', component: ProductFormComponent }, // Editare produs
   { path: 'admin/delete-product/:id', component: DeleteProductComponent }, // Ștergere produs
@@ -80,7 +82,8 @@ const routes: Routes =[
     ProductFormComponent,
     OrdersByDateComponent,
     InfoPageComponent,
-    DeleteProductComponent
+    DeleteProductComponent,
+    AdminProductsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

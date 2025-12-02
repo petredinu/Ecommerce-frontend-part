@@ -1,0 +1,37 @@
+/* Cart Details Responsive */
+@media (max-width: 768px) {
+  .table-responsive {
+    font-size: 0.85rem;
+  }
+  
+  .table img {
+    max-width: 60px;
+    height: auto;
+  }
+  
+  .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  
+  /* Stack total pe mobil */
+  .mt-5 {
+    margin-top: 2rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .table {
+    font-size: 0.75rem;
+  }
+  
+  .table img {
+    max-width: 50px;
+  }
+  
+  /* Ascunde coloane pe mobile foarte mici */
+  .table th:first-child,
+  .table td:first-child {
+    display: none;
+  }
+}

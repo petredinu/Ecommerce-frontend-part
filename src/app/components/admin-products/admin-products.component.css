@@ -1,0 +1,216 @@
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  margin-top: 2rem; /* Spațiu pentru header fix */
+}
+
+.container {
+  padding-top: 1rem;
+}
+
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 3px solid #0056b3;
+}
+
+.card-header h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.product-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa !important;
+  transform: scale(1.01);
+}
+
+.table-secondary {
+  opacity: 0.7;
+}
+
+.btn-group .btn {
+  margin: 0 2px;
+  transition: all 0.2s ease;
+}
+
+.btn-group .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.badge {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.alert {
+  border-left: 4px solid;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alert-danger {
+  border-left-color: #dc3545;
+}
+
+.alert-success {
+  border-left-color: #28a745;
+}
+
+.card.bg-light {
+  border: 1px solid #dee2e6;
+}
+
+.card.bg-success,
+.card.bg-secondary {
+  border: none;
+}
+
+.card .display-6 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.text-danger {
+  font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .container {
+    padding: 0 10px;
+  }
+  
+  .card-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .table {
+    font-size: 0.9rem;
+  }
+  
+  .btn-group .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+  }
+
+  .btn-group .btn {
+    margin: 0;
+    width: 100%;
+  }
+
+  .product-thumbnail {
+    width: 40px;
+    height: 40px;
+  }
+
+  .table {
+    font-size: 0.75rem;
+  }
+  
+  .table thead th {
+    font-size: 0.7rem;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .table tbody td {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  /* Ascunde coloane pe mobile pentru a economisi spațiu */
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    display: none; /* Imagine */
+  }
+  
+  .table th:nth-child(5),
+  .table td:nth-child(5) {
+    display: none; /* Categorie */
+  }
+  
+  .card.bg-light,
+  .card.bg-success,
+  .card.bg-secondary {
+    margin-bottom: 1rem;
+  }
+  
+  .display-6 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-header h2 {
+    font-size: 1rem;
+  }
+  
+  .badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  /* Tabel mai compact */
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    display: none; /* SKU */
+  }
+}

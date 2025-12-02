@@ -47,6 +47,34 @@ export class ProductService {
       catchError(this.handleError)
     );
   }
+
+  // Obține toate produsele (inclusiv inactive) - pentru admin
+  getAllProducts(): Observable<Product[]> {
+    // Folosim endpoint-ul admin pentru a obține toate produsele
+    const adminUrl = environment.luv2shopApiUrl + '/admin/products?size=1000';
+    return this.httpClient.get<GetResponseProducts>(adminUrl).pipe(
+      map(response => {
+        // Spring Data REST returnează structura _embedded sau content
+        if (response._embedded && response._embedded.products) {
+          return response._embedded.products;
+        }
+        // Dacă răspunsul este direct un array (în cazul controller-ului custom)
+        return (response as any).content || [];
+      }),
+      catchError((error) => {
+        console.error('Eroare la getAllProducts:', error);
+        return this.handleError(error);
+      })
+    );
+  }
+
+  // Activează un produs
+  activateProduct(productId: number): Observable<Product> {
+    const activateUrl = `${this.baseUrl}/${productId}`;
+    return this.httpClient.patch<Product>(activateUrl, { active: true }).pipe(
+      catchError(this.handleError)
+    );
+  }
  
   getProduct(theProductId: number): Observable<Product> {
     const productUrl= `${this.baseUrl}/${theProductId}`;

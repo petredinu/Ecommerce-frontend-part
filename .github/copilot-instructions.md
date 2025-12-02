@@ -13,7 +13,7 @@ Angular 19 e-commerce SPA with Auth0 authentication, shopping cart, checkout, an
 ### Routing Strategy
 Routes defined in `app.module.ts` (not `app-routing.module.ts`). Key patterns:
 - Protected routes use `canActivate: [AuthGuard]` from `@auth0/auth0-angular`
-- Admin routes: `/admin/product-form`, `/admin/product-form/:id`, `/admin/delete-product/:id`
+- Admin routes: `/admin/products` (management), `/admin/product-form`, `/admin/product-form/:id`, `/admin/delete-product/:id`
 - Legacy redirects preserved: `/add-product` → `/admin/product-form`
 
 ### Authentication & Authorization
@@ -151,4 +151,4 @@ ng build --configuration=qa  # QA environment
 - **HTTP interceptor**: `src/app/services/auth-interceptor.service.ts` (token attachment logic)
 - **Cart logic**: `src/app/services/cart.service.ts` (state + persistence)
 - **Form validators**: `src/app/validators/luv2-shop-validators.ts`
-- **Admin components**: `src/app/components/product-form/`, `delete-product/`
+- **Admin components**: `src/app/components/product-form/`, `delete-product/`, `admin-products/`

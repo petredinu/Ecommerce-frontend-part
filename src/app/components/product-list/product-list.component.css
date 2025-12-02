@@ -7,6 +7,112 @@
     border-top: 1px solid #e0e0e0;
 }
 
+/* Product Grid Styling */
+.main-content {
+    padding-top: 6rem; /* Spațiu mare pentru header fix */
+    min-height: calc(100vh - 150px);
+    /* Ocean gradient - turcoaz la albastru profund */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1CB5E0 0%, #000851 100%);
+    background-attachment: fixed;
+}
+
+.section-content {
+    padding-top: 1rem;
+}
+
+.section-content-p30 {
+    background: rgba(255, 255, 255, 0.85); /* Mai transparent pentru a se vedea ocean-ul */
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    backdrop-filter: blur(10px); /* Efect de blur elegant */
+}
+
+.row {
+    margin-bottom: 1rem;
+}
+
+.col-lg-3 {
+    margin-bottom: 1.5rem;
+}
+
+/* Îmbunătățire aspect product-box */
+.product-box {
+    background: rgba(255, 255, 255, 0.95); /* Ușor transparent */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(28, 181, 224, 0.2); /* Margine subtilă ocean */
+}
+
+.product-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(28, 181, 224, 0.3); /* Shadow ocean la hover */
+    border-color: rgba(28, 181, 224, 0.5);
+}
+
+/* Footer cu fundal transparent */
+.footer {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+}
+
+/* Responsive Improvements */
+@media (max-width: 991px) {
+    .main-content {
+        padding-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding-top: 1rem;
+    }
+    
+    .product-box {
+        margin-bottom: 30px;
+    }
+    
+    .product-box img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .product-box h1 {
+        font-size: 16px;
+    }
+    
+    .btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    
+    /* Pagination responsive */
+    .footer .row {
+        flex-direction: column;
+    }
+    
+    .footer .col-md-6,
+    .footer .col-md-3,
+    .footer .col-md-9 {
+        width: 100%;
+        text-align: center !important;
+        padding: 10px 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .col-lg-3 {
+        padding: 0 10px;
+    }
+}
+
 .admin-actions .btn {
     font-size: 0.85rem;
     padding: 0.4rem 0.8rem;

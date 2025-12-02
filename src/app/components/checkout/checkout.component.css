@@ -1,0 +1,54 @@
+/* Checkout Responsive */
+@media (max-width: 991px) {
+  .form-area {
+    padding: 30px 15px;
+    margin-bottom: 30px;
+  }
+  
+  .form-area h3 {
+    font-size: 18px;
+    padding: 5px 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 2rem;
+  }
+  
+  .form-area {
+    padding: 20px 10px;
+  }
+  
+  .input-space label {
+    padding-left: 15px;
+    font-size: 13px;
+  }
+  
+  .input-space input[type=text],
+  .input-space select {
+    height: 35px;
+    font-size: 14px;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .review-section {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .col-md-2,
+  .col-md-9 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  .form-area h3 {
+    font-size: 16px;
+  }
+}
