@@ -3,7 +3,7 @@
         <div class="row mb-4">
             <div class="col-12">
                 <h2 class="mb-3">
-                    <i class="fas fa-warehouse"></i> Gestionare Stoc
+                    <i class="fas fa-warehouse"></i> {{ 'stock.management' | translate }}
                 </h2>
             </div>
         </div>
@@ -15,7 +15,7 @@
                    [class.active]="activeTab === 'alerts'"
                    (click)="switchTab('alerts')"
                    style="cursor: pointer;">
-                    <i class="fas fa-exclamation-triangle"></i> Alerte Stoc
+                    <i class="fas fa-exclamation-triangle"></i> {{ 'stock.alerts' | translate }}
                 </a>
             </li>
             <li class="nav-item">
@@ -23,7 +23,7 @@
                    [class.active]="activeTab === 'movements'"
                    (click)="switchTab('movements')"
                    style="cursor: pointer;">
-                    <i class="fas fa-exchange-alt"></i> Mișcări Stoc
+                    <i class="fas fa-exchange-alt"></i> {{ 'stock.movements' | translate }}
                 </a>
             </li>
         </ul>
@@ -32,12 +32,12 @@
         <div *ngIf="activeTab === 'alerts'">
             <div *ngIf="isLoadingAlerts" class="text-center py-5">
                 <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Se încarcă...</span>
+                    <span class="visually-hidden">{{ 'common.loading' | translate }}</span>
                 </div>
             </div>
 
             <div *ngIf="!isLoadingAlerts && alerts.length === 0" class="alert alert-info">
-                <i class="fas fa-info-circle"></i> Nu există alerte de stoc active.
+                <i class="fas fa-info-circle"></i> {{ 'stock.no-alerts' | translate }}
             </div>
 
             <div *ngIf="!isLoadingAlerts && alerts.length > 0" class="row">
@@ -50,16 +50,16 @@
                             </h5>
                             <div class="row">
                                 <div class="col-6">
-                                    <p class="mb-1"><strong>Stoc Curent:</strong> {{ alert.currentStock }}</p>
-                                    <p class="mb-1"><strong>Stoc Minim:</strong> {{ alert.minimumStock }}</p>
+                                    <p class="mb-1"><strong>{{ 'stock.current' | translate }}:</strong> {{ alert.currentStock }}</p>
+                                    <p class="mb-1"><strong>{{ 'stock.minimum' | translate }}:</strong> {{ alert.minimumStock }}</p>
                                 </div>
                                 <div class="col-6">
-                                    <p class="mb-1"><strong>Nivel:</strong> {{ alert.alertLevel }}</p>
-                                    <p class="mb-1"><strong>Data:</strong> {{ alert.dateCreated | date:'short' }}</p>
+                                    <p class="mb-1"><strong>{{ 'stock.level' | translate }}:</strong> {{ alert.alertLevel }}</p>
+                                    <p class="mb-1"><strong>{{ 'stock.date' | translate }}:</strong> {{ alert.dateCreated | date:'short' }}</p>
                                 </div>
                             </div>
                             <button class="btn btn-sm btn-primary mt-2" (click)="viewProduct(alert.productId)">
-                                <i class="fas fa-edit"></i> Editează Produs
+                                <i class="fas fa-edit"></i> {{ 'stock.edit-product' | translate }}
                             </button>
                         </div>
                     </div>
@@ -71,26 +71,26 @@
         <div *ngIf="activeTab === 'movements'">
             <div *ngIf="isLoadingMovements" class="text-center py-5">
                 <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Se încarcă...</span>
+                    <span class="visually-hidden">{{ 'common.loading' | translate }}</span>
                 </div>
             </div>
 
             <div *ngIf="!isLoadingMovements && movements.length === 0" class="alert alert-info">
-                <i class="fas fa-info-circle"></i> Nu există mișcări de stoc înregistrate.
+                <i class="fas fa-info-circle"></i> {{ 'stock.no-movements' | translate }}
             </div>
 
             <div *ngIf="!isLoadingMovements && movements.length > 0" class="table-responsive">
                 <table class="table table-hover table-bordered">
                     <thead class="table-dark">
                         <tr>
-                            <th>Data</th>
-                            <th>Produs</th>
-                            <th>Tip</th>
-                            <th>Cantitate</th>
-                            <th>Stoc Anterior</th>
-                            <th>Stoc Nou</th>
-                            <th>Motiv</th>
-                            <th>Executat De</th>
+                            <th>{{ 'stock.date' | translate }}</th>
+                            <th>{{ 'orders.product' | translate }}</th>
+                            <th>{{ 'stock.type' | translate }}</th>
+                            <th>{{ 'cart.quantity' | translate }}</th>
+                            <th>{{ 'stock.previous-stock' | translate }}</th>
+                            <th>{{ 'stock.new-stock' | translate }}</th>
+                            <th>{{ 'stock.reason' | translate }}</th>
+                            <th>{{ 'stock.performed-by' | translate }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -125,18 +125,18 @@
                     <ul class="pagination justify-content-center">
                         <li class="page-item" [class.disabled]="currentPage === 0">
                             <a class="page-link" (click)="previousPage()" style="cursor: pointer;">
-                                Anterior
+                                {{ 'reviews.previous' | translate }}
                             </a>
                         </li>
                         <li class="page-item disabled">
                             <span class="page-link">
-                                Pagina {{ currentPage + 1 }} din {{ (totalElements / pageSize) | number:'1.0-0' }}
+                                {{ 'reviews.page' | translate }} {{ currentPage + 1 }} {{ 'reviews.of' | translate }} {{ (totalElements / pageSize) | number:'1.0-0' }}
                             </span>
                         </li>
                         <li class="page-item" 
                             [class.disabled]="currentPage >= (totalElements / pageSize) - 1">
                             <a class="page-link" (click)="nextPage()" style="cursor: pointer;">
-                                Următor
+                                {{ 'reviews.next' | translate }}
                             </a>
                         </li>
                     </ul>

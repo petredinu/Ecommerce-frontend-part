@@ -1,16 +1,16 @@
 <div class="price-alerts-container">
   <div class="container-fluid">
     <div class="page-header">
-      <h1><i class="fas fa-bell"></i> Alertele Mele de Preț</h1>
-      <p class="subtitle">Gestionează alertele tale de preț și primește notificări automate</p>
+      <h1><i class="fas fa-bell"></i> {{ 'alerts.my-alerts' | translate }}</h1>
+      <p class="subtitle">{{ 'alerts.manage-info' | translate }}</p>
     </div>
 
     <!-- Loading State -->
     <div *ngIf="isLoading" class="loading-section">
       <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Se încarcă...</span>
+        <span class="visually-hidden">{{ 'common.loading' | translate }}</span>
       </div>
-      <p class="mt-3">Se încarcă alertele tale...</p>
+      <p class="mt-3">{{ 'alerts.loading' | translate }}</p>
     </div>
 
     <!-- Empty State -->
@@ -18,10 +18,10 @@
       <div class="empty-icon">
         <i class="fas fa-bell-slash"></i>
       </div>
-      <h3>Nu ai alerte de preț active</h3>
-      <p>Setează o alertă de preț pe un produs și vei fi notificat automat când prețul scade!</p>
+      <h3>{{ 'alerts.no-active' | translate }}</h3>
+      <p>{{ 'alerts.set-alert-info' | translate }}</p>
       <button class="btn btn-primary mt-3" routerLink="/products">
-        <i class="fas fa-shopping-bag"></i> Explorează Produsele
+        <i class="fas fa-shopping-bag"></i> {{ 'products.explore' | translate }}
       </button>
     </div>
 
@@ -46,11 +46,11 @@
 
           <div class="price-info-grid">
             <div class="price-box">
-              <label>Preț Curent</label>
+              <label>{{ 'alerts.current-price' | translate }}</label>
               <div class="price-value current">{{ alert.product.unitPrice | number:'1.2-2' }} Lei</div>
             </div>
             <div class="price-box">
-              <label>Preț Țintă</label>
+              <label>{{ 'alerts.target-price' | translate }}</label>
               <div class="price-value target">{{ alert.targetPrice | number:'1.2-2' }} Lei</div>
             </div>
           </div>
@@ -58,20 +58,20 @@
           <div class="alert-details">
             <div class="detail-item">
               <i class="fas fa-calendar-plus"></i>
-              <span>Creat: {{ alert.dateCreated | date:'dd MMM yyyy' }}</span>
+              <span>{{ 'alerts.created' | translate }}: {{ alert.dateCreated | date:'dd MMM yyyy' }}</span>
             </div>
             <div class="detail-item" *ngIf="alert.notifiedDate">
               <i class="fas fa-check-circle"></i>
-              <span>Notificat: {{ alert.notifiedDate | date:'dd MMM yyyy' }}</span>
+              <span>{{ 'alerts.notified' | translate }}: {{ alert.notifiedDate | date:'dd MMM yyyy' }}</span>
             </div>
           </div>
 
           <div class="alert-actions">
             <button class="btn btn-sm btn-primary" (click)="viewProduct(alert.product.id)">
-              <i class="fas fa-eye"></i> Vezi Produs
+              <i class="fas fa-eye"></i> {{ 'alerts.view-product' | translate }}
             </button>
             <button class="btn btn-sm btn-danger" (click)="deleteAlert(alert.id)">
-              <i class="fas fa-trash"></i> Șterge
+              <i class="fas fa-trash"></i> {{ 'common.delete' | translate }}
             </button>
           </div>
         </div>

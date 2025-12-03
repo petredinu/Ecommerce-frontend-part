@@ -3,9 +3,9 @@
         <!-- Loading state -->
         <div *ngIf="!product" class="text-center py-5">
             <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Se încarcă...</span>
+                <span class="visually-hidden">{{ 'common.loading' | translate }}</span>
             </div>
-            <p class="mt-3">Se încarcă detaliile produsului...</p>
+            <p class="mt-3">{{ 'product-form.loading' | translate }}</p>
         </div>
 
         <!-- Product details - shown only when product is loaded -->
@@ -25,7 +25,7 @@
                     
                     <div class="button-group mt-3">
                         <button (click)="addToCart()" class="btn btn-primary btn-sm me-2">
-                            <i class="fas fa-shopping-cart"></i> Adaugă în Coș
+                            <i class="fas fa-shopping-cart"></i> {{ 'products.add-to-cart' | translate }}
                         </button>
                         <button (click)="toggleWishlist()" 
                                 class="btn btn-sm me-2"
@@ -46,7 +46,7 @@
                     <p>{{product.description}}</p>
 
                     <a (click)="goBack()" class="mt-3 d-inline-block" style="cursor: pointer; color: blue; text-decoration: underline;">
-                        <i class="fas fa-arrow-left"></i> Înapoi la Lista de Produse
+                        <i class="fas fa-arrow-left"></i> {{ 'products.back-to-list' | translate }}
                     </a>
                 </div>
             </div>
@@ -97,8 +97,8 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" (click)="closePriceAlertModal()">
-                Anulează
-            </button>
+                {{ 'common.cancel' | translate }}
+              </button>
             <button class="btn btn-warning" (click)="createPriceAlert()">
                 <i class="fas fa-bell"></i> Creează Alertă
             </button>

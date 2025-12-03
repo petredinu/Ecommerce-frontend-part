@@ -2,17 +2,17 @@
   <div class="container-fluid mt-4">
     <div class="row mb-4">
       <div class="col-12">
-        <h2><i class="fas fa-heart"></i> Lista Mea de Dorințe</h2>
+        <h2><i class="fas fa-heart"></i> {{ 'wishlist.title' | translate }}</h2>
       </div>
     </div>
 
     <!-- Empty Wishlist -->
     <div *ngIf="wishlistItems.length === 0" class="empty-wishlist">
       <i class="fas fa-heart-broken fa-5x mb-3"></i>
-      <h3>Lista ta de dorințe este goală</h3>
-      <p>Începe să adaugi produsele pe care le iubești!</p>
+      <h3>{{ 'wishlist.empty' | translate }}</h3>
+      <p>{{ 'wishlist.empty-message' | translate }}</p>
       <a routerLink="/products" class="btn btn-primary">
-        <i class="fas fa-shopping-bag"></i> Continuă Cumpărăturile
+        <i class="fas fa-shopping-bag"></i> {{ 'cart.continue-shopping' | translate }}
       </a>
     </div>
 
@@ -21,7 +21,7 @@
       <div class="row mb-3">
         <div class="col-12 text-end">
           <button class="btn btn-sm btn-outline-danger" (click)="clearWishlist()">
-            <i class="fas fa-trash"></i> Golește Wishlist
+            <i class="fas fa-trash"></i> {{ 'wishlist.clear-all' | translate }}
           </button>
         </div>
       </div>
@@ -45,10 +45,10 @@
               <p class="price">{{ item.product.unitPrice | number:'1.2-2' }} Lei</p>
               
               <div *ngIf="item.product.unitsInStock > 0" class="stock-status in-stock">
-                <i class="fas fa-check-circle"></i> În Stoc
+                <i class="fas fa-check-circle"></i> {{ 'products.in-stock' | translate }}
               </div>
               <div *ngIf="item.product.unitsInStock === 0" class="stock-status out-of-stock">
-                <i class="fas fa-times-circle"></i> Stoc Epuizat
+                <i class="fas fa-times-circle"></i> {{ 'products.out-of-stock' | translate }}
               </div>
               
               <p class="date-added">Adăugat: {{ item.dateAdded | date:'short' }}</p>

@@ -2,23 +2,23 @@
   <!-- Loading State -->
   <div *ngIf="isLoading" class="mb-4">
     <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Se încarcă...</span>
+      <span class="visually-hidden">{{ 'common.loading' | translate }}</span>
     </div>
-    <p class="lead mt-3">Se încarcă informațiile produsului...</p>
+    <p class="lead mt-3">{{ 'products.loading-info' | translate }}</p>
   </div>
 
   <!-- Error State -->
   <div *ngIf="errorMessage && !isLoading" class="alert alert-danger" role="alert">
-    <h4 class="alert-heading">Eroare!</h4>
+    <h4 class="alert-heading">{{ 'common.error-title' | translate }}</h4>
     <p>{{ errorMessage }}</p>
     <hr>
-    <p class="mb-0">Veți fi redirecționat automat către lista de produse...</p>
+    <p class="mb-0">{{ 'common.redirect' | translate }}</p>
   </div>
 
   <!-- Product Delete Confirmation -->
   <div *ngIf="product && !isLoading && !errorMessage" class="card shadow-lg mx-auto" style="max-width: 600px;">
     <div class="card-header bg-danger text-white">
-      <h3 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Confirmare Ștergere</h3>
+      <h3 class="mb-0"><i class="fas fa-exclamation-triangle"></i> {{ 'products.delete-confirmation' | translate }}</h3>
     </div>
     <div class="card-body">
       <div class="mb-4">
@@ -28,7 +28,7 @@
       </div>
 
       <div class="alert alert-warning" role="alert">
-        <strong>Atenție!</strong> Această acțiune va șterge permanent produsul și nu poate fi anulată.
+        <strong>{{ 'products.warning' | translate }}</strong> {{ 'products.delete-warning' | translate }}
       </div>
 
       <div class="d-grid gap-2 mt-4">
@@ -37,18 +37,18 @@
           (click)="confirmDelete()" 
           [disabled]="isDeleting">
           <span *ngIf="!isDeleting">
-            <i class="fas fa-trash-alt"></i> Șterge Definitiv
+            <i class="fas fa-trash-alt"></i> {{ 'products.delete-permanent' | translate }}
           </span>
           <span *ngIf="isDeleting">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Se șterge...
+            {{ 'products.deleting' | translate }}
           </span>
         </button>
         <button 
           class="btn btn-secondary" 
           (click)="cancelDelete()" 
           [disabled]="isDeleting">
-          <i class="fas fa-arrow-left"></i> Anulează
+          <i class="fas fa-arrow-left"></i> {{ 'common.cancel' | translate }}
         </button>
       </div>
     </div>

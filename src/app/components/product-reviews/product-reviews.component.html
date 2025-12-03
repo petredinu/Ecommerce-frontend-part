@@ -1,12 +1,12 @@
 <div class="product-reviews-container">
   <!-- Reviews Summary -->
   <div class="reviews-summary">
-    <h3>Review-uri Clienți</h3>
+    <h3>{{ 'reviews.customer-reviews' | translate }}</h3>
     <div class="summary-content">
       <div class="average-rating">
         <div class="rating-number">{{ averageRating | number:'1.1-1' }}</div>
         <app-star-rating [rating]="averageRating" [readonly]="true" [size]="'large'"></app-star-rating>
-        <div class="total-reviews">{{ totalReviews }} review-uri</div>
+        <div class="total-reviews">{{ totalReviews }} {{ 'reviews.reviews' | translate }}</div>
       </div>
       
       <div class="rating-distribution">
@@ -26,24 +26,24 @@
     <button *ngIf="!showAddReviewForm && canUserReview" 
             class="btn btn-primary"
             (click)="toggleAddReviewForm()">
-      <i class="fas fa-plus"></i> Scrie un Review
+      <i class="fas fa-plus"></i> {{ 'reviews.write-review' | translate }}
     </button>
     <button *ngIf="!showAddReviewForm && userExistingReview" 
             class="btn btn-warning"
             (click)="toggleAddReviewForm()">
-      <i class="fas fa-edit"></i> Editează Review-ul Tău
+      <i class="fas fa-edit"></i> {{ 'reviews.edit-your-review' | translate }}
     </button>
     <p *ngIf="!canUserReview && !userExistingReview" class="text-muted">
-      Trebuie să cumperi acest produs pentru a scrie un review.
+      {{ 'reviews.must-purchase' | translate }}
     </p>
   </div>
 
   <!-- Add/Edit Review Form -->
   <div class="add-review-form" *ngIf="showAddReviewForm">
-    <h4>{{ userExistingReview ? 'Editează Review-ul Tău' : 'Scrie un Review' }}</h4>
+    <h4>{{ userExistingReview ? ('reviews.edit-your-review' | translate) : ('reviews.write-review' | translate) }}</h4>
     
     <div class="form-group">
-      <label>Rating *</label>
+      <label>{{ 'reviews.rating' | translate }} *</label>
       <app-star-rating [rating]="newReview.rating" 
                        [readonly]="false" 
                        [size]="'large'"
@@ -51,20 +51,20 @@
     </div>
     
     <div class="form-group">
-      <label>Title *</label>
+      <label>{{ 'reviews.title' | translate }} *</label>
       <input type="text" 
              class="form-control" 
              [(ngModel)]="newReview.title" 
-             placeholder="Rezumă experiența ta"
+             placeholder="{{ 'reviews.title-placeholder' | translate }}"
              maxlength="100">
     </div>
     
     <div class="form-group">
-      <label>Review *</label>
+      <label>{{ 'reviews.review' | translate }} *</label>
       <textarea class="form-control" 
                 [(ngModel)]="newReview.comment" 
                 rows="5" 
-                placeholder="Spune-ne despre experiența ta cu acest produs"
+                placeholder="{{ 'reviews.comment-placeholder' | translate }}"
                 maxlength="500"></textarea>
       <small class="text-muted">{{ newReview.comment.length }}/500</small>
     </div>
@@ -77,13 +77,13 @@
       <button class="btn btn-primary" 
               (click)="submitReview()" 
               [disabled]="isSubmitting">
-        <span *ngIf="!isSubmitting">{{ userExistingReview ? 'Actualizează Review' : 'Trimite Review' }}</span>
-        <span *ngIf="isSubmitting">Se trimite...</span>
+        <span *ngIf="!isSubmitting">{{ userExistingReview ? ('reviews.update' | translate) : ('reviews.submit' | translate) }}</span>
+        <span *ngIf="isSubmitting">{{ 'reviews.submitting' | translate }}</span>
       </button>
       <button class="btn btn-secondary" 
               (click)="toggleAddReviewForm()" 
               [disabled]="isSubmitting">
-        Anulează
+        {{ 'common.cancel' | translate }}
       </button>
     </div>
   </div>
@@ -95,7 +95,7 @@
     </div>
     
     <div *ngIf="!isLoading && reviews.length === 0" class="no-reviews">
-      <p>Niciun review încă. Fii primul care scrie un review pentru acest produs!</p>
+      <p>{{ 'reviews.no-reviews' | translate }}</p>
     </div>
     
     <div *ngIf="!isLoading && reviews.length > 0">
@@ -104,7 +104,7 @@
           <div class="reviewer-info">
             <strong>{{ review.userName }}</strong>
             <span class="verified-badge" *ngIf="review.verifiedPurchase">
-              <i class="fas fa-check-circle"></i> Verified Purchase
+              <i class="fas fa-check-circle"></i> {{ 'reviews.verified-purchase' | translate }}
             </span>
           </div>
           <div class="review-date">
@@ -126,7 +126,7 @@
         
         <div class="review-footer">
           <button class="btn btn-sm btn-link helpful-btn" (click)="markHelpful(review.id)">
-            <i class="fas fa-thumbs-up"></i> Util ({{ review.helpfulCount }})
+            <i class="fas fa-thumbs-up"></i> {{ 'reviews.helpful' | translate }} ({{ review.helpfulCount }})
           </button>
         </div>
       </div>
@@ -138,13 +138,13 @@
     <button class="btn btn-sm btn-outline-primary" 
             (click)="previousPage()" 
             [disabled]="currentPage === 0">
-      Previous
+      {{ 'reviews.previous' | translate }}
     </button>
-    <span class="page-info">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+    <span class="page-info">{{ 'reviews.page' | translate }} {{ currentPage + 1 }} {{ 'reviews.of' | translate }} {{ totalPages }}</span>
     <button class="btn btn-sm btn-outline-primary" 
             (click)="nextPage()" 
             [disabled]="currentPage >= totalPages - 1">
-      Next
+      {{ 'reviews.next' | translate }}
     </button>
   </div>
 </div>

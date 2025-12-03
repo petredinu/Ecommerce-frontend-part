@@ -10,9 +10,9 @@
       <!-- Loading Spinner -->
       <div *ngIf="isLoading" class="text-center my-5">
         <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Se încarcă...</span>
+          <span class="visually-hidden">{{ 'common.loading' | translate }}</span>
         </div>
-        <p class="mt-2">Se încarcă produsele...</p>
+        <p class="mt-2">{{ 'admin.loading-products' | translate }}</p>
       </div>
 
       <!-- Error Message -->
@@ -35,14 +35,14 @@
           <thead class="table-dark">
             <tr>
               <th>ID</th>
-              <th>Imagine</th>
+              <th>{{ 'orders.image' | translate }}</th>
               <th>SKU</th>
-              <th>Nume</th>
-              <th>Categorie</th>
-              <th>Preț</th>
-              <th>Stoc</th>
-              <th>Status</th>
-              <th class="text-center">Acțiuni</th>
+              <th>{{ 'orders.name' | translate }}</th>
+              <th>{{ 'admin.category' | translate }}</th>
+              <th>{{ 'admin.price' | translate }}</th>
+              <th>{{ 'admin.stock' | translate }}</th>
+              <th>{{ 'admin.status' | translate }}</th>
+              <th class="text-center">{{ 'admin.actions' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -64,10 +64,10 @@
               </td>
               <td>
                 <span *ngIf="product.active" class="badge bg-success">
-                  <i class="fas fa-check-circle me-1"></i>Activ
+                  <i class="fas fa-check-circle me-1"></i>{{ 'admin.active' | translate }}
                 </span>
                 <span *ngIf="!product.active" class="badge bg-secondary">
-                  <i class="fas fa-times-circle me-1"></i>Inactiv
+                  <i class="fas fa-times-circle me-1"></i>{{ 'admin.inactive' | translate }}
                 </span>
               </td>
               <td class="text-center">
@@ -76,21 +76,21 @@
                   <button *ngIf="!product.active" 
                           (click)="activateProduct(product)" 
                           class="btn btn-sm btn-success" 
-                          title="Activează produs">
-                    <i class="fas fa-toggle-on"></i> Activează
+                          title="{{ 'admin.activate' | translate }}">
+                    <i class="fas fa-toggle-on"></i> {{ 'admin.activate' | translate }}
                   </button>
                   
                   <!-- Buton Editare -->
                   <button (click)="editProduct(product.id)" 
                           class="btn btn-sm btn-primary" 
-                          title="Editează produs">
+                          title="{{ 'common.edit' | translate }}">
                     <i class="fas fa-edit"></i>
                   </button>
                   
                   <!-- Buton Ștergere -->
                   <button (click)="deleteProduct(product.id)" 
                           class="btn btn-sm btn-danger" 
-                          title="Șterge produs">
+                          title="{{ 'common.delete' | translate }}">
                     <i class="fas fa-trash"></i>
                   </button>
                 </div>
@@ -103,7 +103,7 @@
       <!-- No Products Message -->
       <div *ngIf="!isLoading && products.length === 0" class="text-center my-5">
         <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-        <p class="text-muted">Nu există produse în baza de date.</p>
+        <p class="text-muted">{{ 'admin.no-products' | translate }}</p>
       </div>
 
       <!-- Summary Info -->
@@ -112,7 +112,7 @@
           <div class="col-md-4">
             <div class="card bg-light">
               <div class="card-body text-center">
-                <h5 class="card-title">Total Produse</h5>
+                <h5 class="card-title">{{ 'admin.total-products' | translate }}</h5>
                 <p class="display-6">{{ products.length }}</p>
               </div>
             </div>
@@ -120,7 +120,7 @@
           <div class="col-md-4">
             <div class="card bg-success text-white">
               <div class="card-body text-center">
-                <h5 class="card-title">Produse Active</h5>
+                <h5 class="card-title">{{ 'admin.active-products' | translate }}</h5>
                 <p class="display-6">{{ getActiveProductsCount() }}</p>
               </div>
             </div>
@@ -128,7 +128,7 @@
           <div class="col-md-4">
             <div class="card bg-secondary text-white">
               <div class="card-body text-center">
-                <h5 class="card-title">Produse Inactive</h5>
+                <h5 class="card-title">{{ 'admin.inactive-products' | translate }}</h5>
                 <p class="display-6">{{ getInactiveProductsCount() }}</p>
               </div>
             </div>

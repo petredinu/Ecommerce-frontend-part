@@ -5,9 +5,9 @@
       <!-- Loading State -->
       <div *ngIf="isLoading" class="text-center loading-container">
         <div class="spinner-border text-success" role="status">
-          <span class="sr-only">Se încarcă...</span>
+          <span class="sr-only">{{ 'common.loading' | translate }}</span>
         </div>
-        <p class="mt-3">Se verifică plata...</p>
+        <p class="mt-3">{{ 'payment.verifying-payment' | translate }}</p>
       </div>
 
       <!-- Success State -->
@@ -16,32 +16,32 @@
           <i class="fas fa-check-circle"></i>
         </div>
         
-        <h1 class="success-title">Plată Reușită!</h1>
+        <h1 class="success-title">{{ 'payment.success-title' | translate }}</h1>
         
         <div class="success-message">
-          <p class="lead">Comanda ta a fost plasată cu succes!</p>
-          <p>Vei primi un email de confirmare în scurt timp.</p>
+          <p class="lead">{{ 'payment.success-message' | translate }}</p>
+          <p>{{ 'payment.email-confirmation' | translate }}</p>
         </div>
 
         <div class="order-details-card" *ngIf="orderTrackingNumber">
-          <h3><i class="fas fa-box"></i> Detalii Comandă</h3>
+          <h3><i class="fas fa-box"></i> {{ 'payment.order-details' | translate }}</h3>
           <div class="detail-row">
-            <span class="detail-label">Număr Tracking:</span>
+            <span class="detail-label">{{ 'payment.tracking-number' | translate }}:</span>
             <span class="detail-value tracking-number">{{ orderTrackingNumber }}</span>
           </div>
           <div class="detail-row" *ngIf="paymentIntentId">
-            <span class="detail-label">ID Plată:</span>
+            <span class="detail-label">{{ 'payment.payment-id' | translate }}:</span>
             <span class="detail-value">{{ paymentIntentId }}</span>
           </div>
           <div class="detail-row" *ngIf="paymentDetails">
-            <span class="detail-label">Sumă Plătită:</span>
+            <span class="detail-label">{{ 'payment.amount-paid' | translate }}:</span>
             <span class="detail-value amount">
               {{ formatAmount(paymentDetails.amount) | number:'1.2-2' }} 
               {{ paymentDetails.currency?.toUpperCase() }}
             </span>
           </div>
           <div class="detail-row" *ngIf="paymentDetails?.receiptEmail">
-            <span class="detail-label">Email Confirmare:</span>
+            <span class="detail-label">{{ 'payment.receipt-email' | translate }}:</span>
             <span class="detail-value">{{ paymentDetails.receiptEmail }}</span>
           </div>
         </div>
@@ -49,25 +49,25 @@
         <div class="info-section">
           <div class="info-box">
             <i class="fas fa-shipping-fast"></i>
-            <h4>Ce urmează?</h4>
-            <p>Comanda ta va fi procesată în cel mai scurt timp posibil. Vei primi un email când produsele vor fi expediate.</p>
+            <h4>{{ 'payment.whats-next' | translate }}</h4>
+            <p>{{ 'payment.processing-info' | translate }}</p>
           </div>
           
           <div class="info-box">
             <i class="fas fa-envelope"></i>
-            <h4>Email de Confirmare</h4>
-            <p>Am trimis un email de confirmare cu detaliile comenzii tale. Verifică și folderul spam.</p>
+            <h4>{{ 'payment.confirmation-email' | translate }}</h4>
+            <p>{{ 'payment.email-sent-info' | translate }}</p>
           </div>
         </div>
 
         <div class="action-buttons">
           <button class="btn btn-primary btn-lg" (click)="goToOrders()">
             <i class="fas fa-list"></i>
-            Vezi Comenzile Mele
+            {{ 'payment.view-orders' | translate }}
           </button>
           <button class="btn btn-outline-primary btn-lg" (click)="goToHome()">
             <i class="fas fa-home"></i>
-            Înapoi la Magazine
+            {{ 'payment.back-to-shop' | translate }}
           </button>
         </div>
       </div>
@@ -77,11 +77,11 @@
         <div class="error-icon">
           <i class="fas fa-exclamation-circle"></i>
         </div>
-        <h2>Ups! Ceva nu a mers bine</h2>
+        <h2>{{ 'common.error-title' | translate }}</h2>
         <p class="error-text">{{ errorMessage }}</p>
         <button class="btn btn-primary" (click)="goToHome()">
           <i class="fas fa-home"></i>
-          Înapoi la Magazine
+          {{ 'payment.back-to-shop' | translate }}
         </button>
       </div>
 

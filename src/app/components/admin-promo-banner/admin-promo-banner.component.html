@@ -3,11 +3,11 @@
   <div class="page-header">
     <h1>
       <i class="fas fa-bullhorn"></i>
-      Gestionare Bannere Promoționale
+      {{ 'banner.management' | translate }}
     </h1>
     <button (click)="toggleForm()" class="btn-add" [class.active]="showForm">
       <i class="fas" [class.fa-plus]="!showForm" [class.fa-times]="showForm"></i>
-      {{ showForm ? 'Anulează' : 'Adaugă Banner Nou' }}
+      {{ showForm ? ('common.cancel' | translate) : ('admin.add-banner' | translate) }}
     </button>
   </div>
 
@@ -22,59 +22,59 @@
   <!-- Banner Form -->
   <div *ngIf="showForm" class="banner-form-section">
     <div class="form-header">
-      <h2>{{ isEditing ? 'Editează Banner' : 'Banner Nou' }}</h2>
+      <h2>{{ isEditing ? ('admin.edit-banner' | translate) : ('admin.new-banner' | translate) }}</h2>
     </div>
 
     <form [formGroup]="bannerForm" (ngSubmit)="saveBanner()">
       <div class="form-grid">
         <!-- Title -->
         <div class="form-group full-width">
-          <label for="title">Titlu Banner *</label>
+          <label for="title">{{ 'banner.title' | translate }} *</label>
           <input type="text" id="title" formControlName="title" 
                  placeholder="Ex: Ofertă Specială Black Friday!">
           <div *ngIf="bannerForm.get('title')?.invalid && bannerForm.get('title')?.touched" 
                class="error-text">
-            Titlul trebuie să aibă minim 3 caractere
+            {{ 'banner.title-error' | translate }}
           </div>
         </div>
 
         <!-- Description -->
         <div class="form-group full-width">
-          <label for="description">Descriere *</label>
+          <label for="description">{{ 'banner.description' | translate }} *</label>
           <textarea id="description" formControlName="description" rows="3"
                     placeholder="Ex: Reduceri de până la 50% la toate produsele!"></textarea>
           <div *ngIf="bannerForm.get('description')?.invalid && bannerForm.get('description')?.touched" 
                class="error-text">
-            Descrierea trebuie să aibă minim 10 caractere
+            {{ 'banner.description-error' | translate }}
           </div>
         </div>
 
         <!-- Image URL -->
         <div class="form-group">
-          <label for="imageUrl">URL Imagine Produs *</label>
+          <label for="imageUrl">{{ 'banner.image-url' | translate }} *</label>
           <input type="url" id="imageUrl" formControlName="imageUrl"
                  placeholder="https://example.com/produs.jpg">
-          <small>URL-ul imaginii produsului în ofertă</small>
+          <small>{{ 'banner.image-info' | translate }}</small>
         </div>
 
         <!-- Link URL -->
         <div class="form-group">
-          <label for="linkUrl">Link Destinație *</label>
+          <label for="linkUrl">{{ 'banner.link-url' | translate }} *</label>
           <input type="text" id="linkUrl" formControlName="linkUrl"
                  placeholder="/category/1">
-          <small>Ex: /category/1, /products, /search/keyword</small>
+          <small>{{ 'banner.link-info' | translate }}</small>
         </div>
 
         <!-- Button Text -->
         <div class="form-group">
-          <label for="buttonText">Text Buton *</label>
+          <label for="buttonText">{{ 'banner.button-text' | translate }} *</label>
           <input type="text" id="buttonText" formControlName="buttonText"
                  placeholder="Vezi Oferta">
         </div>
 
         <!-- Background Color -->
         <div class="form-group">
-          <label for="backgroundColor">Culoare Fundal *</label>
+          <label for="backgroundColor">{{ 'banner.bg-color' | translate }} *</label>
           <div class="color-input-group">
             <input type="color" id="backgroundColor" formControlName="backgroundColor">
             <input type="text" [value]="bannerForm.get('backgroundColor')?.value" readonly>
@@ -83,7 +83,7 @@
 
         <!-- Text Color -->
         <div class="form-group">
-          <label for="textColor">Culoare Text *</label>
+          <label for="textColor">{{ 'banner.text-color' | translate }} *</label>
           <div class="color-input-group">
             <input type="color" id="textColor" formControlName="textColor">
             <input type="text" [value]="bannerForm.get('textColor')?.value" readonly>
@@ -94,20 +94,20 @@
         <div class="form-group">
           <label class="checkbox-label">
             <input type="checkbox" formControlName="active">
-            <span>Banner Activ</span>
+            <span>{{ 'banner.active' | translate }}</span>
           </label>
-          <small>Doar un banner activ va fi afișat pe homepage</small>
+          <small>{{ 'banner.active-info' | translate }}</small>
         </div>
       </div>
 
       <!-- Form Actions -->
       <div class="form-actions">
         <button type="button" (click)="resetForm()" class="btn-secondary">
-          <i class="fas fa-undo"></i> Resetează
+          <i class="fas fa-undo"></i> {{ 'banner.reset' | translate }}
         </button>
         <button type="submit" class="btn-primary" [disabled]="isSaving || bannerForm.invalid">
           <i class="fas" [class.fa-save]="!isSaving" [class.fa-spinner]="isSaving" [class.fa-spin]="isSaving"></i>
-          {{ isSaving ? 'Se salvează...' : (isEditing ? 'Actualizează' : 'Creează Banner') }}
+          {{ isSaving ? ('banner.saving' | translate) : (isEditing ? ('banner.update' | translate) : ('banner.create' | translate)) }}
         </button>
       </div>
     </form>
@@ -115,17 +115,17 @@
 
   <!-- Banners List -->
   <div class="banners-list">
-    <h2>Bannere Existente ({{ banners.length }})</h2>
+    <h2>{{ 'banner.existing' | translate }} ({{ banners.length }})</h2>
 
     <div *ngIf="isLoading" class="loading-state">
-      <i class="fas fa-spinner fa-spin"></i> Se încarcă...
+      <i class="fas fa-spinner fa-spin"></i> {{ 'common.loading' | translate }}
     </div>
 
     <div *ngIf="!isLoading && banners.length === 0" class="empty-state">
       <i class="fas fa-bullhorn"></i>
-      <p>Nu există bannere create încă</p>
+      <p>{{ 'banner.no-banners' | translate }}</p>
       <button (click)="toggleForm()" class="btn-add">
-        <i class="fas fa-plus"></i> Creează Primul Banner
+        <i class="fas fa-plus"></i> {{ 'banner.create-first' | translate }}
       </button>
     </div>
 
@@ -133,7 +133,7 @@
       <div *ngFor="let banner of banners" class="banner-card" [class.active]="banner.active">
         <!-- Active Badge -->
         <div *ngIf="banner.active" class="active-badge">
-          <i class="fas fa-check-circle"></i> ACTIV
+          <i class="fas fa-check-circle"></i> {{ 'banner.active-badge' | translate }}
         </div>
 
         <!-- Banner Preview -->
@@ -152,33 +152,33 @@
         <!-- Banner Info -->
         <div class="banner-info">
           <div class="info-row">
-            <span class="label">Link:</span>
+            <span class="label">{{ 'banner.link' | translate }}:</span>
             <span class="value">{{ banner.linkUrl }}</span>
           </div>
           <div class="info-row">
-            <span class="label">Buton:</span>
+            <span class="label">{{ 'banner.button' | translate }}:</span>
             <span class="value">{{ banner.buttonText }}</span>
           </div>
           <div class="info-row">
-            <span class="label">Status:</span>
+            <span class="label">{{ 'admin.status' | translate }}:</span>
             <span class="status-badge" [class.active]="banner.active">
-              {{ banner.active ? 'Activ' : 'Inactiv' }}
+              {{ banner.active ? ('admin.active' | translate) : ('admin.inactive' | translate) }}
             </span>
           </div>
         </div>
 
         <!-- Actions -->
         <div class="banner-actions">
-          <button (click)="editBanner(banner)" class="btn-edit" title="Editează">
+          <button (click)="editBanner(banner)" class="btn-edit" title="{{ 'common.edit' | translate }}">
             <i class="fas fa-edit"></i>
           </button>
           <button (click)="toggleBannerStatus(banner)" 
                   [class.btn-activate]="!banner.active"
                   [class.btn-deactivate]="banner.active"
-                  [title]="banner.active ? 'Dezactivează' : 'Activează'">
+                  [title]="banner.active ? ('banner.deactivate' | translate) : ('admin.activate' | translate)">
             <i class="fas" [class.fa-toggle-on]="banner.active" [class.fa-toggle-off]="!banner.active"></i>
           </button>
-          <button (click)="deleteBanner(banner.id)" class="btn-delete" title="Șterge">
+          <button (click)="deleteBanner(banner.id)" class="btn-delete" title="{{ 'common.delete' | translate }}">
             <i class="fas fa-trash"></i>
           </button>
         </div>
