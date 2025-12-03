@@ -1,0 +1,83 @@
+<div class="main-content page-m">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      
+      <div class="cancel-container">
+        <div class="cancel-icon">
+          <i class="fas" [ngClass]="getReasonIcon()"></i>
+        </div>
+        
+        <h1 class="cancel-title">Plată Anulată</h1>
+        
+        <div class="cancel-message">
+          <p class="lead">Plata ta nu a fost procesată.</p>
+          <p class="reason-text">{{ getReasonMessage() }}</p>
+        </div>
+
+        <div class="help-section">
+          <h3><i class="fas fa-question-circle"></i> Ce poți face acum?</h3>
+          
+          <div class="help-options">
+            <div class="help-option">
+              <i class="fas fa-redo"></i>
+              <h4>Încearcă din nou</h4>
+              <p>Poți încerca să finalizezi comanda din nou cu același card sau cu un card diferit.</p>
+              <button class="btn btn-primary" (click)="goToCheckout()">
+                <i class="fas fa-shopping-cart"></i>
+                Înapoi la Checkout
+              </button>
+            </div>
+
+            <div class="help-option">
+              <i class="fas fa-edit"></i>
+              <h4>Modifică comanda</h4>
+              <p>Revizuiește produsele din coș sau modifică cantitățile înainte de a plasa comanda.</p>
+              <button class="btn btn-outline-primary" (click)="goToCart()">
+                <i class="fas fa-shopping-basket"></i>
+                Vezi Coșul
+              </button>
+            </div>
+
+            <div class="help-option">
+              <i class="fas fa-phone"></i>
+              <h4>Ai nevoie de ajutor?</h4>
+              <p>Dacă problema persistă, te rugăm să contactezi suportul clienți.</p>
+              <a href="mailto:support@example.com" class="btn btn-outline-secondary">
+                <i class="fas fa-envelope"></i>
+                Contactează Suportul
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="common-issues">
+          <h4><i class="fas fa-lightbulb"></i> Probleme Comune</h4>
+          <ul>
+            <li><strong>Card refuzat?</strong> Verifică dacă ai suficiente fonduri sau contactează banca ta.</li>
+            <li><strong>Card expirat?</strong> Folosește un card cu o dată de expirare validă.</li>
+            <li><strong>Autentificare eșuată?</strong> Asigură-te că ai activat 3D Secure pe cardul tău.</li>
+            <li><strong>Eroare de rețea?</strong> Verifică conexiunea la internet și încearcă din nou.</li>
+          </ul>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary btn-lg" (click)="goToCheckout()">
+            <i class="fas fa-redo"></i>
+            Încearcă Din Nou
+          </button>
+          <button class="btn btn-outline-primary btn-lg" (click)="goToHome()">
+            <i class="fas fa-home"></i>
+            Înapoi la Magazine
+          </button>
+        </div>
+
+        <div class="payment-details" *ngIf="paymentIntentId">
+          <p class="text-muted small">
+            <strong>ID Plată:</strong> {{ paymentIntentId }}
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

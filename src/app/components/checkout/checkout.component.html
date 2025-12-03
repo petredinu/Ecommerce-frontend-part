@@ -261,6 +261,25 @@
                     </label>
                 </div>
 
+                <!-- Stripe Payment Component (when not cash on delivery) -->
+                <div *ngIf="isStripePayment && !isCashOnDelivery">
+                    <app-stripe-payment
+                        [amount]="getFinalTotal()"
+                        [currency]="'ron'"
+                        [customerEmail]="email?.value || ''"
+                        [description]="'Comandă Luv2Shop'"
+                        (paymentSuccess)="onPaymentSuccess($event)"
+                        (paymentError)="onPaymentError($event)"
+                        (paymentProcessing)="onPaymentProcessing($event)">
+                    </app-stripe-payment>
+                </div>
+
+                <!-- Payment Error Message -->
+                <div *ngIf="paymentError" class="alert alert-danger mt-3" role="alert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ paymentError }}
+                </div>
+
                 <!-- Shipping Method Selection -->
                 <div class="form-area" *ngIf="shippingMethods.length > 0">
                     <h3>Metodă de Livrare</h3>
@@ -295,9 +314,10 @@
                     </div>
                 </div>
 
-                <!-- Credit Card -->
-                <div *ngIf="!isCashOnDelivery" formGroupName="creditCard" class="form-area">
-                    <h3>Card de Credit</h3>
+                <!-- Credit Card - DEPRECATED: Now using Stripe Elements -->
+                <!-- Kept for backwards compatibility but hidden when using Stripe -->
+                <div *ngIf="!isCashOnDelivery && !isStripePayment" formGroupName="creditCard" class="form-area" style="display: none;">
+                    <h3>Card de Credit (Legacy)</h3>
                     <div class="row">
                         <div class="col-md-2"><label>Tip Card</label></div>
                         <div class="col-md-9">
@@ -450,9 +470,18 @@
                     <hr>
                     <p><strong>Preț Total: {{getFinalTotal() | number:'1.2-2'}} Lei</strong></p>
                 </div>
+                
                 <!-- submit button -->
                 <div class="text-center">
-                    <button type="submit" class="btn btn-info">Finalizează Comanda</button>
+                    <button type="submit" 
+                            class="btn btn-info" 
+                            [disabled]="isProcessingPayment || checkoutFormGroup.invalid">
+                        <span *ngIf="!isProcessingPayment">Finalizează Comanda</span>
+                        <span *ngIf="isProcessingPayment">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Se procesează...
+                        </span>
+                    </button>
                 </div>
             </form>
         </div>

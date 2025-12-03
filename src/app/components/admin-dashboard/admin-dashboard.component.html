@@ -203,19 +203,19 @@
   <div class="quick-links">
     <h2><i class="fas fa-link"></i> Acțiuni Rapide</h2>
     <div class="links-grid">
-      <a routerLink="/admin/products" class="quick-link-card">
+      <a [routerLink]="['/admin/products']" class="quick-link-card" style="cursor: pointer;">
         <i class="fas fa-box"></i>
         <span>Gestionează Produse</span>
       </a>
-      <a routerLink="/admin/stock-alerts" class="quick-link-card">
+      <a [routerLink]="['/admin/stock-alerts']" class="quick-link-card" style="cursor: pointer;">
         <i class="fas fa-exclamation-triangle"></i>
         <span>Alerte Stoc</span>
       </a>
-      <a routerLink="/search-orders-by-date" class="quick-link-card">
+      <a [routerLink]="['/search-orders-by-date']" class="quick-link-card" style="cursor: pointer;">
         <i class="fas fa-calendar-alt"></i>
         <span>Vezi Comenzi</span>
       </a>
-      <a routerLink="/admin/product-form" class="quick-link-card">
+      <a [routerLink]="['/admin/product-form']" class="quick-link-card" style="cursor: pointer;">
         <i class="fas fa-plus-circle"></i>
         <span>Adaugă Produs Nou</span>
       </a>

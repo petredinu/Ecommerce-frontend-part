@@ -45,11 +45,18 @@ import { MyPriceAlertsComponent } from './components/my-price-alerts/my-price-al
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { TranslatePipe } from './pipes/translate.pipe';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { StripePaymentComponent } from './components/stripe-payment/stripe-payment.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { PaymentCancelComponent } from './components/payment-cancel/payment-cancel.component';
 
 
 
 
 const routes: Routes =[
+
+  // Rute pentru plăți Stripe
+  { path: 'payment-success', component: PaymentSuccessComponent },
+  { path: 'payment-cancel', component: PaymentCancelComponent },
 
   // Rute noi pentru vizualizare comenzii după dată
   { path: 'search-orders-by-date', component: OrdersByDateComponent, canActivate:[AuthGuard] },
@@ -123,7 +130,10 @@ const routes: Routes =[
     AdminPromoCodesComponent,
     MyPriceAlertsComponent,
     LanguageSwitcherComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    StripePaymentComponent,
+    PaymentSuccessComponent,
+    PaymentCancelComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

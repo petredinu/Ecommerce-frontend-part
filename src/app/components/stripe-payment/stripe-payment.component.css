@@ -1,0 +1,137 @@
+.stripe-payment-container {
+  margin: 20px 0;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.payment-header {
+  margin-bottom: 20px;
+}
+
+.payment-header h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.secure-text {
+  margin: 0;
+  color: #28a745;
+  font-size: 0.9rem;
+}
+
+.secure-text i {
+  margin-right: 5px;
+}
+
+.card-element-wrapper {
+  margin-bottom: 20px;
+}
+
+.stripe-card-element {
+  padding: 15px;
+  background: white;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.stripe-card-element:hover {
+  border-color: #80bdff;
+}
+
+.stripe-card-element:focus-within {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.payment-error {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.payment-error i {
+  margin-right: 8px;
+}
+
+.payment-error .close {
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #000;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.payment-error .close:hover {
+  opacity: 0.75;
+}
+
+.processing-indicator {
+  text-align: center;
+  padding: 20px;
+}
+
+.processing-indicator .spinner-border {
+  margin-bottom: 10px;
+}
+
+.processing-indicator p {
+  margin: 0;
+  color: #666;
+  font-weight: 500;
+}
+
+.test-cards-info {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #dee2e6;
+}
+
+.test-cards-info p {
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stripe-payment-container {
+    padding: 15px;
+  }
+
+  .payment-header h4 {
+    font-size: 1.1rem;
+  }
+
+  .secure-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Loading state */
+.stripe-payment-container.processing {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Success animation */
+@keyframes successPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
+}
+
+.payment-success {
+  animation: successPulse 2s infinite;
+}

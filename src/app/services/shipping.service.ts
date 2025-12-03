@@ -7,9 +7,11 @@ import { ShippingZone } from '../common/shipping-zone';
 import { environment } from '../../environments/environment';
 
 interface GetResponseShippingMethods {
-  _embedded: {
+  _embedded?: {
     shippingMethods: ShippingMethod[];
   };
+  shippingMethods?: ShippingMethod[];
+  error?: string;
 }
 
 interface ShippingCalculation {
@@ -33,7 +35,17 @@ export class ShippingService {
   getShippingMethodsByCountry(countryCode: string): Observable<ShippingMethod[]> {
     const url = `${this.baseUrl}/methods/country/${countryCode}`;
     return this.httpClient.get<GetResponseShippingMethods>(url).pipe(
-      map(response => response._embedded.shippingMethods),
+      map(response => {
+        // Support both formats: direct array or Spring Data REST format
+        if (response._embedded && response._embedded.shippingMethods) {
+          return response._embedded.shippingMethods;
+        } else if (response.shippingMethods) {
+          return response.shippingMethods;
+        } else if (Array.isArray(response)) {
+          return response as any as ShippingMethod[];
+        }
+        return [];
+      }),
       catchError(error => {
         console.error('Error fetching shipping methods:', error);
         return of(this.getDefaultShippingMethods());
@@ -43,9 +55,19 @@ export class ShippingService {
 
   // Get all active shipping methods
   getAllShippingMethods(): Observable<ShippingMethod[]> {
-    const url = `${this.baseUrl}/methods/active`;
+    const url = `${this.baseUrl}/methods`;
     return this.httpClient.get<GetResponseShippingMethods>(url).pipe(
-      map(response => response._embedded.shippingMethods),
+      map(response => {
+        // Support both formats: direct array or Spring Data REST format
+        if (response._embedded && response._embedded.shippingMethods) {
+          return response._embedded.shippingMethods;
+        } else if (response.shippingMethods) {
+          return response.shippingMethods;
+        } else if (Array.isArray(response)) {
+          return response as any as ShippingMethod[];
+        }
+        return [];
+      }),
       catchError(error => {
         console.error('Error fetching shipping methods:', error);
         return of(this.getDefaultShippingMethods());

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { AnalyticsService } from '../../services/analytics.service';
 import { 
   DashboardStats, 
@@ -14,7 +15,7 @@ import { BaseChartDirective } from 'ng2-charts';
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
   standalone: true,
-  imports: [CommonModule, BaseChartDirective],
+  imports: [CommonModule, BaseChartDirective, RouterModule],
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {

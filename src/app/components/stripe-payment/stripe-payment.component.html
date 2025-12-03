@@ -1,0 +1,36 @@
+<div class="stripe-payment-container">
+  <div class="payment-header">
+    <h4><i class="fas fa-credit-card"></i> Detalii Card</h4>
+    <p class="secure-text"><i class="fas fa-lock"></i> Plata este securizată de Stripe</p>
+  </div>
+
+  <!-- Stripe Card Element Container -->
+  <div class="card-element-wrapper">
+    <div id="card-element" class="stripe-card-element"></div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger payment-error" role="alert">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ errorMessage }}
+    <button type="button" class="close" (click)="clearError()">
+      <span>&times;</span>
+    </button>
+  </div>
+
+  <!-- Processing Indicator -->
+  <div *ngIf="isProcessing" class="processing-indicator">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Se procesează...</span>
+    </div>
+    <p>Se procesează plata...</p>
+  </div>
+
+  <!-- Test Cards Information (only in development) -->
+  <div class="test-cards-info">
+    <p class="text-muted small">
+      <i class="fas fa-info-circle"></i> 
+      Test card: 4242 4242 4242 4242 | Any future date | Any 3 digits CVC
+    </p>
+  </div>
+</div>

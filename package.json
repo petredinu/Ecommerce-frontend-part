@@ -27,6 +27,7 @@
     "@okta/okta-auth-js": "^7.12.1",
     "@okta/okta-signin-widget": "^7.32.1",
     "@popperjs/core": "^2.11.8",
+    "@stripe/stripe-js": "^8.5.3",
     "bootstrap": "^5.3.5",
     "chart.js": "^4.5.1",
     "ng2-charts": "^8.0.0",

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Stripe Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Stripe Backend Integration</h1>
+    
+    <div>
+        <h2>1. Test Stripe Configuration</h2>
+        <button onclick="testStripeConfig()">Get Stripe Config</button>
+    </div>
+
+    <div>
+        <h2>2. Test Create Payment Intent</h2>
+        <button onclick="testCreatePaymentIntent()">Create Payment Intent</button>
+    </div>
+
+    <div id="result" class="result" style="display: none;"></div>
+
+    <script>
+        const API_BASE = 'https://localhost:8443/api/payment';
+
+        function showResult(message, isSuccess = true) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = message;
+            resultDiv.className = 'result ' + (isSuccess ? 'success' : 'error');
+            resultDiv.style.display = 'block';
+        }
+
+        async function testStripeConfig() {
+            try {
+                showResult('Loading...', true);
+                const response = await fetch(`${API_BASE}/config`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                showResult('✅ Stripe Config Retrieved:\n\n' + JSON.stringify(data, null, 2), true);
+            } catch (error) {
+                showResult('❌ Error getting Stripe config:\n\n' + error.message, false);
+            }
+        }
+
+        async function testCreatePaymentIntent() {
+            try {
+                showResult('Creating payment intent...', true);
+                
+                const paymentInfo = {
+                    amount: 10000,  // 100.00 RON in cents
+                    currency: 'ron',
+                    receiptEmail: 'test@example.com',
+                    description: 'Test payment from HTML'
+                };
+
+                const response = await fetch(`${API_BASE}/create-payment-intent`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(paymentInfo)
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                }
+                
+                const data = await response.json();
+                showResult('✅ Payment Intent Created:\n\n' + JSON.stringify(data, null, 2), true);
+            } catch (error) {
+                showResult('❌ Error creating payment intent:\n\n' + error.message, false);
+            }
+        }
+    </script>
+</body>
+</html>

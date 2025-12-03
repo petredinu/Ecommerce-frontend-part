@@ -1,0 +1,90 @@
+<div class="main-content page-m">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="text-center loading-container">
+        <div class="spinner-border text-success" role="status">
+          <span class="sr-only">Se încarcă...</span>
+        </div>
+        <p class="mt-3">Se verifică plata...</p>
+      </div>
+
+      <!-- Success State -->
+      <div *ngIf="!isLoading && !errorMessage" class="success-container">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        
+        <h1 class="success-title">Plată Reușită!</h1>
+        
+        <div class="success-message">
+          <p class="lead">Comanda ta a fost plasată cu succes!</p>
+          <p>Vei primi un email de confirmare în scurt timp.</p>
+        </div>
+
+        <div class="order-details-card" *ngIf="orderTrackingNumber">
+          <h3><i class="fas fa-box"></i> Detalii Comandă</h3>
+          <div class="detail-row">
+            <span class="detail-label">Număr Tracking:</span>
+            <span class="detail-value tracking-number">{{ orderTrackingNumber }}</span>
+          </div>
+          <div class="detail-row" *ngIf="paymentIntentId">
+            <span class="detail-label">ID Plată:</span>
+            <span class="detail-value">{{ paymentIntentId }}</span>
+          </div>
+          <div class="detail-row" *ngIf="paymentDetails">
+            <span class="detail-label">Sumă Plătită:</span>
+            <span class="detail-value amount">
+              {{ formatAmount(paymentDetails.amount) | number:'1.2-2' }} 
+              {{ paymentDetails.currency?.toUpperCase() }}
+            </span>
+          </div>
+          <div class="detail-row" *ngIf="paymentDetails?.receiptEmail">
+            <span class="detail-label">Email Confirmare:</span>
+            <span class="detail-value">{{ paymentDetails.receiptEmail }}</span>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="info-box">
+            <i class="fas fa-shipping-fast"></i>
+            <h4>Ce urmează?</h4>
+            <p>Comanda ta va fi procesată în cel mai scurt timp posibil. Vei primi un email când produsele vor fi expediate.</p>
+          </div>
+          
+          <div class="info-box">
+            <i class="fas fa-envelope"></i>
+            <h4>Email de Confirmare</h4>
+            <p>Am trimis un email de confirmare cu detaliile comenzii tale. Verifică și folderul spam.</p>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary btn-lg" (click)="goToOrders()">
+            <i class="fas fa-list"></i>
+            Vezi Comenzile Mele
+          </button>
+          <button class="btn btn-outline-primary btn-lg" (click)="goToHome()">
+            <i class="fas fa-home"></i>
+            Înapoi la Magazine
+          </button>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="!isLoading && errorMessage" class="error-container">
+        <div class="error-icon">
+          <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <h2>Ups! Ceva nu a mers bine</h2>
+        <p class="error-text">{{ errorMessage }}</p>
+        <button class="btn btn-primary" (click)="goToHome()">
+          <i class="fas fa-home"></i>
+          Înapoi la Magazine
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

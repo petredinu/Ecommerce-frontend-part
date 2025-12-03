@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PaymentService } from '../../services/payment.service';
+import { StripePaymentComponent } from '../stripe-payment/stripe-payment.component';
 import { Luv2ShopFormService } from '../../services/luv2-shop-form.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
@@ -26,6 +28,11 @@ export class CheckoutComponent implements OnInit {
   totalPrice: number = 0;
   totalQuantity: number = 0;
   isCashOnDelivery: boolean = false;
+  isStripePayment: boolean = false;
+  isProcessingPayment: boolean = false;
+  paymentError: string = '';
+  
+  @ViewChild(StripePaymentComponent) stripePayment!: StripePaymentComponent;
   
   // Shipping
   shippingMethods: ShippingMethod[] = [];
@@ -58,11 +65,15 @@ export class CheckoutComponent implements OnInit {
               private checkoutService: CheckoutService,
               private shippingService: ShippingService,
               private promoCodeService: PromoCodeService,
+              private paymentService: PaymentService,
               private router: Router) {}
 
  ngOnInit(): void {
 
     this.reviewCartDetails();
+
+    // Set default payment method to Stripe
+    this.isStripePayment = true;
 
     // --- COD MODIFICAT PENTRU SIGURANȚĂ ---
     let theEmail = '';
@@ -150,6 +161,9 @@ export class CheckoutComponent implements OnInit {
         this.countries = data;
       }
     );
+
+    // Disable credit card form group since we're using Stripe by default
+    this.checkoutFormGroup.get('creditCard')?.disable();
   }
   reviewCartDetails() {
     // subscribe to cartService.totalQuantity
@@ -205,11 +219,15 @@ export class CheckoutComponent implements OnInit {
 
   handlePaymentMethodChange(event: any) {
     this.isCashOnDelivery = event.target.checked;
+    this.isStripePayment = !this.isCashOnDelivery; // Use Stripe if not cash on delivery
 
     const creditCardGroup = this.checkoutFormGroup.get('creditCard');
 
     if (this.isCashOnDelivery) {
       // Daca e cash, dezactivam grupul de card (validarile sunt ignorate automat)
+      creditCardGroup?.disable();
+    } else if (this.isStripePayment) {
+      // Daca folosim Stripe, dezactivam grupul de card legacy
       creditCardGroup?.disable();
     } else {
       // Daca debifeaza, reactivam grupul de card
@@ -221,20 +239,73 @@ export class CheckoutComponent implements OnInit {
 
 
 
-  onSubmit() {
+  async onSubmit() {
     console.log("Handling the submit button");
 
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
       return;
     }
+
+    // If using Stripe payment, process payment first
+    if (this.isStripePayment && !this.isCashOnDelivery) {
+      await this.processStripePayment();
+      return;
+    }
+
+    // If cash on delivery, proceed with order placement
+    this.placeOrder();
+  }
+
+  async processStripePayment() {
+    if (!this.stripePayment) {
+      this.paymentError = 'Sistemul de plată nu este disponibil. Te rugăm să reîmprospătezi pagina.';
+      return;
+    }
+
+    this.isProcessingPayment = true;
+    this.paymentError = '';
+
+    try {
+      // Process payment through Stripe
+      await this.stripePayment.processPayment();
+      // Payment success will be handled by onPaymentSuccess callback
+    } catch (error: any) {
+      console.error('Payment processing error:', error);
+      this.paymentError = error.message || 'A apărut o eroare la procesarea plății.';
+      this.isProcessingPayment = false;
+    }
+  }
+
+  onPaymentSuccess(event: any) {
+    console.log('Payment successful:', event);
+    // Now place the order with payment intent ID
+    this.placeOrder(event.paymentIntentId);
+  }
+
+  onPaymentError(event: any) {
+    console.error('Payment error:', event);
+    this.isProcessingPayment = false;
+    this.paymentError = 'Plata a eșuat. Te rugăm să încerci din nou.';
+  }
+
+  onPaymentProcessing(isProcessing: boolean) {
+    this.isProcessingPayment = isProcessing;
+  }
+
+  placeOrder(paymentIntentId?: string) {
     // set up order
     let order = new Order();
     order.totalPrice = this.getFinalTotal(); // Use final total with discount
     order.totalQuantity = this.totalQuantity;
 
     // --- MODIFICARE AICI: Setam metoda de plata in obiectul Order ---
-    order.paymentMethod = this.isCashOnDelivery ? 'CASH' : 'CARD';
+    order.paymentMethod = this.isCashOnDelivery ? 'CASH' : 'STRIPE';
+    
+    // Add payment intent ID if Stripe payment
+    if (paymentIntentId) {
+      (order as any).paymentIntentId = paymentIntentId;
+    }
 
 
     // get cart items
@@ -297,12 +368,27 @@ export class CheckoutComponent implements OnInit {
             });
           }
 
-          alert(`Comanda ta a fost primită. \nNumăr tracking comandă: ${response.orderTrackingNumber}`);
-           
-          // reset cart
-          this.resetCart();
+          // Reset cart before redirect
+          this.cartService.cartItems = [];
+          this.cartService.totalPrice.next(0);
+          this.cartService.totalQuantity.next(0);
+          this.cartService.removeCart();
+
+          // Redirect based on payment method
+          if (paymentIntentId) {
+            // Stripe payment - redirect to success page with payment intent
+            this.router.navigateByUrl(
+              `/payment-success?payment_intent=${paymentIntentId}&order_tracking=${response.orderTrackingNumber}`
+            );
+          } else {
+            // Cash on delivery - show alert and redirect
+            alert(`Comanda ta a fost primită. \nNumăr tracking comandă: ${response.orderTrackingNumber}`);
+            this.router.navigateByUrl('/products');
+          }
         },
         error: err => {
+          this.isProcessingPayment = false;
+          this.paymentError = `A apărut o eroare: ${err.message}`;
           alert(`A apărut o eroare: ${err.message}`);
         }
       }
